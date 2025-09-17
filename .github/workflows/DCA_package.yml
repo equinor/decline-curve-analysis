@@ -1,0 +1,95 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: DCA Python package
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        # https://github.com/actions/setup-python?tab=readme-ov-file#caching-packages-dependencies
+        cache: 'pip' # caching pip dependencies # 
+        cache-dependency-path: |
+          pyproject.toml
+          requirements.txt
+          requirements-dev.txt
+        
+    - name: Install package
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install ".[dev]"
+
+    - name: Run ruff format
+      run: |
+        ruff format dca --check
+        ruff format tests --check
+        ruff format examples --check
+        ruff format docs/plots --check
+        
+    - name: Run ruff
+      run: |
+        ruff check dca
+        ruff check tests
+        ruff check examples
+        ruff check docs/plots
+        
+    - name: Run CLI
+      run: |
+        python -m dca.adca --help
+
+    - name: Run pytest
+      run: |
+        pytest tests --doctest-modules -v
+
+    - name: Test docstrings
+      run: |
+        pytest dca --doctest-modules -v
+        
+    # I don't want to add it to GH actions, but codespell can be used locally:
+    # codespell .\dca\ -S "*.csv" -i 3 -w --builtin "clear,rare,informal,usage"
+
+  doc_build:
+  
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12" # only 1 version used to generate documentation
+        # https://github.com/actions/setup-python?tab=readme-ov-file#caching-packages-dependencies
+        cache: 'pip' # caching pip dependencies # 
+        cache-dependency-path: |
+          pyproject.toml
+          requirements.txt
+          requirements-dev.txt
+        
+    - name: Install package
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install ".[dev]"
+
+    - name: Build docs
+      run: |
+        sphinx-build -M html ./docs ./docs/build -W -a -v
+        

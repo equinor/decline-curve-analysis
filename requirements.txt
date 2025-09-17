@@ -1,0 +1,13 @@
+numpy>=2
+scipy
+pandas>=2.2.2
+pytest
+PyYAML
+matplotlib
+tabulate
+pdm_datareader
+openpyxl
+pillow>=10.0.0 # not directly required pinned by Snyk to avoid a vulnerability
+ipython>=8.10.0 # not directly required pinned by Snyk to avoid a vulnerability
+setuptools>=65.5.1 # not directly required pinned by Snyk to avoid a vulnerability
+tornado>=6.3.3 # not directly required pinned by Snyk to avoid a vulnerability

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools >= 66.1", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dca"
+version = "2.0.0"
+description = "Decline Curve Analysis"
+requires-python = ">= 3.9"
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+    { name = "Tommy Odland", email = "todl@equinor.com" },
+    { name = "Knut Utne Hollund", email = "kuho@equinor.com" }
+]
+license = {text = "MIT License"}
+dynamic = ["dependencies", "optional-dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {dev = {file = ["requirements-dev.txt"] }}
+
+[project.urls]
+homepage = "https://github.com/equinor/decline-curve-analysis/"
+
+[tool.setuptools]
+packages = ["dca", "dca.adca", "dca.datasets"]
+
+[tool.setuptools.package-data]
+"dca.datasets" = ["*.csv"]
+
+[project.scripts]
+adca = "dca.adca.__main__:run"
