@@ -143,6 +143,14 @@ Versioning will be implemented in accordance with SemVer best practices.
 Feel free to create a new branch and submit a Pull Request.
 Before doing this, talk to us about the work you wish to do, for instance in an Issue.
 
+## Citation
+
+If you'd like to cite this repo - we recommend citing as such, where the version can be found in the current tag: 
+
+*Equinor. 2025. decline-curve-analysis (insert version) [Source Code]. Github. https://github.com/equinor/decline-curve-analysis*
+
+Any related publications from our team will be posted here as they become available.
+
 ## Useful Links
 
 * The documentation in [dca-doc].
