@@ -404,8 +404,8 @@ def load_sodir_data(
                 "prfPrdOilNetMillSm3": "production",
             }
         )
-        # Assume the well is always on
-        .assign(time_on=1)
+        # Assume the well is on when production > 0
+        .assign(time_on=lambda df: 1 - 1 * np.isclose(df.production.to_numpy(), 0))
         # Clip production
         .assign(production=lambda df: df.production.clip(lower=0))
         # Keep the ones we wanted
