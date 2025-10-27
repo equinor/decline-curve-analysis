@@ -43,7 +43,7 @@ def subcommand_run(args):
     for i, yaml_file in enumerate(process, 1):
         print(f"  ({i}): {yaml_file}")
 
-    # If standard output is a
+    # Sleep if writing to a terminal (user), but not if testing
     if sys.stdout.isatty():
         time.sleep(3)
 
