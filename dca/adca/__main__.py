@@ -7,6 +7,7 @@ import os
 import pathlib
 import sys
 import time
+import traceback
 from importlib.metadata import version
 
 import pandas as pd
@@ -49,13 +50,30 @@ def subcommand_run(args):
     NOW = pd.Timestamp.now().strftime("%Y-%m-%d-%H-%M")
     for i, yaml_file in enumerate(process, 1):
         print(f"  ({i}): Processing {yaml_file}")
-        process_file(
-            config_path=yaml_file,
-            current_directory=CURRENT_DIRECTORY,
-            current_time=NOW,
-            hyperparam_maxfun=args.hyperparam_maxfun,
-            plot_verbosity=args.plot_verbosity,
-        )
+        try:
+            process_file(
+                config_path=yaml_file,
+                current_directory=CURRENT_DIRECTORY,
+                current_time=NOW,
+                hyperparam_maxfun=args.hyperparam_maxfun,
+                plot_verbosity=args.plot_verbosity,
+            )
+        except Exception:
+            traceback.print_exc()  # Print the exception
+            print(
+                f"""
+ADCA {version("dca")} has raised an exception on file {yaml_file}.
+If you are unable to fix the issue, then contact us for help.
+You may use the public issue tracker if you are not in Equinor.
+
+The issue tracker is PUBLIC, so do not upload ANY sensitive information.
+
+- Documentation:        https://dsadocs.equinor.com/docs/decline-curve-analysis/
+- Public issue tracker: https://github.com/equinor/decline-curve-analysis/issues
+- Help (Equinor):       Contact Tommy Odland (todl) or Knut Utne Hollund (kuho)."""
+            )
+
+            sys.exit(1)  # Exit with non-zero code
 
     print("Finished processing all files.")
 
