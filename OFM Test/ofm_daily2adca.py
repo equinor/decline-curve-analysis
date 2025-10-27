@@ -2,10 +2,9 @@
 import pandas as pd
 
 df = pd.read_csv("csv_output/DAILY.csv")
+
 # %%
-df.columns
-# %%
-df[df.ON_STREAM_HRS > 24].ON_STREAM_HRS = 24
+df.loc[df.ON_STREAM_HRS > 24, "ON_STREAM_HRS"] = 24
 
 # %%
 use_cols = ["WELL_CODE", "DAYTIME", "ON_STREAM_HRS", "OIL_VOL"]
