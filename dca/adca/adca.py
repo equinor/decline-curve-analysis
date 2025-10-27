@@ -532,6 +532,30 @@ def process_file(
         )
         log.info(df_errors.to_markdown())
 
+        # Get any fixed parameters
+        p = group.get("parameters", {}).get("p", None)
+        sigma = group.get("parameters", {}).get("sigma", None)
+        phi = group.get("parameters", {}).get("phi", None)
+        if not (p is None or (1 <= p <= 2)):
+            raise ValueError("Parameter {p=.2f} must be in range [1, 2]")
+        if not (sigma is None or (sigma > 0)):
+            raise ValueError("Parameter {sigma=.2f} must be positive")
+        if not (phi is None or (phi > 0)):
+            raise ValueError("Parameter {phi=.2f} must be positive")
+
+        if not all(param is None for param in [p, sigma, phi]):
+            log.info("-" * 32 + "FIXED PARAMETERS" + "-" * 32)
+            log.info(
+                "These parameters will not be determined by optimization on a well-by-well basis."
+            )
+            log.info("Instead they are fixed to specific values for all wells.")
+            params = {
+                n: p
+                for (n, p) in {"p": p, "sigma": sigma, "phi": phi}.items()
+                if p is not None
+            }
+            log.info(f"Fixed parameters:\n{json.dumps(params, indent=2)}")
+
         # Fit the prior using the pilot estimate strategy
         # ---------------------------------------------------------------------
         neg_logpdf_pilot = Prior(theta_mean=np.zeros(n_thetas))
@@ -546,6 +570,10 @@ def process_file(
             prior_strength=prior_strength,
             split=group.curve_fitting.split,
             neg_logpdf_prior=neg_logpdf_pilot,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
 
         prior_params = median_params(wells_prior)
@@ -571,6 +599,10 @@ def process_file(
             neg_logpdf_prior=neg_logpdf_prior,
             # Number of DIRECT calls
             hyperparam_maxfun=hyperparam_maxfun,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
         log.info(f"Best hyperparams:\n{json.dumps(best_hyperparameters, indent=2)}")
 
@@ -583,14 +615,19 @@ def process_file(
             **best_hyperparameters,
             split=group.curve_fitting.split,
             neg_logpdf_prior=neg_logpdf_prior,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
 
         # Evaluate log-loss, RMSE in logspace, and relative errors in forecasts
         log_loss = wells.score(
             split=group.curve_fitting.split,
-            p=None,
-            sigma=None,
-            phi=None,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
         rmse = wells.rmse_log(split=group.curve_fitting.split)
         relative_error_expected, relative_error_P50 = list(
@@ -700,6 +737,10 @@ def process_file(
             **best_hyperparameters,
             split=1.0,  # Fit on all data => split=1.0
             neg_logpdf_prior=neg_logpdf_prior,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
 
         if plot_verbosity >= 1:
