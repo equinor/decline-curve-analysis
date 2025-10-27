@@ -43,7 +43,9 @@ def subcommand_run(args):
     for i, yaml_file in enumerate(process, 1):
         print(f"  ({i}): {yaml_file}")
 
-    time.sleep(3)
+    # If standard output is a
+    if sys.stdout.isatty():
+        time.sleep(3)
 
     # Process each file
     CURRENT_DIRECTORY = pathlib.Path(os.getcwd())
