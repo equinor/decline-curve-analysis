@@ -297,7 +297,9 @@ def load_PDM_data(
     df = tools.query(sql)
     if df.empty:
         msg = "Connection to PDM was successful, but zero rows were returned from the database.\n"
-        msg += "Check that well IDs in the .yaml config file match column WB_UWBI in PDM."
+        msg += (
+            "Check that well IDs in the .yaml config file match column WB_UWBI in PDM."
+        )
         raise Exception(msg)
 
     df = df.assign(
