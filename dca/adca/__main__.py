@@ -15,6 +15,10 @@ import pandas as pd
 from dca.adca.adca import process_file
 from dca.adca.cmd_init import init_yaml_and_csv
 
+URLS = """  - Documentation:        https://dsadocs.equinor.com/docs/decline-curve-analysis/
+  - Public issue tracker: https://github.com/equinor/decline-curve-analysis/issues
+  - Help (Equinor):       Contact Tommy Odland (todl) or Knut Utne Hollund (kuho)."""
+
 
 def subcommand_init(args):
     """Execute the command `adca init`."""
@@ -64,20 +68,25 @@ def subcommand_run(args):
             traceback.print_exc()  # Print the exception
             print(
                 f"""
-ADCA {version("dca")} has raised an exception on file {yaml_file}.
+ADCA version {version("dca")} has raised an exception on file {yaml_file}.
 If you are unable to fix the issue, then contact us for help.
 You may use the public issue tracker if you are not in Equinor.
 
 The issue tracker is PUBLIC, so do not upload ANY sensitive information.
 
-- Documentation:        https://dsadocs.equinor.com/docs/decline-curve-analysis/
-- Public issue tracker: https://github.com/equinor/decline-curve-analysis/issues
-- Help (Equinor):       Contact Tommy Odland (todl) or Knut Utne Hollund (kuho)."""
+{URLS}
+"""
             )
 
             sys.exit(1)  # Exit with non-zero code
 
     print("Finished processing all files.")
+    print(f"""
+Thank you for using ADCA version {version("dca")}. To learn more, run `adca --help` or see:
+
+{URLS}
+
+Ideas for improvements or features? Please contact us. Note: the issue tracker is PUBLIC.""")
 
 
 def run():
@@ -86,8 +95,17 @@ def run():
     # Set up argument parses and parse arguments
     parser = argparse.ArgumentParser(
         prog="ADCA - Automatic Decline Curve Analysis",
-        description="""For more info: https://dsadocs.equinor.com/docs/decline-curve-analysis/index.html""",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description="""Fit decline curves (e.g. Arps) to well production data.""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=f"""example usage:
+  $ adca --help
+  $ adca init
+  $ adca run demo.yaml
+
+more information:
+{URLS}
+
+Ideas for improvements or features? Please contact us. Note: the issue tracker is PUBLIC.""",
     )
     parser.add_argument(
         "-v", "--version", action="version", version=f"ADCA {version('dca')}"
