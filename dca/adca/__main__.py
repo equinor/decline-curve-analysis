@@ -64,7 +64,7 @@ def subcommand_run(args):
             traceback.print_exc()  # Print the exception
             print(
                 f"""
-ADCA {version("dca")} has raised an exception on file {yaml_file}.
+ADCA version {version("dca")} has raised an exception on file {yaml_file}.
 If you are unable to fix the issue, then contact us for help.
 You may use the public issue tracker if you are not in Equinor.
 
@@ -78,6 +78,14 @@ The issue tracker is PUBLIC, so do not upload ANY sensitive information.
             sys.exit(1)  # Exit with non-zero code
 
     print("Finished processing all files.")
+    print(f"""
+Thank you for using ADCA version {version("dca")}. To learn more, run `adca --help` or see:
+
+- Documentation:        https://dsadocs.equinor.com/docs/decline-curve-analysis/
+- Public issue tracker: https://github.com/equinor/decline-curve-analysis/issues
+- Help (Equinor):       Contact Tommy Odland (todl) or Knut Utne Hollund (kuho).
+
+Ideas for improvements or features? Please contact us. Note: the issue tracker is PUBLIC.""")
 
 
 def run():
