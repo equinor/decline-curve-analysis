@@ -4,6 +4,14 @@ ADCA FAQ
 This page contains frequently asked questions (FAQ) for ADCA.
 Many of the questions can be answered by providing short snippets of code for pre- or postprocessing of adca inputs/outputs.
 
+
+**Why do the fitted curves look bad?**
+
+The search range for the halflife hyperparameter might be set to silly values, like ``[3, 36]`` for daily data. 
+The search values are number of datapoints. 
+It depends on the data, but ``[90, 1000]`` would make more sense with daily data and ``[3, 36]`` can be fine for monthly data.
+In general you should carefully review the config file, and potentially set hyperparameters manually instead of tuning them.
+
 **How many data points do I need to use ADCA?**
 
 This is a good question, but unfortunately it's hard to give a definite answer.
