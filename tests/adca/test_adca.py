@@ -109,15 +109,38 @@ def test_CLI(tmp_path, split, preprocessing, forecast_periods):
 
 
 def test_CLI_init_then_run(tmp_path):
+    os.chdir(tmp_path)
     process = subprocess.Popen(["adca", "init"], stdout=subprocess.PIPE)
     output, error = process.communicate()
     assert process.returncode == 0  # Exit code 0 => everything OK
 
     process = subprocess.Popen(
-        ["adca", "run", "demo.yaml", "-hm", "1", "-pv", "1"], stdout=subprocess.PIPE
+        ["adca", "run", "demo.yaml", "-hm", "1", "-pv", "0"],
+        stdout=subprocess.PIPE,
+        encoding="utf-8",
     )
-    _output, _error = process.communicate()
+    output, error = process.communicate()
     assert process.returncode == 0  # Exit code 0 => everything OK
+
+    # Do a snapshot test on some lines
+    # If this fails in the future then it is OK if the algorithms are changed,
+    # but these results should not change unexpectedly. And should probably not change by much.
+    lines = [line.strip() for line in output.split("\n")]
+    lines[
+        82
+    ] == "Posterior theta (after pilot estimate): [14.84079942  4.03785857 -2.13500515]"
+
+    lines[85] == '"p": 1.5219168287045592,'
+    lines[86] == '"sigma": 0.2053350412919966,'
+    lines[87] == '"phi": 0.010199212150504245,'
+
+    lines[136] == '"half_life": 8.806795605732418,'
+    lines[137] == '"prior_strength": 0.0031622776601683794'
+
+    lines[140] == "Negative log-likelihood: -0.3581"
+    lines[141] == "RMSE in logspace: 0.2705"
+    lines[142] == "Relative error (expected): 6.64%"
+    lines[143] == "Relative error (P50): -15.33%"
 
 
 if __name__ == "__main__":
