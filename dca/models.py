@@ -594,9 +594,15 @@ class AR1Model:
         # optimizers never achieve lower objective func values than BFGS
         with np.errstate(all="warn"):
             opt_params, opt_result = optimization_problem.optimize_bfgs()
-            assert np.isfinite(opt_result.fun), "Optimization func value not finite"
+            if np.isfinite(opt_result.fun):
+                return opt_params
 
-        return opt_params
+            # Very rarely (e.g. sigma fixed at 0.0001) BFGS fails
+            opt_params, opt_result = optimization_problem.optimize_nelder_mead()
+            if np.isfinite(opt_result.fun):
+                return opt_params
+
+        raise Exception(f"Both BFGS and Nelder-Mead failed on {self}")
 
     def gradient(
         self, theta, sigma, phi, p, *, tau, t, y, half_life=np.inf, prev_eta=None
