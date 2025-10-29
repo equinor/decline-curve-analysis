@@ -126,9 +126,10 @@ def test_CLI_init_then_run(tmp_path):
     # If this fails in the future then it is OK if the algorithms are changed,
     # but these results should not change unexpectedly. And should probably not change by much.
     lines = [line.strip() for line in output.split("\n")]
-    assert lines[
-        82
-    ] == "Posterior theta (after pilot estimate): [14.84079942  4.03785857 -2.13500515]"
+    assert (
+        lines[82]
+        == "Posterior theta (after pilot estimate): [14.84079942  4.03785857 -2.13500515]"
+    )
 
     assert lines[85] == '"p": 1.5219168287045592,'
     assert lines[86] == '"sigma": 0.2053350412919966,'
