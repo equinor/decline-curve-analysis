@@ -126,21 +126,21 @@ def test_CLI_init_then_run(tmp_path):
     # If this fails in the future then it is OK if the algorithms are changed,
     # but these results should not change unexpectedly. And should probably not change by much.
     lines = [line.strip() for line in output.split("\n")]
-    lines[
+    assert lines[
         82
     ] == "Posterior theta (after pilot estimate): [14.84079942  4.03785857 -2.13500515]"
 
-    lines[85] == '"p": 1.5219168287045592,'
-    lines[86] == '"sigma": 0.2053350412919966,'
-    lines[87] == '"phi": 0.010199212150504245,'
+    assert lines[85] == '"p": 1.5219168287045592,'
+    assert lines[86] == '"sigma": 0.2053350412919966,'
+    assert lines[87] == '"phi": 0.010199212150504245,'
 
-    lines[136] == '"half_life": 8.806795605732418,'
-    lines[137] == '"prior_strength": 0.0031622776601683794'
+    assert lines[136] == '"half_life": 8.806795605732418,'
+    assert lines[137] == '"prior_strength": 0.0031622776601683794'
 
-    lines[140] == "Negative log-likelihood: -0.3581"
-    lines[141] == "RMSE in logspace: 0.2705"
-    lines[142] == "Relative error (expected): 6.64%"
-    lines[143] == "Relative error (P50): -15.33%"
+    assert lines[140] == "Negative log-likelihood: -0.3581"
+    assert lines[141] == "RMSE in logspace: 0.2705"
+    assert lines[142] == "Relative error (expected): 6.64%"
+    assert lines[143] == "Relative error (P50): -15.33%"
 
 
 if __name__ == "__main__":
