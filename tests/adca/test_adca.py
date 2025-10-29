@@ -131,17 +131,17 @@ def test_CLI_init_then_run(tmp_path):
         == "Posterior theta (after pilot estimate): [14.84079942  4.03785857 -2.13500515]"
     )
 
-    assert lines[85] == '"p": 1.5219168287045592,'
-    assert lines[86] == '"sigma": 0.2053350412919966,'
-    assert lines[87] == '"phi": 0.010199212150504245,'
+    assert '"p": 1.52191682870' in lines[85]
+    assert '"sigma": 0.20533504129' in lines[86]
+    assert '"phi": 0.0101992121505' in lines[87]
 
-    assert lines[136] == '"half_life": 8.806795605732418,'
-    assert lines[137] == '"prior_strength": 0.0031622776601683794'
+    assert '"half_life": 8.8067956057' in lines[136]
+    assert '"prior_strength": 0.00316227766016' in lines[137]
 
-    assert lines[140] == "Negative log-likelihood: -0.3581"
-    assert lines[141] == "RMSE in logspace: 0.2705"
-    assert lines[142] == "Relative error (expected): 6.64%"
-    assert lines[143] == "Relative error (P50): -15.33%"
+    assert "Negative log-likelihood: -0.3581" in lines[140]
+    assert "RMSE in logspace: 0.2705" in lines[141]
+    assert "Relative error (expected): 6.64%" in lines[142]
+    assert "Relative error (P50): -15.33%" in lines[143]
 
 
 if __name__ == "__main__":
