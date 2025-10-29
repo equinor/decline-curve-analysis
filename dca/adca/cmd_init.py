@@ -52,10 +52,19 @@ ${well_names}
     forecast_periods : 72
 
   # Hyperparameters given as numbers are fixed, and those given as
-  # a range [low, high] are tuned out-of-sample on test data using the split
+  # a range [low, high] are tuned on out-of-sample on test data using the "split"
   hyperparameters:
     half_life : [6, 60]
     prior_strength : [0.001, 1]
+
+  # Parameters
+  # Here a user may fix parameters (p, sigma, phi).
+  # In general this is NOT RECOMMENDED, as it is better to
+  # let the optimization routine find the best parameters.
+  # parameters:
+  #   p : 1.5
+  #   sigma : 0.0001
+  #   phi : 0.001
 """
 )
 
