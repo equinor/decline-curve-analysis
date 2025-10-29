@@ -92,11 +92,11 @@ def test_set_metrics(wellgroup, split: float):
         yield (
             well,
             {
-                "Test periods": fnum(w_test.sum(), 2),
+                "Test periods": w_test.sum(),
                 "Negative log-likelihood": neg_ll,
-                "RMSE in logspace": fnum(sq_errs),
-                "Rel. error (expected)": format(relative_error_expected, ".2%"),
-                "Rel. error (P50)": format(relative_error_P50, ".2%"),
+                "RMSE in logspace": sq_errs,
+                "Rel. error (expected)": relative_error_expected,
+                "Rel. error (P50)": relative_error_P50,
             },
         )
 
@@ -716,18 +716,35 @@ def process_file(
             )
         ]
 
-        df_scores = (
-            pd.DataFrame.from_records(wells_scores)
-            .sort_values("Negative log-likelihood")
-            .assign(
-                **{
-                    "Negative log-likelihood": lambda df: df[
-                        "Negative log-likelihood"
-                    ].map(fnum)
-                }
-            )
+        df_scores = pd.DataFrame.from_records(wells_scores).sort_values("well_id")
+        df_scores_show = df_scores.assign(
+            **{
+                "Test periods": lambda df: df["Test periods"].apply(
+                    lambda x: f"{x:.0f}" if not pd.isna(x) else "N/A"
+                ),
+                "Negative log-likelihood": lambda df: df[
+                    "Negative log-likelihood"
+                ].apply(lambda x: f"{x:.1f}" if not pd.isna(x) else "N/A"),
+                "RMSE in logspace": lambda df: df["RMSE in logspace"].apply(
+                    lambda x: f"{x:.4f}" if not pd.isna(x) else "N/A"
+                ),
+                "Rel. error (expected)": lambda df: df["Rel. error (expected)"].apply(
+                    lambda x: f"{x:.2%}" if not pd.isna(x) else "N/A"
+                ),
+                "Rel. error (P50)": lambda df: df["Rel. error (P50)"].apply(
+                    lambda x: f"{x:.2%}" if not pd.isna(x) else "N/A"
+                ),
+            }
         )
-        log.info(df_scores.to_markdown(index=False))
+        log.info(
+            df_scores_show.sort_values(
+                "Negative log-likelihood", ascending=True
+            ).to_markdown(index=False)
+        )
+
+        df_scores.to_csv(output_dir / "scores.csv", index=False)
+        msg = f"Wrote test set scores to: {output_dir / 'scores.csv'}"
+        log.info(msg)
 
         # Fit on all data
         # ---------------------------------------------------------------------
