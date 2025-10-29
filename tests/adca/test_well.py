@@ -18,6 +18,8 @@ def relative_error(x, x_hat):
 
 
 class TestWell:
+    @pytest.mark.filterwarnings("ignore::UserWarning")
+    @pytest.mark.filterwarnings("ignore::RuntimeWarning")
     @pytest.mark.parametrize("sigma", [1, 0.1, 0.01, 0.001, 0.0001])
     def test_fitting_with_fixed_sigma(self, sigma):
         # This well is ATLA from SODIR
@@ -233,14 +235,17 @@ class TestWell:
         # I believe the geometric reason for failure is that a small sigma
         # means the distribution becomes very narrow, which again causes a
         # small valid region and large derivatives.
-        well.fit(
-            half_life=649,
-            prior_strength=0.01,
-            p=1.9999999999,
-            sigma=0.01,
-            phi=0.01,
-            split=-12,
-        )
+        with np.errstate(all="ignore"):
+            well.fit(
+                half_life=649,
+                prior_strength=0.01,
+                p=1.9999999999,
+                sigma=sigma,
+                phi=0.01,
+                split=-12,
+            )
+
+        assert np.isclose(well.curve_parameters_[0], -1.386240887, rtol=0.05)
 
     def test_expected_vs_P50_params_vs_evaluations(self):
         """If we get paramters for the P50/expected curve, or we get
