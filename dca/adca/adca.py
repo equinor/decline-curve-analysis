@@ -54,6 +54,38 @@ log.addHandler(stdout_handler)
 logging.captureWarnings(True)
 
 
+def df_num_to_string(df, floats=None, perc=None):
+    """Convert numerical floats and percentages to strings for terminal printing."""
+    if floats is None:
+        floats = []
+    if perc is None:
+        perc = []
+
+    # Sort dataframe. 'floats' => higher is worse
+    # 'perc' => greater distance from zero is worse
+    r1 = (df[floats] / df[floats].std(axis=0)).sum(axis=1)
+    r2 = (df[perc].abs() / df[perc].std(axis=0)).sum(axis=1)
+    df = df.assign(r=r1 + r2).sort_values("r", ascending=True).drop(columns=["r"])
+
+    def fnum(x, **kwargs):
+        if pd.isna(x):
+            return "N/A"
+        return np.format_float_positional(x, **kwargs)
+
+    def pnum(x):
+        if pd.isna(x):
+            return "N/A"
+        return f"{x:.2%}"
+
+    for fcol in floats:
+        df[fcol] = df[fcol].apply(fnum, precision=2, pad_right=0, min_digits=2)
+
+    for pcol in perc:
+        df[pcol] = df[pcol].apply(pnum)
+
+    return df
+
+
 def test_set_metrics(wellgroup, split: float):
     """Yield tuples (well:Well, metrics:dict)."""
     for well in wellgroup:
@@ -697,8 +729,8 @@ def process_file(
                 plot_type="simulations",
             )
 
-        # Report test set errors on every well - sorted by error
-        log.info("Printing test set errors on every well.")
+        # Report test set scores on every well - sorted by error
+        log.info("Printing test set scores on every well.")
         log.info(" - Test periods => number of periods (days/months) in test set")
         log.info(" - Negative log-likelihood => model fit (lower is better)")
         log.info(" - RMSE in logspace => root mean squared error (lower is better)")
@@ -715,35 +747,27 @@ def process_file(
                 wells, split=group.curve_fitting.split
             )
         ]
+        df_scores = pd.DataFrame.from_records(wells_scores)
 
-        df_scores = pd.DataFrame.from_records(wells_scores).sort_values("well_id")
-        df_scores_show = df_scores.assign(
-            **{
-                "Test periods": lambda df: df["Test periods"].apply(
-                    lambda x: f"{x:.0f}" if not pd.isna(x) else "N/A"
-                ),
-                "Negative log-likelihood": lambda df: df[
-                    "Negative log-likelihood"
-                ].apply(lambda x: f"{x:.1f}" if not pd.isna(x) else "N/A"),
-                "RMSE in logspace": lambda df: df["RMSE in logspace"].apply(
-                    lambda x: f"{x:.4f}" if not pd.isna(x) else "N/A"
-                ),
-                "Rel. error (expected)": lambda df: df["Rel. error (expected)"].apply(
-                    lambda x: f"{x:.2%}" if not pd.isna(x) else "N/A"
-                ),
-                "Rel. error (P50)": lambda df: df["Rel. error (P50)"].apply(
-                    lambda x: f"{x:.2%}" if not pd.isna(x) else "N/A"
-                ),
-            }
+        # Sort wells from (good => bad) on test set, pretty format and output
+        df_scores_show = df_num_to_string(
+            df_scores,
+            floats=[
+                "Test periods",
+                "Negative log-likelihood",
+                "RMSE in logspace",
+            ],
+            perc=["Rel. error (expected)", "Rel. error (P50)"],
         )
         log.info(
-            df_scores_show.sort_values(
-                "Negative log-likelihood", ascending=True
-            ).to_markdown(index=False)
+            df_scores_show.to_markdown(
+                index=False, disable_numparse=True, numalign="right", stralign="right"
+            )
         )
 
+        # Store all test set scores
         df_scores.to_csv(output_dir / "scores.csv", index=False)
-        msg = f"Wrote test set scores to: {output_dir / 'scores.csv'}"
+        msg = f"Wrote test set scores (metrics) to: {output_dir / 'scores.csv'}"
         log.info(msg)
 
         # Fit on all data
