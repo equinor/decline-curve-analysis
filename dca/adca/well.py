@@ -1938,10 +1938,17 @@ class WellGroup(UserList):
         # Get a list of numpy arrays
         ll = [w.negative_ll_test(split=split, p=p, sigma=sigma, phi=phi) for w in self]
 
+        # Concatenate all test log-likelihoods together
+        ll = np.concatenate(ll)
+        if len(ll) < 1:
+            raise Exception(
+                f"Cannot evaluate on test-set because it was empty. Split={split}"
+            )
+
         # Unpack to one numpy array and take average
         # This implies that wells with fewer data points get weighted down.
         # An alternative would be to do a mean-of-means
-        return float(np.mean(np.concatenate(ll)))
+        return float(np.mean(ll))
 
     def rmse_log(self, split) -> float:
         """Compute RMSE in log-space on all wells on the test set,
@@ -1954,6 +1961,11 @@ class WellGroup(UserList):
 
         squared_errors = np.concatenate(squared_errors)
         weights = np.concatenate(weights)
+        assert len(squared_errors) == len(weights)
+        if len(weights) < 1:
+            raise Exception(
+                f"Cannot evaluate on test-set because it was empty. Split={split}"
+            )
 
         return float(np.sqrt(np.average(squared_errors, weights=weights)))
 
