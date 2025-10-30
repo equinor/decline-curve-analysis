@@ -1940,6 +1940,9 @@ class WellGroup(UserList):
 
         # Concatenate all test log-likelihoods together
         ll = np.concatenate(ll)
+
+        # On WellGroup we are more conservative than on a single Well.
+        # On Well we return if test set is empty, but if ALL test sets are empty we fail:
         if len(ll) < 1:
             raise Exception(
                 f"Cannot evaluate on test-set because it was empty. Split={split}"
@@ -1962,6 +1965,8 @@ class WellGroup(UserList):
         squared_errors = np.concatenate(squared_errors)
         weights = np.concatenate(weights)
         assert len(squared_errors) == len(weights)
+        # On WellGroup we are more conservative than on a single Well.
+        # On Well we return if test set is empty, but if ALL test sets are empty we fail:
         if len(weights) < 1:
             raise Exception(
                 f"Cannot evaluate on test-set because it was empty. Split={split}"
