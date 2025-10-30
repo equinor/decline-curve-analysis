@@ -31,11 +31,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from dca.adca.dataloaders import (
-    load_file,
-    load_PDM_data,
-    load_sodir_data,
-)
+from dca.adca.dataloaders import load_file, load_PDM_data, load_sodir_data
 from dca.adca.load_yaml import yaml_safe_load
 from dca.adca.postprocess import write_pforecast_xlsx
 from dca.adca.utils import Bunch, clean_well_data, to_filename, to_period
@@ -52,6 +48,43 @@ log.addHandler(stdout_handler)
 
 # The warnings module redirects to the logging system
 logging.captureWarnings(True)
+
+
+def df_num_to_string(df, floats=None, perc=None):
+    """Convert numerical floats and percentages to strings for terminal printing."""
+    df = df.copy()
+
+    if floats is None:
+        floats = []
+    if perc is None:
+        perc = []
+
+    assert len(floats + perc) > 1
+
+    # Sort dataframe. 'floats' => higher is worse
+    # 'perc' => greater distance from zero is worse
+    if len(df) > 1:
+        r1 = (df[floats] / df[floats].std(axis=0)).sum(axis=1)
+        r2 = (df[perc].abs() / df[perc].std(axis=0)).sum(axis=1)
+        df = df.assign(r=r1 + r2).sort_values("r", ascending=True).drop(columns=["r"])
+
+    def fnum(x, **kwargs):
+        if pd.isna(x):
+            return "N/A"
+        return np.format_float_positional(x, **kwargs)
+
+    def pnum(x):
+        if pd.isna(x):
+            return "N/A"
+        return f"{x:.2%}"
+
+    for fcol in floats:
+        df[fcol] = df[fcol].apply(fnum, precision=2, pad_right=0, min_digits=2)
+
+    for pcol in perc:
+        df[pcol] = df[pcol].apply(pnum)
+
+    return df
 
 
 def test_set_metrics(wellgroup, split: float):
@@ -92,11 +125,11 @@ def test_set_metrics(wellgroup, split: float):
         yield (
             well,
             {
-                "Test periods": fnum(w_test.sum(), 2),
+                "Test periods": w_test.sum(),
                 "Negative log-likelihood": neg_ll,
-                "RMSE in logspace": fnum(sq_errs),
-                "Rel. error (expected)": format(relative_error_expected, ".2%"),
-                "Rel. error (P50)": format(relative_error_P50, ".2%"),
+                "RMSE in logspace": sq_errs,
+                "Rel. error (expected)": relative_error_expected,
+                "Rel. error (P50)": relative_error_P50,
             },
         )
 
@@ -697,8 +730,8 @@ def process_file(
                 plot_type="simulations",
             )
 
-        # Report test set errors on every well - sorted by error
-        log.info("Printing test set errors on every well.")
+        # Report test set scores on every well - sorted by error
+        log.info("Printing test set scores on every well.")
         log.info(" - Test periods => number of periods (days/months) in test set")
         log.info(" - Negative log-likelihood => model fit (lower is better)")
         log.info(" - RMSE in logspace => root mean squared error (lower is better)")
@@ -715,19 +748,28 @@ def process_file(
                 wells, split=group.curve_fitting.split
             )
         ]
+        df_scores = pd.DataFrame.from_records(wells_scores)
 
-        df_scores = (
-            pd.DataFrame.from_records(wells_scores)
-            .sort_values("Negative log-likelihood")
-            .assign(
-                **{
-                    "Negative log-likelihood": lambda df: df[
-                        "Negative log-likelihood"
-                    ].map(fnum)
-                }
+        # Sort wells from (good => bad) on test set, pretty format and output
+        df_scores_show = df_num_to_string(
+            df_scores,
+            floats=[
+                "Test periods",
+                "Negative log-likelihood",
+                "RMSE in logspace",
+            ],
+            perc=["Rel. error (expected)", "Rel. error (P50)"],
+        )
+        log.info(
+            df_scores_show.to_markdown(
+                index=False, disable_numparse=True, numalign="right", stralign="right"
             )
         )
-        log.info(df_scores.to_markdown(index=False))
+
+        # Store all test set scores
+        df_scores.to_csv(output_dir / "scores.csv", index=False)
+        msg = f"Wrote test set scores (metrics) to: {output_dir / 'scores.csv'}"
+        log.info(msg)
 
         # Fit on all data
         # ---------------------------------------------------------------------
