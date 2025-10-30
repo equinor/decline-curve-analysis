@@ -31,11 +31,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from dca.adca.dataloaders import (
-    load_file,
-    load_PDM_data,
-    load_sodir_data,
-)
+from dca.adca.dataloaders import load_file, load_PDM_data, load_sodir_data
 from dca.adca.load_yaml import yaml_safe_load
 from dca.adca.postprocess import write_pforecast_xlsx
 from dca.adca.utils import Bunch, clean_well_data, to_filename, to_period
@@ -56,16 +52,21 @@ logging.captureWarnings(True)
 
 def df_num_to_string(df, floats=None, perc=None):
     """Convert numerical floats and percentages to strings for terminal printing."""
+    df = df.copy()
+
     if floats is None:
         floats = []
     if perc is None:
         perc = []
 
+    assert len(floats + perc) > 1
+
     # Sort dataframe. 'floats' => higher is worse
     # 'perc' => greater distance from zero is worse
-    r1 = (df[floats] / df[floats].std(axis=0)).sum(axis=1)
-    r2 = (df[perc].abs() / df[perc].std(axis=0)).sum(axis=1)
-    df = df.assign(r=r1 + r2).sort_values("r", ascending=True).drop(columns=["r"])
+    if len(df) > 1:
+        r1 = (df[floats] / df[floats].std(axis=0)).sum(axis=1)
+        r2 = (df[perc].abs() / df[perc].std(axis=0)).sum(axis=1)
+        df = df.assign(r=r1 + r2).sort_values("r", ascending=True).drop(columns=["r"])
 
     def fnum(x, **kwargs):
         if pd.isna(x):
