@@ -64,7 +64,8 @@ def df_num_to_string(df, floats=None, perc=None):
     # Sort dataframe. 'floats' => higher is worse
     # 'perc' => greater distance from zero is worse
     if len(df) > 1:
-        r1 = (df[floats] / df[floats].std(axis=0)).sum(axis=1)
+        rankf = [c for c in floats if "periods" in c]
+        r1 = (df[rankf] / df[rankf].std(axis=0)).sum(axis=1)
         r2 = (df[perc].abs() / df[perc].std(axis=0)).sum(axis=1)
         df = df.assign(r=r1 + r2).sort_values("r", ascending=True).drop(columns=["r"])
 
