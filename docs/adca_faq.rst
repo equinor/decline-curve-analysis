@@ -23,6 +23,27 @@ With little data (a few months) you cannot expect great results, but ADCA might 
 Once you have a year or so you can expect good results in most cases.
 The well should be on a steady, smooth decline.
 
+**What should I set the value of split to?**
+
+If you are doing short term forecasting then choose 0.8 to 0.9.
+If you are doing longer-term forecasting then choose 0.5 to 0.8.
+In many situations manually setting ``half_life`` equal to roughly the forecasting horizon works very well and is an alternative to hyperparameter tuning.
+For instance, if you want to predict 2 years into the future and you have monthly data, then setting ``half_life=24`` is often a good choice.
+
+Long answer: Suppose you want to forecast 4 years.
+
+- If your average well has around 12 years of history, then a split of 0.66 is good because it puts 33% (8 years) in the test set
+- If your average well has around 8 years of history, then a split of 0.5 is good because it puts 50% (4 years) in the test set
+- If your average well has around 4 years of history, then a very low split like 0.1 or 0.2 would put the test set close to 4 years.
+  However, this leaves almost nothing in the training set.
+  Most likely in a situation like this, where you want to predict e.g. 4 years but you also only have around 4 years of history, a good appraoch is to set half-life equal to a pretty large number, e.g. 12 * 4 months or 12 * 8 months or 12 * 12 months.
+  You could even set it to 9999 or ``null`` (infinity).
+  You do not have enough data to make a meaningful train/test split and learn the optimal half life.
+
+Using a split to infer hyperparameters works pretty well if you have a good long history and you have many wells.
+If you have few well and/or little history your best bet for long-term predictions is to manually set a large half life and segment the wells if you have early ramp-up that will interfere with the fitting.
+
+
 **I want to use monthly frequency, but my production data has units bbl/days. How can I convert it?**
 
 This is best done before invoking ADCA.
