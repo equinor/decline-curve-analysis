@@ -60,8 +60,7 @@ Here is a minimal example of a ``.yaml`` configuration file for ADCA package.
        prior_strength: 0.1 # Single value => fixed hyperparameter
 
 .. note::
-   We recommend copying an existing ``.yaml`` file from `the repository <https://github.com/equinor/decline-curve-analysis>`_ as a starting point.
-   Alternatively, run ``adca init`` from the terminal to get an initial demo config file.
+   We recommend running ``adca init`` from the terminal to get an initial demo config file.
 
 Below are the main configuration options available in the ``.yaml`` files for the ADCA system:
 
