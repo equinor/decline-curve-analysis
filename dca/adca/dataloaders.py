@@ -294,14 +294,21 @@ def load_PDM_data(
     from pdm_datareader import tools  # Only import as needed
 
     log.info("Reading Production Data Mart (PDM).")
-    df = tools.query(sql).assign(
+    df = tools.query(sql)
+    if df.empty:
+        msg = "Connection to PDM was successful, but zero rows were returned from the database.\n"
+        msg += (
+            "Check that well IDs in the .yaml config file match column WB_UWBI in PDM."
+        )
+        raise Exception(msg)
+
+    df = df.assign(
         well_id=lambda df: df.wb_uwbi,
         production=lambda df: pd.to_numeric(df[phases].sum(axis=1)),
         time=lambda df: df.prod_day.dt.to_period("D"),
         time_on=lambda df: pd.to_numeric(df.time_on),
     )
     log.info(f"Read {len(df)} rows from '{table}'")
-    assert not df.empty
 
     # Print data quality report
     log.info("\nPDM data quality report (raw data, detailed)")
@@ -404,8 +411,8 @@ def load_sodir_data(
                 "prfPrdOilNetMillSm3": "production",
             }
         )
-        # Assume the well is always on
-        .assign(time_on=1)
+        # Assume the well is on when production > 0
+        .assign(time_on=lambda df: 1 - 1 * np.isclose(df.production.to_numpy(), 0))
         # Clip production
         .assign(production=lambda df: df.production.clip(lower=0))
         # Keep the ones we wanted

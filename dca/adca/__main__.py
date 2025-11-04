@@ -7,12 +7,17 @@ import os
 import pathlib
 import sys
 import time
+import traceback
 from importlib.metadata import version
 
 import pandas as pd
 
 from dca.adca.adca import process_file
 from dca.adca.cmd_init import init_yaml_and_csv
+
+URLS = """  - Documentation:        https://dsadocs.equinor.com/docs/decline-curve-analysis/
+  - Public issue tracker: https://github.com/equinor/decline-curve-analysis/issues
+  - Help (Equinor):       Contact Tommy Odland (todl) or Knut Utne Hollund (kuho)."""
 
 
 def subcommand_init(args):
@@ -42,22 +47,46 @@ def subcommand_run(args):
     for i, yaml_file in enumerate(process, 1):
         print(f"  ({i}): {yaml_file}")
 
-    time.sleep(3)
+    # Sleep if writing to a terminal (user), but not if testing
+    if sys.stdout.isatty():
+        time.sleep(3)
 
     # Process each file
     CURRENT_DIRECTORY = pathlib.Path(os.getcwd())
     NOW = pd.Timestamp.now().strftime("%Y-%m-%d-%H-%M")
     for i, yaml_file in enumerate(process, 1):
         print(f"  ({i}): Processing {yaml_file}")
-        process_file(
-            config_path=yaml_file,
-            current_directory=CURRENT_DIRECTORY,
-            current_time=NOW,
-            hyperparam_maxfun=args.hyperparam_maxfun,
-            plot_verbosity=args.plot_verbosity,
-        )
+        try:
+            process_file(
+                config_path=yaml_file,
+                current_directory=CURRENT_DIRECTORY,
+                current_time=NOW,
+                hyperparam_maxfun=args.hyperparam_maxfun,
+                plot_verbosity=args.plot_verbosity,
+            )
+        except Exception:
+            traceback.print_exc()  # Print the exception
+            print(
+                f"""
+ADCA version {version("dca")} has raised an exception on file {yaml_file}.
+If you are unable to fix the issue, then contact us for help.
+You may use the public issue tracker if you are not in Equinor.
+
+The issue tracker is PUBLIC, so do not upload ANY sensitive information.
+
+{URLS}
+"""
+            )
+
+            sys.exit(1)  # Exit with non-zero code
 
     print("Finished processing all files.")
+    print(f"""
+Thank you for using ADCA version {version("dca")}. To learn more, run `adca --help` or see:
+
+{URLS}
+
+Ideas for improvements or features? Please contact us. Note: the issue tracker is PUBLIC.""")
 
 
 def run():
@@ -66,8 +95,17 @@ def run():
     # Set up argument parses and parse arguments
     parser = argparse.ArgumentParser(
         prog="ADCA - Automatic Decline Curve Analysis",
-        description="""For more info: https://dsadocs.equinor.com/docs/decline-curve-analysis/index.html""",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description="""Fit decline curves (e.g. Arps) to well production data.""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=f"""example usage:
+  $ adca --help
+  $ adca init
+  $ adca run demo.yaml
+
+more information:
+{URLS}
+
+Ideas for improvements or features? Please contact us. Note: the issue tracker is PUBLIC.""",
     )
     parser.add_argument(
         "-v", "--version", action="version", version=f"ADCA {version('dca')}"

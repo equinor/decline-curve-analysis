@@ -7,8 +7,8 @@ decline-curve-analysis
 .. toctree::
    :maxdepth: 2
 
-   introduction	      
-   user_guide	      
+   introduction
+   user_guide
    installation
    methodology
-   developer_documentation	     
+   developer_documentation

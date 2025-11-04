@@ -1798,6 +1798,10 @@ class WellGroup(UserList):
         neg_logpdf_prior=None,
         # Number of function evaluations used when hyperparameter tuning
         hyperparam_maxfun=100,
+        # Possibly fixed parameters
+        p=None,
+        sigma=None,
+        phi=None,
     ):
         """Tune hyperparameters that are given as intervals.
         Hyperparameters NOT given as intervals are fixed."""
@@ -1834,6 +1838,9 @@ class WellGroup(UserList):
             self.fit(
                 split=split,
                 neg_logpdf_prior=neg_logpdf_prior,
+                p=p,
+                sigma=sigma,
+                phi=phi,
                 **params_fixed,
                 **free_args,
             )
@@ -1847,9 +1854,9 @@ class WellGroup(UserList):
             # neative log loss, and also report RMSE.
             log_loss = self.score(
                 split,
-                p=None,
-                sigma=None,
-                phi=None,
+                p=p,
+                sigma=sigma,
+                phi=phi,
             )
             rmse = self.rmse_log(split)
             relative_error_expected, relative_error_P50 = list(
@@ -1931,10 +1938,20 @@ class WellGroup(UserList):
         # Get a list of numpy arrays
         ll = [w.negative_ll_test(split=split, p=p, sigma=sigma, phi=phi) for w in self]
 
+        # Concatenate all test log-likelihoods together
+        ll = np.concatenate(ll)
+
+        # On WellGroup we are more conservative than on a single Well.
+        # On Well we return if test set is empty, but if ALL test sets are empty we fail:
+        if len(ll) < 1:
+            raise Exception(
+                f"Cannot evaluate on test-set because it was empty. Split={split}"
+            )
+
         # Unpack to one numpy array and take average
         # This implies that wells with fewer data points get weighted down.
         # An alternative would be to do a mean-of-means
-        return float(np.mean(np.concatenate(ll)))
+        return float(np.mean(ll))
 
     def rmse_log(self, split) -> float:
         """Compute RMSE in log-space on all wells on the test set,
@@ -1947,6 +1964,13 @@ class WellGroup(UserList):
 
         squared_errors = np.concatenate(squared_errors)
         weights = np.concatenate(weights)
+        assert len(squared_errors) == len(weights)
+        # On WellGroup we are more conservative than on a single Well.
+        # On Well we return if test set is empty, but if ALL test sets are empty we fail:
+        if len(weights) < 1:
+            raise Exception(
+                f"Cannot evaluate on test-set because it was empty. Split={split}"
+            )
 
         return float(np.sqrt(np.average(squared_errors, weights=weights)))
 

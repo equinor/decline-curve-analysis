@@ -31,11 +31,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from dca.adca.dataloaders import (
-    load_file,
-    load_PDM_data,
-    load_sodir_data,
-)
+from dca.adca.dataloaders import load_file, load_PDM_data, load_sodir_data
 from dca.adca.load_yaml import yaml_safe_load
 from dca.adca.postprocess import write_pforecast_xlsx
 from dca.adca.utils import Bunch, clean_well_data, to_filename, to_period
@@ -52,6 +48,44 @@ log.addHandler(stdout_handler)
 
 # The warnings module redirects to the logging system
 logging.captureWarnings(True)
+
+
+def df_num_to_string(df, floats=None, perc=None):
+    """Convert numerical floats and percentages to strings for terminal printing."""
+    df = df.copy()
+
+    if floats is None:
+        floats = []
+    if perc is None:
+        perc = []
+
+    assert len(floats + perc) > 1
+
+    # Sort dataframe. 'floats' => higher is worse
+    # 'perc' => greater distance from zero is worse
+    if len(df) > 1:
+        rankf = [c for c in floats if "periods" not in c]
+        r1 = (df[rankf] / df[rankf].std(axis=0)).sum(axis=1)
+        r2 = (df[perc].abs() / df[perc].std(axis=0)).sum(axis=1)
+        df = df.assign(r=r1 + r2).sort_values("r", ascending=True).drop(columns=["r"])
+
+    def fnum(x, **kwargs):
+        if pd.isna(x):
+            return "N/A"
+        return np.format_float_positional(x, **kwargs)
+
+    def pnum(x):
+        if pd.isna(x):
+            return "N/A"
+        return f"{x:.2%}"
+
+    for fcol in floats:
+        df[fcol] = df[fcol].apply(fnum, precision=2, pad_right=0, min_digits=2)
+
+    for pcol in perc:
+        df[pcol] = df[pcol].apply(pnum)
+
+    return df
 
 
 def test_set_metrics(wellgroup, split: float):
@@ -92,11 +126,11 @@ def test_set_metrics(wellgroup, split: float):
         yield (
             well,
             {
-                "Test periods": fnum(w_test.sum(), 2),
+                "Test periods": w_test.sum(),
                 "Negative log-likelihood": neg_ll,
-                "RMSE in logspace": fnum(sq_errs),
-                "Rel. error (expected)": format(relative_error_expected, ".2%"),
-                "Rel. error (P50)": format(relative_error_P50, ".2%"),
+                "RMSE in logspace": sq_errs,
+                "Rel. error (expected)": relative_error_expected,
+                "Rel. error (P50)": relative_error_P50,
             },
         )
 
@@ -532,6 +566,30 @@ def process_file(
         )
         log.info(df_errors.to_markdown())
 
+        # Get any fixed parameters
+        p = group.get("parameters", {}).get("p", None)
+        sigma = group.get("parameters", {}).get("sigma", None)
+        phi = group.get("parameters", {}).get("phi", None)
+        if not (p is None or (1 <= p <= 2)):
+            raise ValueError("Parameter {p=.2f} must be in range [1, 2]")
+        if not (sigma is None or (sigma > 0)):
+            raise ValueError("Parameter {sigma=.2f} must be positive")
+        if not (phi is None or (phi > 0)):
+            raise ValueError("Parameter {phi=.2f} must be positive")
+
+        if not all(param is None for param in [p, sigma, phi]):
+            log.info("-" * 32 + "FIXED PARAMETERS" + "-" * 32)
+            log.info(
+                "These parameters will not be determined by optimization on a well-by-well basis."
+            )
+            log.info("Instead they are fixed to specific values for all wells.")
+            params = {
+                n: p
+                for (n, p) in {"p": p, "sigma": sigma, "phi": phi}.items()
+                if p is not None
+            }
+            log.info(f"Fixed parameters:\n{json.dumps(params, indent=2)}")
+
         # Fit the prior using the pilot estimate strategy
         # ---------------------------------------------------------------------
         neg_logpdf_pilot = Prior(theta_mean=np.zeros(n_thetas))
@@ -546,6 +604,10 @@ def process_file(
             prior_strength=prior_strength,
             split=group.curve_fitting.split,
             neg_logpdf_prior=neg_logpdf_pilot,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
 
         prior_params = median_params(wells_prior)
@@ -571,6 +633,10 @@ def process_file(
             neg_logpdf_prior=neg_logpdf_prior,
             # Number of DIRECT calls
             hyperparam_maxfun=hyperparam_maxfun,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
         log.info(f"Best hyperparams:\n{json.dumps(best_hyperparameters, indent=2)}")
 
@@ -583,14 +649,19 @@ def process_file(
             **best_hyperparameters,
             split=group.curve_fitting.split,
             neg_logpdf_prior=neg_logpdf_prior,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
 
         # Evaluate log-loss, RMSE in logspace, and relative errors in forecasts
         log_loss = wells.score(
             split=group.curve_fitting.split,
-            p=None,
-            sigma=None,
-            phi=None,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
         rmse = wells.rmse_log(split=group.curve_fitting.split)
         relative_error_expected, relative_error_P50 = list(
@@ -660,8 +731,8 @@ def process_file(
                 plot_type="simulations",
             )
 
-        # Report test set errors on every well - sorted by error
-        log.info("Printing test set errors on every well.")
+        # Report test set scores on every well - sorted by error
+        log.info("Printing test set scores on every well.")
         log.info(" - Test periods => number of periods (days/months) in test set")
         log.info(" - Negative log-likelihood => model fit (lower is better)")
         log.info(" - RMSE in logspace => root mean squared error (lower is better)")
@@ -678,19 +749,28 @@ def process_file(
                 wells, split=group.curve_fitting.split
             )
         ]
+        df_scores = pd.DataFrame.from_records(wells_scores)
 
-        df_scores = (
-            pd.DataFrame.from_records(wells_scores)
-            .sort_values("Negative log-likelihood")
-            .assign(
-                **{
-                    "Negative log-likelihood": lambda df: df[
-                        "Negative log-likelihood"
-                    ].map(fnum)
-                }
+        # Sort wells from (good => bad) on test set, pretty format and output
+        df_scores_show = df_num_to_string(
+            df_scores,
+            floats=[
+                "Test periods",
+                "Negative log-likelihood",
+                "RMSE in logspace",
+            ],
+            perc=["Rel. error (expected)", "Rel. error (P50)"],
+        )
+        log.info(
+            df_scores_show.to_markdown(
+                index=False, disable_numparse=True, numalign="right", stralign="right"
             )
         )
-        log.info(df_scores.to_markdown(index=False))
+
+        # Store all test set scores
+        df_scores.to_csv(output_dir / "scores.csv", index=False)
+        msg = f"Wrote test set scores (metrics) to: {output_dir / 'scores.csv'}"
+        log.info(msg)
 
         # Fit on all data
         # ---------------------------------------------------------------------
@@ -700,6 +780,10 @@ def process_file(
             **best_hyperparameters,
             split=1.0,  # Fit on all data => split=1.0
             neg_logpdf_prior=neg_logpdf_prior,
+            # Possibly fixed parameters
+            p=p,
+            sigma=sigma,
+            phi=phi,
         )
 
         if plot_verbosity >= 1:
