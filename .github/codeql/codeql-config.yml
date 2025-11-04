@@ -1,0 +1,28 @@
+name: "CodeQL Config"
+
+# Disable the default CodeQL queries
+disable-default-queries: false
+
+# Specify additional query suites to run
+queries:
+  - uses: security-and-quality
+  - uses: security-extended
+
+# Paths to analyze (include your source code)
+paths:
+  - dca/
+  - examples/
+  - tests/
+
+# Paths to ignore (exclude generated files, docs, etc.)
+# paths-ignore:
+#   - docs/
+#   - ci/
+#   - "**/*.md"
+#   - "**/*.rst"
+#   - "**/*.txt"
+#   - "**/*.yml"
+#   - "**/*.yaml"
+#   - "**/*.toml"
+#   - "**/.*"
+
