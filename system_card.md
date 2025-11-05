@@ -7,7 +7,7 @@
 <br>
 
 ## About
-This document is a system card. It provides information about intended use and risk which may be useful to those using or assessing the system. The structure of this card is loosely aligned with the requirements of the [EU AI Act Annex IV](https://artificialintelligenceact.eu/annex/4/). and [Article 11](https://artificialintelligenceact.eu/article/11/).
+This document is a system card. It provides information about intended use and risk which may be useful to those using or assessing the system. The structure of this card is loosely aligned with the requirements of the [EU AI Act Annex IV](https://artificialintelligenceact.eu/annex/4/) and [Article 11](https://artificialintelligenceact.eu/article/11/).
 
 ## Intended Use
 **Purpose / Value Proposition:**  
