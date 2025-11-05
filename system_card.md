@@ -92,7 +92,6 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 - **Limitations**: False positives/negatives in curve fitting; requires domain expertise to validate appropriateness of decline curve methodology for specific wells.
 - **Anticipated issues**: Over-reliance on automated forecasts without considering reservoir physics. 
 - **Governance**: Clear escalation paths for disputed forecasts; mandatory peer review for high-impact predictions.
-0
 <br>
 
 ## System Architecture
