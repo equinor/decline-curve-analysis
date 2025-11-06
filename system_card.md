@@ -7,13 +7,16 @@
 <br>
 
 ## About
-This document is a system card. It provides information about intended use and risk which may be useful to those using or assessing the system. The structure of this card is loosely aligned with the requirements of the [EU AI Act Annex IV](https://artificialintelligenceact.eu/annex/4/) and [Article 11](https://artificialintelligenceact.eu/article/11/).
+It provides information about intended use and risk which may be useful to those using or assessing the system.
+The structure of this card is loosely aligned with the requirements of the [EU AI Act Annex IV](https://artificialintelligenceact.eu/annex/4/) and [Article 11](https://artificialintelligenceact.eu/article/11/).
 
 ## Intended Use
 **Purpose / Value Proposition:**  
-AutoDCA (Automated Decline Curve Analysis) provides automation tools for efficient, high-quality decline curve analysis. The system increases both efficiency and accuracy in forecasting where a decline curve approach is appropriate, offering significant improvements over traditional manual DCA methods.
+AutoDCA (Automated Decline Curve Analysis) provides automation tools for efficient, high-quality decline curve analysis.
 
-**Note:** DCA assumes wells exhibit steady production decline, typical of mature wells past peak production. Deviations may impact prediction accuracy. Use engineering judgment and review ADCA debugging figures to assess performance.
+**Note:** DCA assumes wells exhibit steady production decline, typical of mature wells past peak production.
+Deviations may impact prediction accuracy.
+Use judgment and review debugging figures to assess performance.
 
 **Primary Users:**  
 - Reservoir Engineers
@@ -21,14 +24,12 @@ AutoDCA (Automated Decline Curve Analysis) provides automation tools for efficie
 - Other professionals involved in well performance analysis and forecasting
 
 **Operating Context:**  
-- Internal-only Equinor use (IP and internal calibration data)
 - Delivered as:
-  1. **AutoDCA CLI**: Python Command-line tool
-  2. **AutoDCA App**: Web-based application at scale for collaborative use with DSA Toolbox
+  1. **adca CLI**: Python Command Line Interface
+  2. **AutoDCA App**: Web-based application for collaborative use with DSA Toolbox
 
 **Limitations:**  
-- Requires consistent, uninterrupted production decline
-- Not suitable for wells in early production phase
+- Not suitable for wells in early production phase (unless it is declining)
 - Requires sufficient historical data
 
 <br>
@@ -75,7 +76,7 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 | T  | Data quality and availability issues in Production Data Mart | Inaccurate forecasts, system failures | Data validation pipelines; integration with PDM; fallback to manual workflows | PDM Team, DSA |
 | T  | Dependency on 3rd Party PowerSim (Pforecast) for API Build  | Service interruptions, integration issues | Establish SLAs with 3rd party; implement fallback mechanisms; regular integration testing | DSA, IT Ops |
 | T  | Inability to rollback to previous model and predictions | Prolonged outages, incorrect forecasts | Version control for models and configurations; automated rollback procedures | DSA, IT Ops |
-| T  | Security: DSA App Registration  & Subscription Keys | Unauthorized access, data breaches | Implement strict access controls; regular security audits; use of managed identities | IT Security, DSA |
+| T  | Security: DSA App Registration & Subscription Keys | Unauthorized access, data breaches | Implement strict access controls; regular security audits; use of managed identities | IT Security, DSA |
 | T  | IT Operations Cost OverRun | Budget overruns, resource constraints | Implement cost monitoring and optimization strategies; regular budget reviews | IT Ops, DSA |
 
 <br>
@@ -83,22 +84,18 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 ### Unmitigated Risk
 | RC | Description                                      | Consequence           | Suggested Mitigation                                   | Stakeholders |
 |:--:|:-------------------------------------------------|:----------------------|:-------------------------------------------------------|:-------------|
-| T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Implement model monitoring; establish retraining protocols; version control for models | DSA, Reservoir Engineering |
+| T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Users should re-run ADCA at least every six months | DSA, Reservoir Engineering |
 <br>
 
 ## Human Oversight
 - AutoDCA is **decision support** for production forecasting; engineers review automated curve fits and forecasts before making business decisions.
 - **Required validation**: Subject Matter Expert (SME) review of decline curve parameters, forecast assumptions, and quality control plots.
-- **Limitations**: False positives/negatives in curve fitting; requires domain expertise to validate appropriateness of decline curve methodology for specific wells.
-- **Anticipated issues**: Over-reliance on automated forecasts without considering reservoir physics. 
-- **Governance**: Clear escalation paths for disputed forecasts; mandatory peer review for high-impact predictions.
+- **Limitations**: Requires domain expertise to validate appropriateness of DCA for specific wells.
+- **Anticipated issues**: Over-reliance on automated forecasts without proper quality control. 
 <br>
 
 ## System Architecture
-- **Type:** Python command-line tool (AutoDCA CLI) and web application (AutoDCA App)
-- **Delivery Modes:**
-  - **AutoDCA CLI**: Python package for local execution on Mac/Linux/Windows systems
-  - **AutoDCA App**: Web-based application deployed on Kubernetes AI Platform
+- **Type:** Python command-line tool (adca) and web application (AutoDCA App)
 - **Backend Architecture:**
   - Kubernetes-hosted API services
   - Celery worker pods for job processing
@@ -109,17 +106,17 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
   - Production Data Mart (PDM) for input data
   - pForecast for output consumption
 - **Instructions**: 
-    - For AutoDCA CLI: Configure wells via YAML files, execute analysis, review quality control plots, validate forecasts, export results
+    - For adca CLI: Configure wells via YAML files, execute analysis, review quality control plots, validate forecasts, export results
     - For AutoDCA App: Access PDM Data, configure analysis settings via UI, initiate analysis, review results
 <br>
 
 ## Data Acquisition and Preparation
 - **Primary Data Source**: Production Data Mart (PDM) containing well production time series data
-- **Data Types**: Oil, gas, and water production rates; flowing and static pressures; well configuration data
-- **Data Processing Pipeline**: Historical data aggregation and trend analysis
-- **Configuration Management**: YAML-based configuration files specifying well lists, analysis parameters, and output requirements or config using the UI.
+- **Data Types**: Oil, gas, water and condensate production rates. On stream hours (time on)
+- **Data Processing Pipeline**: Removal of missing values, consistency checks of data, etc 
+- **Configuration Management**: YAML-based configuration files specifying well lists, parameters, and output requirements or config using the UI.
 - **Data Security**: 
-  - Internal Equinor use only with appropriate access controls
+  - Internal Equinor use with appropriate access controls
   - Data encrypted in transit and at rest in Azure Blob Storage
   - Role-based access control aligned with PDM permissions
 - **Backup Data Sources**: Local file uploads for offline analysis; manual data entry for validation scenarios
@@ -141,7 +138,7 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 - **ADCA CLI Package**:
   - Distributed via internal GitHub repository
   - Installation via pip 
-  - Compatible with Linux and Windows environments
+  - Compatible with Linux, Windows and Mac OS environments
   - Documentation and examples provided for self-service adoption
 - **AutoDCA Web Application**:
   - Deployed on Equinor's AI Platform
