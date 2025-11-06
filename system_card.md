@@ -23,22 +23,9 @@ Use judgment and review debugging figures to assess performance.
 - Production Engineers
 - Other professionals involved in well performance analysis and forecasting
 
-**Operating Context:**  
-- Delivered as:
-  1. **adca CLI**: Python Command Line Interface
-  2. **AutoDCA App**: Web-based application for collaborative use with DSA Toolbox
-
 **Limitations:**  
 - Not suitable for wells in early production phase (unless it is declining)
 - Requires sufficient historical data
-
-<br>
-
-## Supporting Documentation
-- **Business inventory:** [Automated-Decline-Curve-Analysis in Service@Equinor](https://equinor.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=1116e91f97a88a1c993f3077f053af78). 
-- **Architecture contract:** [AC‑1526](https://org8b9f0d0d.crm19.dynamics.com/main.aspx?appid=9284c773-f710-ee11-9cbd-002248dcc582&pagetype=entityrecord&etn=ak_architecturecontract&id=4247220f-8849-4427-852e-fa7a9a4ba30c)
-- **Colab:** [T23‑00305](https://colab.equinor.com/technologies/F891C23F-484A-4349-8111-3D8C464C8AA0/business-case)
-- **Current TRL:** TRL 4
 
 <br>
 
@@ -51,7 +38,7 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 | Technical and Operational                       | T            |
 | Communities and local environment               | C            |
 | Politics, regulatory and security               | P            |
-| Market, supply chain and business relationships | M            |
+| Market, supply chain and business relationships | M            | 
 
 <br>
 
@@ -60,31 +47,31 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 |:--:|:-------------------------------------------------|:-------------------------------------------------|:------------------------------|
 | T  | More accurate, standardized DCA in forecasting for engineers | Improved decision-making, optimized production strategies | Reservoir Engineers, Production Engineers |
 | H  | Increased job satisfaction for engineers due to reduced manual workload | Higher morale, better retention rates | Reservoir Engineers, Production Engineers |
-| T  | Traceability of forecast inputs and logging of well forecast inputs | Enhanced auditability and traceability of forecasts  | DSA, IT Ops, Product Governance |
+| T  | Traceability of forecast inputs and logging of well forecast inputs | Enhanced auditability and traceability of forecasts  |  Product Governance |
 | T  | Easier implementation and adoption due to integrating with existing commercial software (e.g., pForecast) | Reduced integration complexity | Reservoir Engineers, Production Engineers |
-| T  | Scalable cloud architecture| Reduces computational bottlenecks | DSA, IT Ops, AI Platform teams |
-| P  | Clear governance and architecture compliance (AC‑1526, TRL4) | Smoother scaling and enterprise adoption | Product governance, Architecture team, DSA |
+| T  | Scalable cloud architecture| Reduces computational bottlenecks | Architecture Team|
+| P  | Clear governance and architecture compliance (AC‑1526, TRL4) | Smoother scaling and enterprise adoption | Product governance, Architecture team |
 
 <br>
 
 ### Mitigated Risk
 | RC | Description                                      | Consequence           | Mitigating Action                                      | Stakeholders |
 |:--:|:-------------------------------------------------|:----------------------|:-------------------------------------------------------|:-------------|
-| T  | Code maintainability       | Delays in bug fixes, difficulty adding features | Modular architecture; CI/CD with GHAS (CodeQL, Dependabot); governance via AC‑1526 | DSA, IT Ops, Product Governance |
+| T  | Code maintainability       | Delays in bug fixes, difficulty adding features | Modular architecture; CI/CD with GHAS (CodeQL, Dependabot); governance via AC‑1526 | IT Team, Product Governance |
 | P  | Non-compliance with subsurface data management standards | Regulatory violations, data governance issues, restricted data access | Adopt TR1119 Data Management of Subsurface Data standard; obtain Chief approval for data handling procedures; implement compliant data lineage tracking | Chief Geologist, Data Management, Legal |
 | H  | Over-reliance on automated forecasts without validation | Poor business decisions, financial losses | Mandatory human review workflows; clear limitation documentation; SME validation requirements | Reservoir Engineers, Management |
-| T  | Data quality and availability issues in Production Data Mart | Inaccurate forecasts, system failures | Data validation pipelines; integration with PDM; fallback to manual workflows | PDM Team, DSA |
-| T  | Dependency on 3rd Party PowerSim (Pforecast) for API Build  | Service interruptions, integration issues | Establish SLAs with 3rd party; implement fallback mechanisms; regular integration testing | DSA, IT Ops |
-| T  | Inability to rollback to previous model and predictions | Prolonged outages, incorrect forecasts | Version control for models and configurations; automated rollback procedures | DSA, IT Ops |
-| T  | Security: DSA App Registration & Subscription Keys | Unauthorized access, data breaches | Implement strict access controls; regular security audits; use of managed identities | IT Security, DSA |
-| T  | IT Operations Cost OverRun | Budget overruns, resource constraints | Implement cost monitoring and optimization strategies; regular budget reviews | IT Ops, DSA |
+| T  | Data quality and availability issues in Production Data Mart | Inaccurate forecasts, system failures | Data validation pipelines; integration with PDM; fallback to manual workflows | PDM Team |
+| T  | Dependency on 3rd Party PowerSim (Pforecast) for API Build  | Service interruptions, integration issues | Establish SLAs with 3rd party; implement fallback mechanisms; regular integration testing | IT team |
+| T  | Inability to rollback to previous model and predictions | Prolonged outages, incorrect forecasts | Version control for models and configurations; automated rollback procedures | IT team |
+| T  | Security: DSA App Registration & Subscription Keys | Unauthorized access, data breaches | Implement strict access controls; regular security audits; use of managed identities | IT Security |
+| T  | IT Operations Cost OverRun | Budget overruns, resource constraints | Implement cost monitoring and optimization strategies; regular budget reviews | IT team |
 
 <br>
 
 ### Unmitigated Risk
 | RC | Description                                      | Consequence           | Suggested Mitigation                                   | Stakeholders |
 |:--:|:-------------------------------------------------|:----------------------|:-------------------------------------------------------|:-------------|
-| T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Users should re-run ADCA at least every six months | DSA, Reservoir Engineering |
+| T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Users should re-run ADCA at least every six months |  Reservoir Engineering |
 <br>
 
 ## Human Oversight
@@ -176,6 +163,4 @@ In the following tables, the *risk factor category* (*RC*) is taken from [RM100 
 
 <br>
 
-## Notes
-- Contacts: Ashley Russell (Product Lead), Knut Utne Hollund, Tommy Odland, and Oumou El Mouminine Dhmine (Author).
 
