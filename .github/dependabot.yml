@@ -14,6 +14,12 @@ updates:
     # Reviewers for dependency updates
     reviewers:
       - "tommyod"
+      - "aruss175"
+      - "KnutUH"
+      - "AlirezaNaziri"
+      - "Omdhm"
+    assignees:
+      - 'Omdhm'
     cooldown:
       default-days: 5
       semver-major-days: 15
@@ -31,3 +37,9 @@ updates:
     open-pull-requests-limit: 5
     reviewers:
       - "tommyod"
+      - "aruss175"
+      - "KnutUH"
+      - "AlirezaNaziri"
+      - "Omdhm"
+    assignees:
+      - 'Omdhm'
