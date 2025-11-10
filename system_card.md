@@ -3,7 +3,7 @@
 | Version | Date       | Author                   | Changes            |
 |:--------|:-----------|:-------------------------|:-------------------|
 | 1.0     | 04.11.2025   | Oumou El Mouminine DHMINE             | Initial version    |
-| 1.1     | 07.11.2025   | Oumou El Mouminine DHMINE             | Clarifying references to Equinor's internal processes and documentation|
+| 1.1     | 07.11.2025   | Oumou El Mouminine DHMINE             | Clarifying references to Equinor's internal processes and documentation.|
 
 ## About
 It provides information about intended use and risk which may be useful to those using or assessing the system.
@@ -48,6 +48,7 @@ In the following tables, the *risk factor category* (*RC*) is taken from Equinor
 | T  | Easier implementation and adoption due to integrating with existing commercial software (e.g., pForecast) | Reduced integration complexity | Reservoir Engineers, Production Engineers |
 | T  | Scalable cloud architecture| Reduces computational bottlenecks |Equinor-internal Architecture Team|
 | P  | Clear governance and architecture compliance (Equinor-Internal Processes: AC-1526, TRL4) | Smoother scaling and enterprise adoption | Equinor-internal Product Governance,Equinor-internal Architecture Team |
+| T  | Generalization method could potentially reduce the sensitivity of the Decline Curve to outliers and noise in production data |  Improve decline curve fitting |  Reservoir Engineers, Production Engineers |
 
 ### Mitigated Risk
 | RC | Description                                      | Consequence           | Mitigating Action                                      | Stakeholders |
@@ -59,14 +60,14 @@ In the following tables, the *risk factor category* (*RC*) is taken from Equinor
 | T  | Dependency on 3rd Party PowerSim (Pforecast) for API Build  | Service interruptions, integration issues | Establish SLAs with 3rd party; implement fallback mechanisms; regular integration testing | Equinor-internal IT Team |
 | T  | Inability to rollback to previous model and predictions | Prolonged outages, incorrect forecasts | Version control for models and configurations; automated rollback procedures | Equinor-internal IT Team |
 | T  | Security: DSA App Registration & Subscription Keys | Unauthorized access, data breaches | Implement strict access controls; regular security audits; use of managed identities | Equinor-internal IT Security Team |
-| T  | IT Operations Cost OverRun | Budget overruns, resource constraints | Implement cost monitoring and optimization strategies; regular budget reviews | Equinor-internal IT team |
+| T  | IT Operations Cost OverRun | Budget overruns, resource constraints | Implement cost monitoring and optimization strategies; regular budget reviews | Equinor-internal IT Team |
 
 
 ### Unmitigated Risk
 | RC | Description                                      | Consequence           | Suggested Mitigation                                   | Stakeholders |
 |:--:|:-------------------------------------------------|:----------------------|:-------------------------------------------------------|:-------------|
-| T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Users should re-run ADCA at least every six months |  Reservoir Engineering |
-
+| T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Users should re-run ADCA at least every six months |  Reservoir Engineering, Production Engineers |
+| T  | Curve fitting may yield non-physical sense | Decreasing forecast accuracy | Validate model outputs against known reservoir behavior or reservoir simulators (Eclipse) results |Reservoir Engineers, Production Engineers|
 ## Human Oversight
 - AutoDCA is **decision support** for production forecasting; engineers review automated curve fits and forecasts before making business decisions.
 - **Required validation**: Subject Matter Expert (SME) review of decline curve parameters, forecast assumptions, and quality control plots.
