@@ -32,13 +32,7 @@ def to_pforecast_general(wells: WellGroup) -> pd.DataFrame:
     return (
         pd.DataFrame([well.id for well in wells], columns=["well_id"])
         .assign(
-            # In the pForecast example we are following the profile name
-            # is the part after the first dash i.e., the first part (country
-            # and licence info) is not used
-            # if the well_id does not contain a dash, use the original well_id
-            ProfileName=lambda df: df.well_id.apply(
-                lambda x: x.split("-", 1)[1] if "-" in x else x
-            ),
+            ProfileName=lambda df: df.well_id,
             Generic=0,
             Description=lambda df: "Profile for " + df.well_id,
             VolumeBased=1,
@@ -67,12 +61,7 @@ def to_pforecast_monthly(df_forecast: pd.DataFrame, phase: str) -> pd.DataFrame:
     return (
         df_forecast.loc[:, cols]
         .assign(
-            # In the pForecast example we are following the profile name
-            # is the part after the first dash i.e., the first part (country
-            # and licence info) is not used
-            ProfileName=lambda df: df.well_id.apply(
-                lambda x: x.split("-", 1)[1] if "-" in x else x
-            ),
+            ProfileName=lambda df: df.well_id,
             ProductionYear=lambda df: df.time.dt.year,
             ProductionMonth=lambda df: df.time.dt.month,
             # Assume we have some production p per period (month). ADCA does not
