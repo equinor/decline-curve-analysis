@@ -68,6 +68,7 @@ In the following tables, the *risk factor category* (*RC*) is taken from Equinor
 |:--:|:-------------------------------------------------|:----------------------|:-------------------------------------------------------|:-------------|
 | T  | Model degradation over time due to changing reservoir conditions | Decreasing forecast accuracy | Users should re-run ADCA at least every six months |  Reservoir Engineering, Production Engineers |
 | T  | Curve fitting may yield non-physical sense | Decreasing forecast accuracy | Validate model outputs against known reservoir behavior or reservoir simulators (Eclipse) results |Reservoir Engineers, Production Engineers|
+
 ## Human Oversight
 - AutoDCA is **decision support** for production forecasting; engineers review automated curve fits and forecasts before making business decisions.
 - **Required validation**: Subject Matter Expert (SME) review of decline curve parameters, forecast assumptions, and quality control plots.
