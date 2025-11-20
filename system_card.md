@@ -18,16 +18,17 @@ Deviations may impact prediction accuracy.
 Use judgment and review debugging figures to assess performance.
 
 **Primary Users:**  
-- Reservoir Engineers
-- Production Engineers
-- Other professionals involved in well performance analysis and forecasting
+  - Reservoir Engineers
+  - Production Engineers
+  - Other professionals involved in well performance analysis and forecasting
 
 **Limitations:**  
-- Not suitable for wells in early production phase (unless it is declining)
-- Requires sufficient historical data
+  - Not suitable for wells in early production phase (unless it is declining)
+  - Requires sufficient historical data
   
 ## Equinor-Specific Supporting Documentation
 - **CI Number:** Please use CI number 121455 to find associated documentation
+  
 ## Risk
 In the following tables, the *risk factor category* (*RC*) is taken from Equinor internal governing document RM100 R-105908 with the following abbreviations
 
