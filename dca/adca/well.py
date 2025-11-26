@@ -571,9 +571,11 @@ class Well:
         )
 
         # Attempt to set up a sensible y-axis
-        _, y, w = self.get_curve_data()
-        y = np.log(y[w > 0]) if logscale else y[w > 0]
-        y_range = np.max(y) - np.min(y)
+        # _, y, w = self.get_curve_data()
+        # y = np.log(y[w > 0]) if logscale else y[w > 0]
+        # y_range = np.max(y) - np.min(y)
+        # reuse the last prepared y_values
+        y = y_smooth
         ax.set_ylim([np.min(y) - y_range / 10, np.max(y) + y_range / 10])
         ax.set_ylabel(y_label)
 
