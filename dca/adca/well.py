@@ -532,6 +532,8 @@ class Well:
             # The expected curve
             y_smooth = self.predict(x_smooth, time_on=w_smooth, q=None)
             y_smooth = np.log(y_smooth) if logscale else y_smooth
+            y_max = np.max(y_smooth)
+            y_min = np.min(y_smooth)
             ax.plot(
                 x_smooth,
                 y_smooth,
@@ -544,7 +546,8 @@ class Well:
             for q_i in q:
                 y_smooth = self.predict(x_smooth, time_on=w_smooth, q=q_i)
                 y_smooth = np.log(y_smooth) if logscale else y_smooth
-
+                y_max = max(y_max, np.max(y_smooth))
+                y_min = min(y_min, np.min(y_smooth))
                 ax.plot(
                     x_smooth,
                     y_smooth,
@@ -571,13 +574,12 @@ class Well:
         )
 
         # Attempt to set up a sensible y-axis
-        # _, y, w = self.get_curve_data()
-        # y = np.log(y[w > 0]) if logscale else y[w > 0]
-        # y_range = np.max(y) - np.min(y)
-        # reuse the last prepared y_values
-        y = y_smooth
-        y_range = np.max(y) - np.min(y)
-        ax.set_ylim([np.min(y) - y_range / 10, np.max(y) + y_range / 10])
+        _, y, w = self.get_curve_data()
+        y = np.log(y[w > 0]) if logscale else y[w > 0]
+        y_max = max(y_max, np.max(y)) if "y_max" in locals() else np.max(y)
+        y_min = min(y_min, np.min(y)) if "y_min" in locals() else np.min(y)
+        y_range = y_max - y_min
+        ax.set_ylim(y_min - y_range / 10, y_max + y_range / 10)
         ax.set_ylabel(y_label)
 
         # Plot dates along x axis
