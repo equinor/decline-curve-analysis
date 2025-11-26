@@ -576,6 +576,7 @@ class Well:
         # y_range = np.max(y) - np.min(y)
         # reuse the last prepared y_values
         y = y_smooth
+        y_range = np.max(y) - np.min(y)
         ax.set_ylim([np.min(y) - y_range / 10, np.max(y) + y_range / 10])
         ax.set_ylabel(y_label)
 
