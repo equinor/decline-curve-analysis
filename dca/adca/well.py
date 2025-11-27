@@ -499,6 +499,8 @@ class Well:
 
         # Plot the DCA curve
         x_labels_all = self.time.values
+        y_axis_min = None
+        y_axis_max = None
         if prediction and self.is_fitted():
             # Set up the future grid
             freq = self.time.dtype.freq.freqstr
@@ -532,6 +534,8 @@ class Well:
             # The expected curve
             y_smooth = self.predict(x_smooth, time_on=w_smooth, q=None)
             y_smooth = np.log(y_smooth) if logscale else y_smooth
+            y_axis_max = np.max(y_smooth)
+            y_axis_min = np.min(y_smooth)
             ax.plot(
                 x_smooth,
                 y_smooth,
@@ -544,7 +548,8 @@ class Well:
             for q_i in q:
                 y_smooth = self.predict(x_smooth, time_on=w_smooth, q=q_i)
                 y_smooth = np.log(y_smooth) if logscale else y_smooth
-
+                y_axis_max = max(y_axis_max, np.max(y_smooth))
+                y_axis_min = min(y_axis_min, np.min(y_smooth))
                 ax.plot(
                     x_smooth,
                     y_smooth,
@@ -573,8 +578,11 @@ class Well:
         # Attempt to set up a sensible y-axis
         _, y, w = self.get_curve_data()
         y = np.log(y[w > 0]) if logscale else y[w > 0]
-        y_range = np.max(y) - np.min(y)
-        ax.set_ylim([np.min(y) - y_range / 10, np.max(y) + y_range / 10])
+        y_axis_max = max(y_axis_max, np.max(y)) if y_axis_max else np.max(y)
+        y_axis_min = min(y_axis_min, np.min(y)) if y_axis_min else np.min(y)
+        y_axis_range = y_axis_max - y_axis_min
+        ax.set_ylim(y_axis_min - y_axis_range / 10, y_axis_max + y_axis_range / 10)
+
         ax.set_ylabel(y_label)
 
         # Plot dates along x axis
