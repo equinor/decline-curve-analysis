@@ -602,6 +602,146 @@ class Well:
 
         return fig, ax
 
+    def plot2(self, split, *, ax=None, logscale=False, prediction=True, q=None):
+        """Plot a well."""
+        quartiles, s_base, w_test, w_train, well_name, will_plot_prediction, x_label, x_labels_all, x_smooth, x_test, x_train, y, y_label, y_range, y_smooth, y_test, y_train = self.get_data_for_plot2(
+            logscale, prediction, q, split)
+
+        ax.set_title(f"Well '{well_name}' Segment '{self.segment}' Split: {split!r}")
+
+        # Create a figure and axis if and axis-instance was not given
+        if ax is None:
+            fig, ax = plt.subplots()
+        else:
+            fig = ax.figure
+
+        if will_plot_prediction:
+            ax.plot(
+                x_smooth,
+                y_smooth,
+                zorder=10,
+                label=str(self.curve_model.__name__),
+                color="black",
+            )
+
+            for quartile_y_smooth in quartiles:
+                ax.plot(
+                    x_smooth,
+                    quartile_y_smooth,
+                    zorder=10,
+                    color="black",
+                    linestyle="--",
+                )
+
+        ax.scatter(
+            x_train,
+            y_train,
+            zorder=5,
+            s=s_base * w_train,
+            color=COLORS[0],
+            label="Train",
+        )
+        ax.scatter(
+            x_test, y_test, zorder=8, s=s_base * w_test, color=COLORS[1], label="Test"
+        )
+
+        ax.set_ylim([np.min(y) - y_range / 10, np.max(y) + y_range / 10])
+        ax.set_ylabel(y_label)
+
+        # Plot dates along x axis
+        if self.preprocessing != "producing_time":
+            # This is not very good, but it kind of works
+            x_ticks = ax.get_xticks()[1:-1]
+            ax.set_xticks(x_ticks)
+
+            def clip(x):
+                return min(max(0, int(x)), len(x_labels_all) - 1)
+
+            ax.set_xticklabels(
+                [x_labels_all[clip(x_t)] for x_t in x_ticks],
+                rotation=45,
+            )
+
+        ax.set_xlabel(x_label)
+
+        ax.grid(True, ls="--", zorder=0, alpha=0.33)
+        ax.legend()
+        fig.tight_layout()
+
+        return fig, ax
+
+    def get_data_for_plot2(self, logscale, prediction, q, split):
+        assert q is None or all(0 < q_i < 1 for q_i in q)
+        q = [] if q is None else q
+        well_name = to_filename(self.id.split(","))
+        # Get train and test data to plot
+        train, test = self.get_train_test(split)
+        x_train, y_train, w_train = train
+        x_test, y_test, w_test = test
+        y_label = "Production / time"
+        if logscale:
+            y_train, y_test = np.log(y_train), np.log(y_test)
+            y_label = f"log({y_label})"
+        # Plot the DCA curve
+        x_labels_all = self.time.values
+        will_plot_prediction = prediction and self.is_fitted()
+        x_smooth, y_smooth, quartiles = None, None, []
+        if will_plot_prediction:
+            periods_future, x_smooth, y_smooth, quartiles = self.get_data_for_plot2_prediction(logscale, q, x_train)
+            # Concatenate test set with future
+            x_labels_all = np.concatenate((x_labels_all, periods_future))
+        # Plot the individual data points
+        x, y, w = self.get_curve_data()
+        # Compute size of dots. n=1000 -> s_base=3, n=25 -> s_base=25
+        s_base = min(max(3, -0.02 * len(x) + 25), 25)
+        # Attempt to set up a sensible y-axis
+        y = np.log(y[w > 0]) if logscale else y[w > 0]
+        y_range = np.max(y) - np.min(y)
+        if self.preprocessing != "producing_time":
+            x_label = f"Time ({self.time.dtype.freq.freqstr})"
+        else:
+            # Plot values along x axis
+            first_period = self.time[self.time_on > 0].min()
+            x_label = f"Periods since first period with production: {first_period}"
+        return quartiles, s_base, w_test, w_train, well_name, will_plot_prediction, x_label, x_labels_all, x_smooth, x_test, x_train, y, y_label, y_range, y_smooth, y_test, y_train
+
+    def get_data_for_plot2_prediction(self, logscale, q, x_train):
+        # Set up the future grid
+        freq = self.time.dtype.freq.freqstr
+        periods = 36 if freq == "ME" else 360 * 3
+        periods = max(periods, len(self.time) // 3)
+        x_future, periods_future = self.forecasting_grid(
+            periods, return_periods=True
+        )
+        # We will now create an equidistant grid from the start of observed
+        # production (start of training data set) till the end of the future
+        # prediction interval. We avoid using the possibly non-equidistant
+        # values in `x`, arising from different values of `time_on`, because
+        # non-equidistant values can be confusing for the user.
+        # For time_on=0.1, there is very little uncertainty, so time_on=[1, 0.1, 1]
+        # would lead to uncertainty envelopes that shrink, then go up again.
+        # This is correct if the goal is to show pointwise uncertainty, but
+        # is confusing, so instead we use the average time on.
+        # This is only a visual problem. When ADCA predicts the future production,
+        # we always use an equidistant grid, so then this is never a problem.
+        # Create a grid from smallest to largest-ish value to evaluate on
+        x_first, x_last = x_train[0], x_future[-1]
+        step = self.avg_time_on_
+        x_smooth = np.arange(start=x_first, stop=x_last + step, step=step)
+        w_smooth = np.ones_like(x_smooth, dtype=float) * step
+        # The expected curve
+        y_smooth = self.predict(x_smooth, time_on=w_smooth, q=None)
+        y_smooth = np.log(y_smooth) if logscale else y_smooth
+
+        # Plot quantile curves
+        quartiles = []
+        for q_i in q:
+            y_smooth = self.predict(x_smooth, time_on=w_smooth, q=q_i)
+            y_smooth = np.log(y_smooth) if logscale else y_smooth
+            quartiles.append(y_smooth)
+
+        return periods_future, x_smooth, y_smooth, quartiles
+
     def plot_simulations(
         self, split, *, ax=None, logscale=False, q=None, simulations=1
     ):
