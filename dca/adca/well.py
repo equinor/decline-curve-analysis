@@ -512,10 +512,7 @@ class Well:
         y_axis_max = None
         if prediction and self.is_fitted():
             # Set up the future grid
-            # freq = self.time.dtype.freq.freqstr
-            # periods = 36 if freq == "ME" else 360 * 3
-            periods = forecast_periods
-            periods = max(periods, len(self.time) // 3)
+            periods = max(forecast_periods, len(self.time) // 3)
             x_future, periods_future = self.forecasting_grid(
                 periods, return_periods=True
             )
@@ -663,10 +660,7 @@ class Well:
         x_labels_all = self.time.values
 
         # Set up the future grid
-        # freq = self.time.dtype.freq.freqstr
-        # periods = 36 if freq == "ME" else 360 * 3
-        periods = forecast_periods
-        periods = max(periods, len(self.time) // 3)
+        periods = max(forecast_periods, len(self.time) // 3)
         x_future, periods_future = self.forecasting_grid(periods, return_periods=True)
 
         # Concatenate test set with future
@@ -816,10 +810,7 @@ class Well:
         y_lim_max = 0
         if prediction and self.is_fitted():
             # Set up the future grid
-            # Set up the future grid
-            # freq = self.time.dtype.freq.freqstr
-            # periods = 36 if freq == "ME" else 360 * 3
-            periods = forecast_periods
+            periods = max(forecast_periods, len(self.time) // 3)
             x_future, periods_future = self.forecasting_grid(
                 periods, return_periods=True
             )
