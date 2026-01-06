@@ -472,7 +472,16 @@ class Well:
 
         return self
 
-    def plot(self, split, *, ax=None, logscale=False, prediction=True, q=None):
+    def plot(
+        self,
+        split,
+        *,
+        ax=None,
+        logscale=False,
+        prediction=True,
+        q=None,
+        forecast_periods=0,
+    ):
         """Plot a well."""
         assert q is None or all(0 < q_i < 1 for q_i in q)
         q = [] if q is None else q
@@ -503,8 +512,9 @@ class Well:
         y_axis_max = None
         if prediction and self.is_fitted():
             # Set up the future grid
-            freq = self.time.dtype.freq.freqstr
-            periods = 36 if freq == "ME" else 360 * 3
+            # freq = self.time.dtype.freq.freqstr
+            # periods = 36 if freq == "ME" else 360 * 3
+            periods = forecast_periods
             periods = max(periods, len(self.time) // 3)
             x_future, periods_future = self.forecasting_grid(
                 periods, return_periods=True
@@ -611,7 +621,14 @@ class Well:
         return fig, ax
 
     def plot_simulations(
-        self, split, *, ax=None, logscale=False, q=None, simulations=1
+        self,
+        split,
+        *,
+        ax=None,
+        logscale=False,
+        q=None,
+        simulations=1,
+        forecast_periods=0,
     ):
         """Plot simulations from a well. Show `simulations` and compute quantiles
         using 999 simulations."""
@@ -646,8 +663,9 @@ class Well:
         x_labels_all = self.time.values
 
         # Set up the future grid
-        freq = self.time.dtype.freq.freqstr
-        periods = 36 if freq == "ME" else 360 * 3
+        # freq = self.time.dtype.freq.freqstr
+        # periods = 36 if freq == "ME" else 360 * 3
+        periods = forecast_periods
         periods = max(periods, len(self.time) // 3)
         x_future, periods_future = self.forecasting_grid(periods, return_periods=True)
 
@@ -759,7 +777,14 @@ class Well:
         return fig, ax
 
     def plot_cumulative(
-        self, split, *, ax=None, logscale=False, prediction=True, q=None
+        self,
+        split,
+        *,
+        ax=None,
+        logscale=False,
+        prediction=True,
+        q=None,
+        forecast_periods=0,
     ):
         """Plot a well on cumulative scale."""
         assert q is None or all(0 < q_i < 1 for q_i in q)
@@ -791,9 +816,10 @@ class Well:
         y_lim_max = 0
         if prediction and self.is_fitted():
             # Set up the future grid
-            freq = self.time.dtype.freq.freqstr
-            periods = 36 if freq == "ME" else 360 * 3
-            periods = max(periods, len(self.time) // 3)
+            # Set up the future grid
+            # freq = self.time.dtype.freq.freqstr
+            # periods = 36 if freq == "ME" else 360 * 3
+            periods = forecast_periods
             x_future, periods_future = self.forecasting_grid(
                 periods, return_periods=True
             )
