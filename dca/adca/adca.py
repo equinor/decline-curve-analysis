@@ -681,6 +681,16 @@ def process_file(
         log.info(f" Relative error (expected): {relative_error_expected:.2%}")
         log.info(f" Relative error (P50): {relative_error_P50:.2%}")
 
+        # pick out the number of forecast periods the user requested
+        if isinstance(group.curve_fitting.forecast_periods, pd.Period):
+            n_periods = (
+                group.curve_fitting.forecast_periods.day
+                if group.source.frequency == "daily"
+                else group.curve_fitting.forecast_periods.month
+            )
+        else:
+            n_periods = group.curve_fitting.forecast_periods
+
         # Output various train/test splitted figures
         if plot_verbosity >= 1:
             log.info("Writing debugging plots (.png files) on test set.")
@@ -690,7 +700,7 @@ def process_file(
                 wells=wells,
                 split=group.curve_fitting.split,
                 logscale=True,
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
             save_well_plots(
@@ -700,7 +710,7 @@ def process_file(
                 split=group.curve_fitting.split,
                 logscale=False,
                 plot_type="cumulative",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
         if plot_verbosity >= 2:
@@ -710,7 +720,7 @@ def process_file(
                 wells=wells,
                 split=group.curve_fitting.split,
                 logscale=False,
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
             save_well_plots(
@@ -720,7 +730,7 @@ def process_file(
                 split=group.curve_fitting.split,
                 logscale=True,
                 plot_type="cumulative",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
         if plot_verbosity >= 3:
@@ -731,7 +741,7 @@ def process_file(
                 split=group.curve_fitting.split,
                 logscale=False,
                 plot_type="simulations",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
             save_well_plots(
                 output_prefix="split_test_simulations",
@@ -740,7 +750,7 @@ def process_file(
                 split=group.curve_fitting.split,
                 logscale=True,
                 plot_type="simulations",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
         # Report test set scores on every well - sorted by error
@@ -805,7 +815,7 @@ def process_file(
                 output_dir=output_dir,
                 wells=wells,
                 logscale=True,
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
         if plot_verbosity >= 2:
@@ -813,14 +823,14 @@ def process_file(
                 output_prefix="forecast_nolog",
                 output_dir=output_dir,
                 wells=wells,
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
             save_well_plots(
                 output_prefix="forecast_cumulative_nolog",
                 output_dir=output_dir,
                 wells=wells,
                 plot_type="cumulative",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
             save_well_plots(
                 output_prefix="forecast_cumulative",
@@ -828,7 +838,7 @@ def process_file(
                 wells=wells,
                 logscale=True,
                 plot_type="cumulative",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
         if plot_verbosity >= 3:
@@ -838,7 +848,7 @@ def process_file(
                 wells=wells,
                 logscale=False,
                 plot_type="simulations",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
             save_well_plots(
                 output_prefix="forecast_simulations",
@@ -846,7 +856,7 @@ def process_file(
                 wells=wells,
                 logscale=True,
                 plot_type="simulations",
-                forecast_periods=group.curve_fitting.forecast_periods,
+                forecast_periods=n_periods,
             )
 
         # Forecast and save DF
@@ -855,7 +865,7 @@ def process_file(
         simulations = 1_000  # 1000 => ~ 70 MB of memory for 25 years @ daily
         log.info(f"Each forecast uses {simulations} simulations")
         df_forecast = wells.to_df(
-            forecast_periods=group.curve_fitting.forecast_periods,
+            forecast_periods=n_periods,
             q=[0.1, 0.5, 0.9],
             simulations=simulations,
         )
