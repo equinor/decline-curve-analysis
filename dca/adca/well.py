@@ -285,6 +285,9 @@ class Well:
         assert np.issubdtype(production.dtype, np.number)
 
         assert isinstance(time_on, np.ndarray)
+        if np.isclose(np.sum(time_on), 0.0):
+            raise ValueError(f"Well {id} has no time_on={time_on}")
+
         assert np.nanmin(time_on) >= 0
         assert np.nanmax(time_on) <= 1
         assert isinstance(time.dtype, pd.PeriodDtype)
