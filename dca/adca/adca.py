@@ -400,7 +400,7 @@ def save_well_plots(
     split: float = 1.0,
     logscale: bool = False,
     plot_type: str = "production",
-    forecast_periods: int | pd.Period = 0,
+    forecast_periods=0,
 ) -> None:
     """For every well in the wellgroup, plot and save them."""
     log.info(f"Writing plots with prefix: {output_prefix!r}")
