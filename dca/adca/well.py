@@ -515,8 +515,9 @@ class Well:
         y_axis_max = None
         if prediction and self.is_fitted():
             # Set up the future grid
+            periods = max(forecast_periods, len(self.time) // 3)
             x_future, periods_future = self.forecasting_grid(
-                forecast_periods, return_periods=True
+                periods, return_periods=True
             )
 
             # Concatenate test set with future
@@ -662,9 +663,8 @@ class Well:
         x_labels_all = self.time.values
 
         # Set up the future grid
-        x_future, periods_future = self.forecasting_grid(
-            forecast_periods, return_periods=True
-        )
+        periods = max(forecast_periods, len(self.time) // 3)
+        x_future, periods_future = self.forecasting_grid(periods, return_periods=True)
 
         # Concatenate test set with future
         x_labels_all = np.concatenate((x_labels_all, periods_future))
@@ -813,8 +813,9 @@ class Well:
         y_lim_max = 0
         if prediction and self.is_fitted():
             # Set up the future grid
+            periods = max(forecast_periods, len(self.time) // 3)
             x_future, periods_future = self.forecasting_grid(
-                forecast_periods, return_periods=True
+                periods, return_periods=True
             )
             assert np.allclose(np.diff(x_future), 1.0)
 
