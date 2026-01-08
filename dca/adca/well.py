@@ -514,8 +514,9 @@ class Well:
         y_axis_min = None
         y_axis_max = None
         if prediction and self.is_fitted():
-            # Set up the future grid
-            periods = max(forecast_periods, len(self.time) // 3)
+            # Set up the future grid, if no forecast_periods are given, use
+            # a third of the data length
+            periods = forecast_periods if forecast_periods > 0 else len(self.time) // 3
             x_future, periods_future = self.forecasting_grid(
                 periods, return_periods=True
             )
@@ -662,8 +663,9 @@ class Well:
         # Plot the DCA curve
         x_labels_all = self.time.values
 
-        # Set up the future grid
-        periods = max(forecast_periods, len(self.time) // 3)
+        # Set up the future grid, if no forecast_periods are given, use
+        # a third of the data length
+        periods = forecast_periods if forecast_periods > 0 else len(self.time) // 3
         x_future, periods_future = self.forecasting_grid(periods, return_periods=True)
 
         # Concatenate test set with future
@@ -812,8 +814,9 @@ class Well:
         x_labels_all = self.time.values
         y_lim_max = 0
         if prediction and self.is_fitted():
-            # Set up the future grid
-            periods = max(forecast_periods, len(self.time) // 3)
+            # Set up the future grid, if no forecast_periods are given, use
+            # a third of the data length
+            periods = forecast_periods if forecast_periods > 0 else len(self.time) // 3
             x_future, periods_future = self.forecasting_grid(
                 periods, return_periods=True
             )
