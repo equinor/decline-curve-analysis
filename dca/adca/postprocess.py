@@ -74,15 +74,21 @@ def to_pforecast_monthly(df_forecast: pd.DataFrame, phase: str) -> pd.DataFrame:
             # = p *  daysinmonth * monthsinday_avg**2
             # NOTE: Uncertainties (P10 / P90) DO NOT scale this way in reality.
             # The sum of P90s is not the P90s of the sum. However, it's a good enough approximation is this case.
-            Potential=lambda df: df.production.fillna(df.forecasted_production)
-            * df.time.dt.daysinmonth
-            * (12 / 365.25) ** 2,
-            PotentialLow=lambda df: df.production.fillna(df.forecasted_production_P10)
-            * df.time.dt.daysinmonth
-            * (12 / 365.25) ** 2,
-            PotentialHigh=lambda df: df.production.fillna(df.forecasted_production_P90)
-            * df.time.dt.daysinmonth
-            * (12 / 365.25) ** 2,
+            Potential=lambda df: (
+                df.production.fillna(df.forecasted_production)
+                * df.time.dt.daysinmonth
+                * (12 / 365.25) ** 2
+            ),
+            PotentialLow=lambda df: (
+                df.production.fillna(df.forecasted_production_P10)
+                * df.time.dt.daysinmonth
+                * (12 / 365.25) ** 2
+            ),
+            PotentialHigh=lambda df: (
+                df.production.fillna(df.forecasted_production_P90)
+                * df.time.dt.daysinmonth
+                * (12 / 365.25) ** 2
+            ),
         )
         .drop(columns=cols)
         .rename(

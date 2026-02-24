@@ -12,12 +12,22 @@ authors = [
     { name = "Tommy Odland", email = "todl@equinor.com" },
     { name = "Knut Utne Hollund", email = "kuho@equinor.com" }
 ]
-license = {text = "MIT License"}
-dynamic = ["dependencies", "optional-dependencies"]
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-optional-dependencies = {dev = {file = ["requirements-dev.txt"] }}
+license = "MIT" 
+dependencies = [
+    "ipython>=8.10.0",
+    "matplotlib>=3.9.4",
+    "numpy>=2",
+    "openpyxl>=3.1.5",
+    "pandas>=2.2.2",
+    "pdm-datareader>=2.5.0",
+    "pillow>=10.0.0",
+    "pytest>=8.4.2",
+    "pyyaml>=6.0.3",
+    "scipy>=1.13.1",
+    "setuptools>=65.5.1",
+    "tabulate>=0.9.0",
+    "tornado>=6.3.3",
+]
 
 [project.urls]
 homepage = "https://github.com/equinor/decline-curve-analysis/"
@@ -27,6 +37,16 @@ packages = ["dca", "dca.adca", "dca.datasets"]
 
 [tool.setuptools.package-data]
 "dca.datasets" = ["*.csv"]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "jupytext>=1.19.1",
+    "ruff>=0.15.2",
+    "sphinx>=7.4.7",
+    "sphinx-gallery>=0.19.0",
+    "sphinx-rtd-theme>=3.1.0",
+]
 
 [project.scripts]
 adca = "dca.adca.__main__:run"
