@@ -29,10 +29,6 @@ dependencies = [
     "tornado>=6.3.3",
 ]
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-optional-dependencies = {dev = {file = ["requirements-dev.txt"] }}
-
 [project.urls]
 homepage = "https://github.com/equinor/decline-curve-analysis/"
 
