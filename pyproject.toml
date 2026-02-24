@@ -44,9 +44,13 @@ dev = [
     "jupytext>=1.19.1",
     "ruff>=0.15.2",
     "sphinx>=7.4.7",
+]
+docs = [
     "sphinx-gallery>=0.19.0",
     "sphinx-rtd-theme>=3.1.0",
 ]
+
+
 
 [project.scripts]
 adca = "dca.adca.__main__:run"
