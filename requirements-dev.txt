@@ -1,6 +1,0 @@
-ruff
-jupytext
-jupyter
-sphinx
-sphinx-gallery
-sphinx_rtd_theme
