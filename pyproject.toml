@@ -42,7 +42,7 @@ packages = ["dca", "dca.adca", "dca.datasets"]
 dev = [
     "jupyter>=1.1.1",
     "jupytext>=1.19.1",
-    "ruff>=0.15.2",
+    "ruff>=0.15.9",
     "sphinx>=7.4.7",
 ]
 docs = [
