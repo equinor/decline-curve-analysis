@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools >= 66.1", "wheel"]
+requires = ["setuptools >= 82.0.1", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -24,7 +24,7 @@ dependencies = [
     "pytest>=8.4.2",
     "pyyaml>=6.0.3",
     "scipy>=1.13.1",
-    "setuptools>=65.5.1",
+    "setuptools>=82.0.1",
     "tabulate>=0.9.0",
     "tornado>=6.3.3",
 ]
