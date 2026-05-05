@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "dca"
 version = "2.1.2"
 description = "Decline Curve Analysis"
-requires-python = ">= 3.9.2"
+requires-python = ">= 3.11"
 readme = {file = "README.md", content-type = "text/markdown"}
 authors = [
     { name = "Tommy Odland", email = "todl@equinor.com" },
