@@ -1042,28 +1042,11 @@ class Well:
         curve = self.curve_model(*self.curve_parameters_)
         (x, y, _) = self.get_curve_data()
         prev_eta = np.log(y[-1]) - curve.eval_log(x[-1])
-        
-        
-        print("----")
-        print(x_grid)
-        print(prev_eta)
-        print(self.seed_)
-        print(simulations)
-        
-        
 
         # Simulate future cumulative production
         simulations = self.simulate_cumprod(
             x_grid, prev_eta=prev_eta, seed=self.seed_, simulations=simulations
         )
-        
-        
-
-
-        
-        print(simulations)
-        print("----")
-        
 
         # Average overall simulations
         mean_sim = np.average(simulations, axis=0)
@@ -2114,22 +2097,40 @@ class WellGroup(UserList):
         self, forecast_periods: int = 0, q=None, simulations=999
     ) -> pd.DataFrame:
         """Forecast production rates and cumulatives for the entire group of
-        wells - each forecast is summed correctly."""
+        wells using Monte Carlo simulation.
 
-        # we are forecastig PROUDCITNG TIME
-        # periods    1     2     3     4
-        # well1      10    8     8     3   (time_on = 0.5)
-        # well2      10    8               (time_on = 0.5)
+
+        Parameters
+        ----------
+        forecast_periods : int, optional
+            Number of periods to forecast. The default is 0.
+        q : list, optional
+            Quantiles between 0 and 1. The default is None.
+        simulations : int, optional
+            Number of simulations in forecsating. The default is 999.
+
+        Returns
+        -------
+        pd.DataFrame
+            A dataframe with historical data and a forecast.
+
+        Examples
+        --------
+        >>> args = {'preprocessing': 'producing_time'}
+        >>> w1 = w1.generate_random(n=6, seed=42, id=1, **args)
+        >>> w2 = w1.generate_random(n=6, seed=42, id=1, **args)
+        >>> wg = WellGroup([w1, w2]).fit(half_life=None, prior_strength=1e-8, p=2)
+        >>> wg.forecast_sum_to_df()
+
+        """
 
         # Remember that the P10 of the sum is not the sum of P10s:
         #   P10 (W1 + W2 + W3) != P10(W1) + P10(W2) + P10(W3)
         # Therefore we must simulate each well, then add them, then compute percentiles.
-
         assert isinstance(forecast_periods, int) and (forecast_periods >= 0)
         q = [] if q is None else q  # Empty iterable
         assert isinstance(q, list), "q must be a list of quantiles in (0, 1)"
         assert all(0 < q_i < 1 for q_i in q)
-        assert all(w.is_fitted() for w in self), "Wells must be fitted"
 
         # Since each well might have different lengths, we must figure out
         # how far into the future to go for each well.
@@ -2184,10 +2185,9 @@ class WellGroup(UserList):
             prev_eta = np.log(y[-1]) - curve.eval_log(x[-1])
 
             # Shape of the array is (simulations, len(x))
-            time_on = 1.0 * np.ones_like(x_grid)
             sim_results = well_i.simulate(
                 x=x_grid,
-                time_on=time_on,
+                time_on=np.ones_like(x_grid),
                 prev_eta=prev_eta,
                 seed=well_i.seed_,
                 simulations=simulations,
@@ -2195,50 +2195,28 @@ class WellGroup(UserList):
 
             # Copy the history over
             idx_hist = period_to_idx[df_history.time].to_numpy()
-            production_history = df_history.production.to_numpy().reshape(-1, 1)
+            production_history = df_history.production.to_numpy()[:, None]
             production[idx_hist, :] += production_history
 
             # Copy the forecast over
             idx_forcast = period_to_idx[period_grid].to_numpy()
             production[idx_forcast, :] += sim_results.T
-            
-            # Cumulatives
-            # [10, 8, 7]    [6, 5, 4]
-            #               [6, 11, 15]
-            
-            # [10, 18, 25]  [31, 36, 40]
-            
-            print("----")
-            print(x_grid)
-            print(prev_eta)
-            print(well_i.seed_)
-            print(simulations)
-            
-            
+
+            # Cumulatives. We use the method simulate_cumprod() so that the
+            # cumulative results obtained here match Well.to_df() exactly.
             cum_sim_results = well_i.simulate_cumprod(
                 x=x_grid,
                 prev_eta=prev_eta,
                 seed=well_i.seed_,
                 simulations=simulations,
             )
-            
-            print(cum_sim_results)
-            print("----")
-            print(np.sum(production_history))
-            cum_sim_results += np.sum(production_history)
-            
+
             # History
             cum_production[idx_hist, :] += np.cumsum(production_history, axis=0)
-            
+
             # Future
+            cum_sim_results += np.sum(production_history)  # Add sum of history
             cum_production[idx_forcast, :] += cum_sim_results.T
-            
-
-            
-            
-            
-            
-
 
         # Expected production rate forecast and cumulative
         agg = {
@@ -2249,39 +2227,16 @@ class WellGroup(UserList):
         # Percentiles for rates and cumulatives
         for q_i in q:
             percentile = str(round(q_i * 100)).rjust(2, "0")
-            ans = np.percentile(production, q=q_i, axis=1)
+            ans = np.percentile(production, q=q_i * 100, axis=1)
             agg[f"forecasted_production_P{percentile}"] = ans
 
-            ans = np.percentile(cum_production, q=q_i, axis=1)
+            ans = np.percentile(cum_production, q=q_i * 100, axis=1)
             agg[f"cumulative_production_P{percentile}"] = ans
 
         return pd.DataFrame({"time": period_to_idx.index} | agg)
 
 
 if __name__ == "__main__":
-    # import pytest
+    import pytest
 
-    # pytest.main(args=[__file__, "--doctest-modules", "-v", "--capture=sys", "-x"])
-
-    well1 = Well(
-        time=pd.period_range(start="2020-01-01", periods=6, freq="D"),
-        production=np.array([256, 128, 64, 32, 16, 8]),
-        time_on=np.array([1, 0.9, 1, 1, 0.95, 1]),
-        id="1",
-    )
-
-    well2 = Well(
-        time=pd.period_range(start="2020-01-01", periods=4, freq="D"),
-        production=np.array([256, 128, 64, 32]),
-        time_on=np.array([1, 0.87, 1, 1]),
-        id="2",
-    )
-
-    group = WellGroup([well1, well2])
-    group.fit(half_life=10, prior_strength=0.01, p=2)
-
-    df_forecast = group.forecast_sum_to_df(
-        forecast_periods=5, simulations=3, q=[0.1, 0.5, 0.9]
-    )
-
-    print(df_forecast)
+    pytest.main(args=[__file__, "--doctest-modules", "-v", "--capture=sys", "-x"])
