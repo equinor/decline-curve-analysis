@@ -1031,6 +1031,7 @@ class Well:
         def concat(y):
             """Concatenate future cumulative data x with historical data."""
             y_cumsum = np.cumsum(df_history.production.to_numpy())
+            print(y_cumsum[-1])
             return np.concatenate((y_cumsum, y_cumsum[-1] + y))
 
         # Expected value and percentiles. To compute this we need to simulate,
@@ -1041,11 +1042,28 @@ class Well:
         curve = self.curve_model(*self.curve_parameters_)
         (x, y, _) = self.get_curve_data()
         prev_eta = np.log(y[-1]) - curve.eval_log(x[-1])
+        
+        
+        print("----")
+        print(x_grid)
+        print(prev_eta)
+        print(self.seed_)
+        print(simulations)
+        
+        
 
         # Simulate future cumulative production
         simulations = self.simulate_cumprod(
             x_grid, prev_eta=prev_eta, seed=self.seed_, simulations=simulations
         )
+        
+        
+
+
+        
+        print(simulations)
+        print("----")
+        
 
         # Average overall simulations
         mean_sim = np.average(simulations, axis=0)
@@ -2092,20 +2110,26 @@ class WellGroup(UserList):
             sum_actual = np.sum([result[i][1] for result in results])
             yield float((sum_forecast - sum_actual) / sum_actual)
 
-
-    def forecast_sum_to_df(self, forecast_periods: int = 0, q=None, simulations=999) -> pd.DataFrame:
+    def forecast_sum_to_df(
+        self, forecast_periods: int = 0, q=None, simulations=999
+    ) -> pd.DataFrame:
         """Forecast production rates and cumulatives for the entire group of
         wells - each forecast is summed correctly."""
+
+        # we are forecastig PROUDCITNG TIME
+        # periods    1     2     3     4
+        # well1      10    8     8     3   (time_on = 0.5)
+        # well2      10    8               (time_on = 0.5)
+
         # Remember that the P10 of the sum is not the sum of P10s:
         #   P10 (W1 + W2 + W3) != P10(W1) + P10(W2) + P10(W3)
         # Therefore we must simulate each well, then add them, then compute percentiles.
-        
+
         assert isinstance(forecast_periods, int) and (forecast_periods >= 0)
         q = [] if q is None else q  # Empty iterable
         assert isinstance(q, list), "q must be a list of quantiles in (0, 1)"
         assert all(0 < q_i < 1 for q_i in q)
         assert all(w.is_fitted() for w in self), "Wells must be fitted"
-        
 
         # Since each well might have different lengths, we must figure out
         # how far into the future to go for each well.
@@ -2114,16 +2138,17 @@ class WellGroup(UserList):
         # forecasted_periods = 2 => go 2 into the future of the longest well
         #   o o o o f f
         #   o o f f f f
-        
+
         # Extract first and last period over all wells
         latest_period = max([max(w.time) for w in self])
         earliest_period = min([min(w.time) for w in self])
         # Number of foreast periods for every single well
-        forecast_periods_all = [forecast_periods + (latest_period - max(w.time)).n for w in self]
-        
-        
+        forecast_periods_all = [
+            forecast_periods + (latest_period - max(w.time)).n for w in self
+        ]
+
         n_periods = (latest_period - earliest_period).n + forecast_periods + 1
-        periods = pd.period_range(earliest_period, periods=n_periods) # Common index
+        periods = pd.period_range(earliest_period, periods=n_periods)  # Common index
         # This is to index into the "production" array below
         period_to_idx = pd.Series(np.arange(n_periods), index=periods)
         # This array contains first the actual, observed production, then the forecasts
@@ -2131,126 +2156,132 @@ class WellGroup(UserList):
         #  sim1   3  5   6              7    8   9
         #  sim2   3  5   6              7    9   10
         #  sim3
-        # (simulations, periods, well-number)
+
         production = np.zeros(shape=(n_periods, simulations))
-        
+        cum_production = np.zeros_like(production)
+
         # Go through each well in the group
         for well_i, forecast_periods_i in zip(self, forecast_periods_all):
-            
             # Observed history for this well
             df_history = well_i.to_df(forecast_periods=0)
 
             # Nothing to forecast => copy observed production over
             if forecast_periods_i <= 0:
                 idx = period_to_idx[df_history.time].to_numpy()
-                production[idx, :] += df_history.production.to_numpy().reshape(-1, 1)
-                continue # Onto the next well
-                
+                production_history = df_history.production.to_numpy().reshape(-1, 1)
+                production[idx, :] += production_history
+                cum_production[idx, :] += np.cumsum(production_history, axis=0)
+                continue  # Onto the next well
+
             # Create a future grid
             x_grid, period_grid = well_i.forecasting_grid(
                 periods=forecast_periods_i, return_periods=True
             )
-            
+
             # Compute prev-eta based on the last data point observed
             curve = well_i.curve_model(*well_i.curve_parameters_)
             (x, y, _) = well_i.get_curve_data()
             prev_eta = np.log(y[-1]) - curve.eval_log(x[-1])
-            
+
             # Shape of the array is (simulations, len(x))
             time_on = 1.0 * np.ones_like(x_grid)
-            sim_results = well_i.simulate(x=x_grid, time_on=time_on, prev_eta=prev_eta, seed=well_i.seed_, simulations=simulations)
-            
+            sim_results = well_i.simulate(
+                x=x_grid,
+                time_on=time_on,
+                prev_eta=prev_eta,
+                seed=well_i.seed_,
+                simulations=simulations,
+            )
+
             # Copy the history over
-            idx = period_to_idx[df_history.time].to_numpy()
-            production[idx, :] += df_history.production.to_numpy().reshape(-1, 1)
-            
+            idx_hist = period_to_idx[df_history.time].to_numpy()
+            production_history = df_history.production.to_numpy().reshape(-1, 1)
+            production[idx_hist, :] += production_history
+
             # Copy the forecast over
-            idx = period_to_idx[period_grid].to_numpy()
-            production[idx, :] += sim_results.T
+            idx_forcast = period_to_idx[period_grid].to_numpy()
+            production[idx_forcast, :] += sim_results.T
             
-        # PRF: Production rate forecasts
-        prf = {
-            "forecasted_production": np.mean(production, axis=1)
-        }  # Expected
+            # Cumulatives
+            # [10, 8, 7]    [6, 5, 4]
+            #               [6, 11, 15]
+            
+            # [10, 18, 25]  [31, 36, 40]
+            
+            print("----")
+            print(x_grid)
+            print(prev_eta)
+            print(well_i.seed_)
+            print(simulations)
+            
+            
+            cum_sim_results = well_i.simulate_cumprod(
+                x=x_grid,
+                prev_eta=prev_eta,
+                seed=well_i.seed_,
+                simulations=simulations,
+            )
+            
+            print(cum_sim_results)
+            print("----")
+            print(np.sum(production_history))
+            cum_sim_results += np.sum(production_history)
+            
+            # History
+            cum_production[idx_hist, :] += np.cumsum(production_history, axis=0)
+            
+            # Future
+            cum_production[idx_forcast, :] += cum_sim_results.T
+            
+
+            
+            
+            
+            
+
+
+        # Expected production rate forecast and cumulative
+        agg = {
+            "forecasted_production": np.mean(production, axis=1),
+            "cumulative_production": np.mean(cum_production, axis=1),
+        }
+
+        # Percentiles for rates and cumulatives
         for q_i in q:
             percentile = str(round(q_i * 100)).rjust(2, "0")
             ans = np.percentile(production, q=q_i, axis=1)
-            prf[f"forecasted_production_P{percentile}"] = ans 
-            
-            
-        # TODO: cumulatives np.cumsum(productiono)
-            
-        
-        return pd.DataFrame({"time": period_to_idx.index } | prf)
-        
+            agg[f"forecasted_production_P{percentile}"] = ans
 
+            ans = np.percentile(cum_production, q=q_i, axis=1)
+            agg[f"cumulative_production_P{percentile}"] = ans
 
-        
-        
-        
-        
-        
+        return pd.DataFrame({"time": period_to_idx.index} | agg)
 
 
 if __name__ == "__main__":
     # import pytest
 
     # pytest.main(args=[__file__, "--doctest-modules", "-v", "--capture=sys", "-x"])
-    
-    
-    
-    
-    
-    well1 = Well(time=pd.period_range(start="2020-01-01", periods=6, freq="D"),
-                 production=np.array([256, 128, 64, 32, 16, 8]),
-                 time_on=np.array([1, 0.9, 1, 1, 0.95, 1]),
-                 id="1")
-    
-    well2 = Well(time=pd.period_range(start="2020-01-01", periods=4, freq="D"),
-                 production=np.array([256, 128, 64, 32]),
-                 time_on=np.array([1, 0.87, 1, 1]),
-                 id="2")
-    
-    
+
+    well1 = Well(
+        time=pd.period_range(start="2020-01-01", periods=6, freq="D"),
+        production=np.array([256, 128, 64, 32, 16, 8]),
+        time_on=np.array([1, 0.9, 1, 1, 0.95, 1]),
+        id="1",
+    )
+
+    well2 = Well(
+        time=pd.period_range(start="2020-01-01", periods=4, freq="D"),
+        production=np.array([256, 128, 64, 32]),
+        time_on=np.array([1, 0.87, 1, 1]),
+        id="2",
+    )
+
     group = WellGroup([well1, well2])
     group.fit(half_life=10, prior_strength=0.01, p=2)
-    
-    df_forecast = group.forecast_sum_to_df(forecast_periods=5, simulations=3, q=[0.1, 0.5, 0.9])
-    
-    print(df_forecast)
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    df_forecast = group.forecast_sum_to_df(
+        forecast_periods=5, simulations=3, q=[0.1, 0.5, 0.9]
+    )
+
+    print(df_forecast)

@@ -447,6 +447,52 @@ class TestWell:
         assert np.allclose(well.curve_parameters_, theta, atol=0.01)
 
 
+class TestWellGroup:
+    
+    def test_forecast_sum_to_df_equals_to_df(self):
+        
+        
+        well = Well(
+            time=pd.period_range(start="2020-01-01", periods=6, freq="D"),
+            production=np.array([256, 128, 64, 32, 16, 8]),
+            time_on=np.array([1, 0.9, 1, 1, 0.95, 1]),
+            id="1",
+        )
+        well = well.fit(half_life=10, prior_strength=0.01, p=2)
+        
+        # First way
+        df1 = well.to_df(forecast_periods=5, q=[0.1, 0.5, 0.9])
+        
+        # Second way
+        group = WellGroup([well])
+        df2 = group.forecast_sum_to_df(
+            forecast_periods=5, q=[0.1, 0.5, 0.9]
+        )
+        
+        # It doesnt make sense to compare "forecasted_production_P90", since
+        # Well.to_df() computes this with a shifted Arps curve.
+        # However, WellGroup.forecast_sum_to_df() computes this quantity by
+        # Monte Carlo simulations, then computing P90 over those simulations
+        
+        # The cumulatives should match however:
+        np.testing.assert_allclose(df1.cumulative_production_P50,
+                                   df2.cumulative_production_P50)
+        
+        
+    def test_forecast_sum_to_df_simple_inputs(self):
+        
+        well = Well(
+            time=pd.period_range(start="2020-01", periods=4, freq="M"),
+            production=np.array([100, 100, 100, 100]),
+            time_on=np.array([1, 1, 1, 1]),
+            id="1",
+        )
+        
+        
+        
+        
+
+
 @pytest.mark.parametrize("mean", [0.1, 0.5, 1, 5])
 @pytest.mark.parametrize("std", [0.5, 1, 2])
 def test_DF_estimates_are_correct_assuming_perfect_inference(mean, std):
