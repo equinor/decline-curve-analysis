@@ -1031,7 +1031,6 @@ class Well:
         def concat(y):
             """Concatenate future cumulative data x with historical data."""
             y_cumsum = np.cumsum(df_history.production.to_numpy())
-            print(y_cumsum[-1])
             return np.concatenate((y_cumsum, y_cumsum[-1] + y))
 
         # Expected value and percentiles. To compute this we need to simulate,
@@ -2117,11 +2116,19 @@ class WellGroup(UserList):
         Examples
         --------
         >>> args = {'preprocessing': 'producing_time'}
-        >>> w1 = w1.generate_random(n=6, seed=42, id=1, **args)
-        >>> w2 = w1.generate_random(n=6, seed=42, id=1, **args)
+        >>> w1 = Well.generate_random(time_on=np.ones(6), seed=1, id=1, freq='M', **args)
+        >>> w2 = Well.generate_random(time_on=np.ones(6), seed=2, id=2, freq='M', **args)
         >>> wg = WellGroup([w1, w2]).fit(half_life=None, prior_strength=1e-8, p=2)
-        >>> wg.forecast_sum_to_df()
-
+        >>> wg.forecast_sum_to_df(forecast_periods=2).round(2)
+              time  forecasted_production  cumulative_production
+        0  2010-01                   3.17                   3.17
+        1  2010-02                   3.29                   6.45
+        2  2010-03                   0.84                   7.29
+        3  2010-04                   0.19                   7.48
+        4  2010-05                   0.09                   7.57
+        5  2010-06                   0.03                   7.60
+        6  2010-07                   0.02                   7.62
+        7  2010-08                   0.01                   7.63
         """
 
         # Remember that the P10 of the sum is not the sum of P10s:
