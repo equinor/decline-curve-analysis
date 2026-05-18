@@ -2212,7 +2212,7 @@ class WellGroup(UserList):
             # Nothing to forecast => copy observed production over
             if forecast_periods_i <= 0:
                 idx = period_to_idx[df_history.time]
-                production_history = df_history.production[:, None]
+                production_history = df_history.production.to_numpy()[:, None]
                 production[idx, :] += production_history
                 cum_production[idx, :] += np.cumsum(production_history, axis=0)
                 continue  # Onto the next well
