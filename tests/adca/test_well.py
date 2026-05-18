@@ -516,6 +516,31 @@ class TestWellGroup:
         span = df.cumulative_production_P90 - df.cumulative_production_P10
         assert ((span).diff().dropna() >= 0).all()
 
+    def test_forecast_sum_to_df_no_forecast_periods(self):
+
+        w1 = Well(
+            time=pd.period_range(start="2020-01", periods=6, freq="M"),
+            production=np.array([100] * 6),
+            time_on=np.array([1, 1, 1, 1, 1, 1]),
+            id="1",
+            curve_model="constant",
+        )
+
+        # Half the history of the well above
+        w2 = Well(
+            time=pd.period_range(start="2020-01", periods=3, freq="M"),
+            production=np.array([100] * 3),
+            time_on=np.array([1, 1, 1]),
+            id="2",
+            curve_model="constant",
+        )
+
+        group = WellGroup([w1, w2]).fit(half_life=999, prior_strength=1e-6, p=2)
+        df = group.forecast_sum_to_df(forecast_periods=0, q=[0.1, 0.5, 0.9])
+
+        # History and prediction combine to produce 200 in each period
+        np.testing.assert_allclose(df.forecasted_production, 200)
+
 
 @pytest.mark.parametrize("mean", [0.1, 0.5, 1, 5])
 @pytest.mark.parametrize("std", [0.5, 1, 2])
