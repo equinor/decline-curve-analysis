@@ -229,7 +229,7 @@ class TestWell:
         )
 
         # This failed because the BFGS optimizer makes huge step and the
-        # objective function values evalutes to NaN. It does not happen when
+        # objective function values evaluates to NaN. It does not happen when
         # sigma=None, but setting sigma=0.01 caused it to happen.
         # The fix is to use Nelder-Mead as a fallback.
         # I believe the geometric reason for failure is that a small sigma
@@ -248,7 +248,7 @@ class TestWell:
         assert np.isclose(well.curve_parameters_[0], -1.386240887, rtol=0.05)
 
     def test_expected_vs_P50_params_vs_evaluations(self):
-        """If we get paramters for the P50/expected curve, or we get
+        """If we get parameters for the P50/expected curve, or we get
         predictions - the results should match."""
 
         well = Well.generate_random(

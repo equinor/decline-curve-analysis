@@ -227,7 +227,7 @@ def load_file(
     log.info(f"Time before parsing: {df.iloc[log_idx, :].loc[:, 'time'].tolist()}")
     df = df.assign(time=pd.to_datetime(df.time, format=format, errors="raise"))
 
-    # Infer the period frequency to convert to before any poential aggregation.
+    # Infer the period frequency to convert to before any potential aggregation.
     # This is a bit hacky, and assumes nice user inputs.
     input_freq = "M" if (df.time.dt.day == 1).all() else "D"
     df = df.assign(time=lambda df: pd.PeriodIndex(df.time, freq=input_freq))

@@ -1173,7 +1173,7 @@ class Well:
         b_P50               0.000345
         D_i_P50             0.063462
         """
-        assert self.is_fitted(), "Must fit to ouput curve parameters"
+        assert self.is_fitted(), "Must fit to output curve parameters"
         model = self.curve_model(*self.curve_parameters_)
         q = [] if q is None else list(q)
         assert all(0 < q_i < 1 for q_i in q)
@@ -2042,12 +2042,12 @@ class WellGroup(UserList):
             pd.Series(w.production / w.time_on, index=w.time) for w in wells_to_sum
         ]
 
-        # The sum of production is straightfoward, simply sum within each period
+        # The sum of production is straightforward, simply sum within each period
         # and make sure that NaN (no data) is equal to a production value of 0.
         add_func = functools.partial(pd.Series.add, fill_value=0)
         sum_production = functools.reduce(add_func, production_series)
 
-        # To aggregate time_on properly, observe that the propery that we want
+        # To aggregate time_on properly, observe that the property that we want
         # to obey is:
         #     p1 / t2 + p2 / t2 + p3 / t3 = P / T
         # where P is the aggregated production (the sum) and T is the aggregated
