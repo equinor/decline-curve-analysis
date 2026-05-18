@@ -2095,14 +2095,35 @@ class WellGroup(UserList):
     def forecast_sum_to_df(
         self, forecast_periods: int = 0, q=None, simulations=999
     ) -> pd.DataFrame:
-        """Forecast production rates and cumulatives for the entire group of
-        wells using Monte Carlo simulation.
+        """Forecast the sum of production for all wells in the WellGroup.
 
+        This method forecasts production rates and cumulatives for every well
+        with Monte Carlo simulation, then adds the simulation together and
+        computes quantiles. This is NOT the same as forecasting each well
+        individually with Well.to_df() and adding, since the sum of quantiles
+        is NOT the same as the quantiles of the sum.
+
+        With uneven histories, `forecast_periods` is the future periods for the
+        longest-running well. For instance, if Well A has final period at
+        '05-2020' and Well B has final period at '03-2020' and
+        `forecast_periods=2`, then Well A will be forecast for '06-2020' and
+        '07-2020', while Well B will be forecast for '04-2020', '05-2020',
+        '06-2020' and  '07-2020' before they are summed.
+
+        WARNING: With 'preprocessing' set to 'producing_time' and uneven histories,
+        this method produces non-sensical results if time_on << 1. In the example
+        above, we sum Well A's actual, observed production in '05-2020' with
+        Well B's forecast contingent of the well producing with 100% uptime.
+        Thus observations and forecasts are summed, but calendar time and
+        producing time are also summed. How to interpret the result in cases
+        like this is not obvious.
 
         Parameters
         ----------
         forecast_periods : int, optional
-            Number of periods to forecast. The default is 0.
+            Number of periods to forecast. The default is 0. With uneven
+            histories, `forecast_periods=0` will forecast every well up untill
+            the most recent period.
         q : list, optional
             Quantiles between 0 and 1. The default is None.
         simulations : int, optional
@@ -2129,11 +2150,24 @@ class WellGroup(UserList):
         5  2010-06                   0.03                   7.60
         6  2010-07                   0.02                   7.62
         7  2010-08                   0.01                   7.63
-        """
 
-        # Remember that the P10 of the sum is not the sum of P10s:
-        #   P10 (W1 + W2 + W3) != P10(W1) + P10(W2) + P10(W3)
-        # Therefore we must simulate each well, then add them, then compute percentiles.
+        Adding a third well with shorter production history. Notice how there
+        is no uncertainty in the first three periods.
+
+        >>> w3 = Well.generate_random(time_on=np.ones(3), seed=2, id=2, freq='M', **args)
+        >>> wg = WellGroup([w1, w2, w3]).fit(half_life=None, prior_strength=1e-8, p=2)
+        >>> df = wg.forecast_sum_to_df(forecast_periods=2, q=[0.1, 0.9]).round(6)
+        >>> df[['forecasted_production_P10', 'forecasted_production_P90']]
+           forecasted_production_P10  forecasted_production_P90
+        0                   4.562110                   4.562110
+        1                   3.845740                   3.845740
+        2                   0.884068                   0.884068
+        3                   0.192146                   0.202501
+        4                   0.090037                   0.091869
+        5                   0.032099                   0.032442
+        6                   0.014013                   0.023369
+        7                   0.008937                   0.012816
+        """
         assert isinstance(forecast_periods, int) and (forecast_periods >= 0)
         q = [] if q is None else q  # Empty iterable
         assert isinstance(q, list), "q must be a list of quantiles in (0, 1)"
