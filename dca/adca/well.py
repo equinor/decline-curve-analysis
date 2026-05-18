@@ -2172,25 +2172,24 @@ class WellGroup(UserList):
         q = [] if q is None else q  # Empty iterable
         assert isinstance(q, list), "q must be a list of quantiles in (0, 1)"
         assert all(0 < q_i < 1 for q_i in q)
+        assert isinstance(simulations, int) and simulations >= 99
 
         # Since each well might have different lengths, we must figure out
         # how far into the future to go for each well.
         # We will forecast AT LEAST "forecast_periods" for each well,
-        # and each and ever forecast will end on the same period
-        # forecasted_periods = 2 => go 2 into the future of the longest well
+        # and each and every forecast will end on the same period
+        # forecasted_periods = 2 => go 2 into the future of the longest well.
+        # For instance, if o is observed data and f is forecast:
         #   o o o o f f
         #   o o f f f f
 
         # Extract first and last period over all wells
         latest_period = max([max(w.time) for w in self])
         earliest_period = min([min(w.time) for w in self])
-        # Number of foreast periods for every single well
-        forecast_periods_all = [
-            forecast_periods + (latest_period - max(w.time)).n for w in self
-        ]
 
+        # Create period range (index) over all periods, history + future
         n_periods = (latest_period - earliest_period).n + forecast_periods + 1
-        periods = pd.period_range(earliest_period, periods=n_periods)  # Common index
+        periods = pd.period_range(earliest_period, periods=n_periods)
         # This is to index into the "production" array below
         period_to_idx = pd.Series(np.arange(n_periods), index=periods)
         # This array contains first the actual, observed production, then the forecasts
@@ -2203,14 +2202,17 @@ class WellGroup(UserList):
         cum_production = np.zeros_like(production)
 
         # Go through each well in the group
-        for well_i, forecast_periods_i in zip(self, forecast_periods_all):
+        for well_i in self:
             # Observed history for this well
             df_history = well_i.to_df(forecast_periods=0)
 
+            # Number of periods to forecast this well
+            forecast_periods_i = forecast_periods + (latest_period - max(well_i.time)).n
+
             # Nothing to forecast => copy observed production over
             if forecast_periods_i <= 0:
-                idx = period_to_idx[df_history.time].to_numpy()
-                production_history = df_history.production.to_numpy().reshape(-1, 1)
+                idx = period_to_idx[df_history.time]
+                production_history = df_history.production[:, None]
                 production[idx, :] += production_history
                 cum_production[idx, :] += np.cumsum(production_history, axis=0)
                 continue  # Onto the next well
@@ -2235,12 +2237,12 @@ class WellGroup(UserList):
             )
 
             # Copy the history over
-            idx_hist = period_to_idx[df_history.time].to_numpy()
+            idx_hist = period_to_idx[df_history.time]
             production_history = df_history.production.to_numpy()[:, None]
             production[idx_hist, :] += production_history
 
             # Copy the forecast over
-            idx_forcast = period_to_idx[period_grid].to_numpy()
+            idx_forcast = period_to_idx[period_grid]
             production[idx_forcast, :] += sim_results.T
 
             # Cumulatives. We use the method simulate_cumprod() so that the
@@ -2274,7 +2276,12 @@ class WellGroup(UserList):
             ans = np.percentile(cum_production, q=q_i * 100, axis=1)
             agg[f"cumulative_production_P{percentile}"] = ans
 
-        return pd.DataFrame({"time": period_to_idx.index} | agg)
+        # Sort the columns and return DF
+        def key(colname):
+            return ["t", "f", "c"].index(colname[0]), colname
+
+        df = pd.DataFrame({"time": period_to_idx.index} | agg)
+        return df[sorted(df.columns, key=key)]
 
 
 if __name__ == "__main__":
