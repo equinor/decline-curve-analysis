@@ -970,7 +970,7 @@ class Well:
         q : list, optional
             Quantiles between 0 and 1. The default is None.
         simulations : int, optional
-            Number of simulations in forecsating. The default is 999.
+            Number of simulations in forecasting. The default is 999.
 
         Returns
         -------
@@ -1384,7 +1384,7 @@ class Well:
         return float(np.sum(neg_ll))
 
     def forecasting_grid(self, periods: int, return_periods=False):
-        """Create foreasting grid for a specified number of periods.
+        """Create forecasting grid for a specified number of periods.
 
         If `return_periods` is True, then returns (x_grid, periods) instead of
         just the x_grid.
@@ -2122,12 +2122,12 @@ class WellGroup(UserList):
         ----------
         forecast_periods : int, optional
             Number of periods to forecast. The default is 0. With uneven
-            histories, `forecast_periods=0` will forecast every well up untill
+            histories, `forecast_periods=0` will forecast every well up until
             the most recent period.
         q : list, optional
             Quantiles between 0 and 1. The default is None.
         simulations : int, optional
-            Number of simulations in forecsating. The default is 999.
+            Number of simulations in forecasting. The default is 999.
 
         Returns
         -------
@@ -2242,8 +2242,8 @@ class WellGroup(UserList):
             production[idx_hist, :] += production_history
 
             # Copy the forecast over
-            idx_forcast = period_to_idx[period_grid]
-            production[idx_forcast, :] += sim_results.T
+            idx_forecast = period_to_idx[period_grid]
+            production[idx_forecast, :] += sim_results.T
 
             # Cumulatives. We use the method simulate_cumprod() so that the
             # cumulative results obtained here match Well.to_df() exactly.
@@ -2259,7 +2259,7 @@ class WellGroup(UserList):
 
             # Future
             cum_sim_results += np.sum(production_history)  # Add sum of history
-            cum_production[idx_forcast, :] += cum_sim_results.T
+            cum_production[idx_forecast, :] += cum_sim_results.T
 
         # Expected production rate forecast and cumulative
         agg = {
