@@ -863,6 +863,39 @@ def process_file(
                 msg = "Skipping pForecast Excel file since we don't have monthly data."
                 log.info(msg)
 
+        # Save forecast sum DF to CSV
+        # ---------------------------------------------------------------------
+        log.info("-" * 32 + "WRITE SUMMED FORECAST TO FILE" + "-" * 32)
+        df_forecast_sum = wells.forecast_sum_to_df(
+            forecast_periods=group.curve_fitting.forecast_periods,
+            q=[0.1, 0.5, 0.9],
+            simulations=simulations,
+        )
+        df_forecast_sum.to_csv(output_dir / "forecast_sum.csv", index=False)
+        msg = f"Wrote {len(df_forecast_sum)} rows to file: {output_dir / 'forecast_sum.csv'}"
+        log.info(msg)
+
+        # For each (well, segment), get the most recent period with observed data
+        df_last_periods = (
+            df_forecast.loc[lambda df: df.production.notnull()]
+            .groupby(["well_id", "segment"])
+            .time.max()
+            .rename("Most recent production")
+            .sort_values()
+            .reset_index()
+        )
+
+        unique_last = df_last_periods["Most recent production"].nunique()
+        downtime = (df_forecast.time_on.dropna() < 1).any()
+
+        if group.preprocessing == "producing_time" and unique_last > 1 and downtime:
+            msg = f"""WARNING: With {group.preprocessing=} and well production history not ending in the
+same period, you are summing observed production per calendar month with predicted
+production per producing month. If time_on < 1 the result has no clear interpretation.
+The most recent production period for each well is:"""
+            log.warning(msg)
+            log.info(df_last_periods.to_markdown(index=False))
+
         # Output curve parameters
         # ---------------------------------------------------------------------
         log.info("-" * 32 + "WRITE ARPS CURVE PARAMETERS TO FILE" + "-" * 32)
