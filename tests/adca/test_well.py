@@ -229,7 +229,7 @@ class TestWell:
         )
 
         # This failed because the BFGS optimizer makes huge step and the
-        # objective function values evalutes to NaN. It does not happen when
+        # objective function values evaluates to NaN. It does not happen when
         # sigma=None, but setting sigma=0.01 caused it to happen.
         # The fix is to use Nelder-Mead as a fallback.
         # I believe the geometric reason for failure is that a small sigma
@@ -248,7 +248,7 @@ class TestWell:
         assert np.isclose(well.curve_parameters_[0], -1.386240887, rtol=0.05)
 
     def test_expected_vs_P50_params_vs_evaluations(self):
-        """If we get paramters for the P50/expected curve, or we get
+        """If we get parameters for the P50/expected curve, or we get
         predictions - the results should match."""
 
         well = Well.generate_random(
@@ -445,6 +445,101 @@ class TestWell:
         well = well.fit(p=2.0, half_life=10, prior_strength=1e-4)
         theta = np.array([2.2289823, -0.0763643, -1.9125074])
         assert np.allclose(well.curve_parameters_, theta, atol=0.01)
+
+
+class TestWellGroup:
+    def test_forecast_sum_to_df_equals_to_df(self):
+        """Cumulatives with uncertainty two different ways should be equal."""
+
+        well = Well(
+            time=pd.period_range(start="2020-01-01", periods=6, freq="D"),
+            production=np.array([256, 128, 64, 32, 16, 8]),
+            time_on=np.array([1, 0.9, 1, 1, 0.95, 1]),
+            id="1",
+        )
+        well = well.fit(half_life=10, prior_strength=0.01, p=2)
+
+        # First way
+        df1 = well.to_df(forecast_periods=5, q=[0.1, 0.5, 0.9])
+
+        # Second way
+        group = WellGroup([well])
+        df2 = group.forecast_sum_to_df(forecast_periods=5, q=[0.1, 0.5, 0.9])
+
+        # It doesnt make sense to compare "forecasted_production_P90", since
+        # Well.to_df() computes this with a shifted Arps curve.
+        # However, WellGroup.forecast_sum_to_df() computes this quantity by
+        # Monte Carlo simulations, then computing P90 over those simulations
+
+        # The cumulatives should match however:
+        np.testing.assert_allclose(
+            df1.cumulative_production_P50, df2.cumulative_production_P50
+        )
+
+        np.testing.assert_allclose(
+            df1.cumulative_production_P10, df2.cumulative_production_P10
+        )
+
+    def test_forecast_sum_to_df_simple_inputs(self):
+        """A snapshot-like test."""
+
+        w1 = Well(
+            time=pd.period_range(start="2020-01", periods=6, freq="M"),
+            production=np.array([100, 50, 100, 50, 100, 50]),
+            time_on=np.array([1, 1, 1, 1, 1, 1]),
+            id="1",
+            curve_model="constant",
+        )
+
+        w2 = Well(
+            time=pd.period_range(start="2020-01", periods=6, freq="M"),
+            production=np.array([50, 100, 50, 100, 50, 100]),
+            time_on=np.array([1, 1, 1, 1, 1, 1]),
+            id="2",
+            curve_model="constant",
+        )
+
+        group = WellGroup([w1, w2]).fit(half_life=999, prior_strength=1e-6, p=2)
+
+        df = group.forecast_sum_to_df(forecast_periods=25, q=[0.1, 0.5, 0.9])
+
+        assert (df.forecasted_production_P90 >= df.forecasted_production_P50).all()
+        assert (df.forecasted_production_P50 >= df.forecasted_production_P10).all()
+        assert (
+            df.forecasted_production >= df.forecasted_production_P50
+        ).all()  # MEAN > MEDIAN
+
+        values = np.array([152.7789399, 150.53819775, 148.63086913])
+        np.testing.assert_allclose(df.forecasted_production.to_numpy()[-3:], values)
+
+        # Uncertainty span will increase (like O(sqrt(time))) on cumulatives
+        span = df.cumulative_production_P90 - df.cumulative_production_P10
+        assert ((span).diff().dropna() >= 0).all()
+
+    def test_forecast_sum_to_df_no_forecast_periods(self):
+
+        w1 = Well(
+            time=pd.period_range(start="2020-01", periods=6, freq="M"),
+            production=np.array([100] * 6),
+            time_on=np.array([1, 1, 1, 1, 1, 1]),
+            id="1",
+            curve_model="constant",
+        )
+
+        # Half the history of the well above
+        w2 = Well(
+            time=pd.period_range(start="2020-01", periods=3, freq="M"),
+            production=np.array([100] * 3),
+            time_on=np.array([1, 1, 1]),
+            id="2",
+            curve_model="constant",
+        )
+
+        group = WellGroup([w1, w2]).fit(half_life=999, prior_strength=1e-6, p=2)
+        df = group.forecast_sum_to_df(forecast_periods=0, q=[0.1, 0.5, 0.9])
+
+        # History and prediction combine to produce 200 in each period
+        np.testing.assert_allclose(df.forecasted_production, 200)
 
 
 @pytest.mark.parametrize("mean", [0.1, 0.5, 1, 5])
@@ -691,4 +786,13 @@ def test_wellgroup_aggegration():
 
 
 if __name__ == "__main__":
-    pytest.main(args=[__file__, "--doctest-modules", "-v", "--capture=sys", "-x"])
+    pytest.main(
+        args=[
+            __file__,
+            "--doctest-modules",
+            "-v",
+            "--capture=sys",
+            "-x",
+            "-k TestWellGroup",
+        ]
+    )
