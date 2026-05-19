@@ -17,12 +17,12 @@ Abstract
 --------
 
 Decline Curve Analysis (DCA) is the process of fitting curves to well production time series data.
-The purpose of DCA is typically to either (1) analyze past well behavior or (2) to predict future production (forecasting).
+The purpose of DCA is typically to either (1) analyze past well behavior or (2) predict future production (forecasting).
 The most commonly used curve is the three-parameter :py:class:`Arps` equation. 
 Arps is an extension of the :py:class:`Exponential` equation that permits sub-exponential decline under certain parameter choices.
 The most commonly used loss function is least squares loss.
 
-In this report we discuss our experiences after years of working with DCA for on-shore gas and off-shore oil and gas wells.
+In this report we discuss our experiences after years of working with DCA.
 We state useful analytical properties of the :py:class:`Arps` equation, give practical tips for preprocessing data for DCA, and generalize the least squares loss function to :py:class:`CurveLoss`.
 
 Introduction and previous work
@@ -39,7 +39,7 @@ which we will refer to as the Arps equation.
 .. plot:: plots/plot_dca_parameters.py
    :show-source-link: True
 
-Fitting in the 1940s was done by graphical methods on paper or by algorithms specific to the curve being fit.
+Fitting in the 1940s was done graphically on paper or by algorithms specific to the curve being fit.
 These days we use general purpose algorithms for minimizing loss functions.
 
 Many recent papers describe DCA and suggest marginal improvements, but overall the core methodology is unchanging.
@@ -57,7 +57,7 @@ They are typically all over the place in terms of methodology, have few or no qu
 
 In our view the exact form of the DCA model is not as important as (1) the loss function, (2) the data quality and (3) the data preprocessing.
 We also believe that while examining individual wells is worthwhile, such an analysis must be accompanied by a birds-eye view of performance over many wells.
-It is always possible to find individual wells where performance is particularly good or bad, and we must assess overall error in our analyses.
+It is always possible to find individual wells where performance is particularly good or bad, so we must assess overall error in our analyses.
 
 Decline Curves
 --------------
@@ -78,8 +78,8 @@ The simplest decline curve is the exponential curve :math:`f(t; C, k) = C \exp(-
 A re-parametrization that leads to parameters that are not constrained to be positive, and are generally on the same order of magnitude, is:
 
 .. math::
-   \theta_1 &= log(C / k)  \qquad & &C= \exp(\theta_1 - \theta_2) \\
-   \theta_2 &= -log(k)     \qquad & &k= \exp(-\theta_2)
+   \theta_1 &= \log(C / k)  \qquad & &C= \exp(\theta_1 - \theta_2) \\
+   \theta_2 &= -\log(k)     \qquad & &k= \exp(-\theta_2)
 
 This leads to the following equation:
 
@@ -88,9 +88,9 @@ This leads to the following equation:
    \log \left( f(t; \theta_1, \theta_2) \right) = \theta_1 - \theta_2 - t \exp(-\theta_2)
 
 Integrals, gradients and other mathematical properties are simple to derive, and will not be presented here (see the code and the class :py:class:`Exponential`).
-Do notice that :math:`\int_0^{\infty} f(t; C, k) \, dt = C/k = \exp(\theta_2)`, so the logarithm of the integral is equal to :math:`\theta_1`.
+Do notice that :math:`\int_0^{\infty} f(t; C, k) \, dt = C/k = \exp(\theta_1)`, so the logarithm of the integral is equal to :math:`\theta_1`.
 This gives the parameter :math:`\theta_1` a nice interpretation.
-The parametrization above also has property that :math:`\lim_{\theta_3 \to -\infty} \text{arps}(\theta_1, \theta_2, \theta_3) = \text{exponential}(\theta_1, \theta_2)`.
+The parametrization above also has the property that :math:`\lim_{\theta_3 \to -\infty} \text{arps}(\theta_1, \theta_2, \theta_3) = \text{exponential}(\theta_1, \theta_2)`.
 
 The Arps curve
 ^^^^^^^^^^^^^^
@@ -101,7 +101,7 @@ The Arps curve
    The Exponential curve and Arps curve for various values of :math:`\theta_3`.
    As :math:`\theta_3` goes to negative infinity, the Arps curve converges to the Exponential curve.
 
-Following the notation introduced by [LEE21]_, the Arps curve is given by
+Following the notation in [LEE21]_, the Arps curve is given by
 
 .. math::
    f(t; q, h, D) = q \left(1 + hDt \right)^{-1/h}.
@@ -143,7 +143,7 @@ When we apply the transformation, we obtain the logarithm of the Arps curve as
 
 which is Equation (3.3) in [LEE21]_.
 Notice that :math:`\theta_1` determines the logarithm of the integral: :math:`\exp \theta_1 = q  / ((1 - h) D) = \int_0^\infty f(t; q, h, D) \, dt`.
-Also note that thinking in terms of scaled probability distributions for DCA opens up an interesting possibility: *any* sensible probability density function can be scaled and used for DCA, e.g. the Weibull distribution or the Gamma distribution.
+Thinking in terms of scaled probability distributions opens up an interesting possibility: *any* sensible probability density function can be scaled and used for DCA, e.g. the Weibull distribution or the Gamma distribution.
 
 Working in :math:`(\theta_1, \theta_2, \theta_3)`-space instead of :math:`(q, h, D)`-space has some practical advantages:
 
@@ -157,9 +157,6 @@ Working in :math:`(\theta_1, \theta_2, \theta_3)`-space instead of :math:`(q, h,
   This makes it easy to set up a multivariate normal prior.
   Working in :math:`(q, h, D)`-space we would need different probability distributions for the parameters, to impose the constraints :math:`0 < h < 1` and :math:`D > 0`.
 
-* **Parameters appear to be less correlated.**
-  We did not investigate this in detail, but it appears that parameters are less correlated in :math:`\boldsymbol{\theta}`-space.
-  
 .. plot:: plots/plot_dca_contours.py
    :show-source-link: True
    
@@ -182,7 +179,7 @@ Its integrals are:
 The mathematical model
 ----------------------
 
-This section explains how raw input data should be transformed to a tuple :math:`(t, y, w)` for use in a curve fitting routine.
+This section explains how raw input data should be transformed to a tuple :math:`(t, y, w)` for use in curve fitting.
 Curve fitting routines minimize an error, and this section also explains how to set up an appropriate error model.
 
 The curve :math:`f(t; \boldsymbol{\theta})` must be tied to the data somehow.
@@ -195,10 +192,10 @@ Here is an example of the data that we receive::
 The variable ``production`` contains the total production within each time period.
 The variable ``time_on`` is a fraction that indicates the uptime of the well within each period.
 The variable ``time`` is mostly used for bookkeeping; it represents the period at each index and can be in yearly, monthly, daily or even hourly resolution.
-The typical case is that a period represents a month or a day.
+Typically a period represents a month or a day.
 
-Switching to mathematical notation, let :math:`\boldsymbol{p}` be a vector with observed production in each time period and :math:`\boldsymbol{\tau}` be "time on" (or uptime) within each period.
-Let :math:`\xi_i` be the cumulative sum of ``time_on`` up until time period :math:`i`, i.e., :math:`\xi_i = \sum_{j=0}^i \tau_i`.
+Switching to mathematical notation, let :math:`\boldsymbol{p}` be a vector with observed production and :math:`\boldsymbol{\tau}` be "time on" (i.e. uptime).
+Let :math:`\xi_i` be the cumulative sum of ``time_on`` up until time period :math:`i`, i.e., :math:`\xi_i = \sum_{j=0}^i \tau_j`.
 
 
 .. plot:: plots/plot_mathematical_model.py
@@ -236,19 +233,16 @@ We assume that errors :math:`\epsilon_i \sim N(0, \sigma)` are tied to the order
 For instance, if the production rate is :math:`100`, then the probability of producing :math:`100 (1.2)` is equal to the probability of producing :math:`100 (1/1.2)`.
 Or, if the production rate is :math:`10`, then the probability of producing :math:`10 (1.5)` is equal to the probability of producing :math:`10 (1/1.5)`.
 This leads us to fit on the log scale.
-Furthermore, we assume that the sum of the errors accumulates over the time duration :math:`\tau_i`, so the summed error becomes :math:`\epsilon_i \sim N(0, \sigma \sqrt{\tau_i})`.
-The full model therefore becomes:
+The full model becomes:
 
 .. math::
-   \log (p_i) &= \log \left( \tau_i \right) +  \log\left( f\left( t_i; \boldsymbol{\theta} \right) \right) + \epsilon_i \\
-   \log \left( \frac{p_i}{\tau_i} \right) &=  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i \\
    \log \left( y_i \right) &=  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i
 
-In the equation above, we defined the average production rate as :math:`y_i = p_i / \tau_i = p_i / (\xi_i -  \xi_{i-1})`.
+In the equation above, we defined the average production rate as :math:`y_i = p_i / \tau_i`.
 Going back to the original scale by exponentiating both sides of the equation above, the model becomes
 
 .. math::
-    y_i =  f\left( t_i ; \boldsymbol{\theta} \right) \exp(\epsilon_i) = f\left( t_i ; \boldsymbol{\theta} \right) \exp(N(0, \sigma \sqrt{\tau_i})),
+    y_i =  \mathbb{E}\left[ f\left( t_i ; \boldsymbol{\theta} \right) \exp(\epsilon_i) \right] = f\left( t_i ; \boldsymbol{\theta} \right) \exp(N(0, \sigma \sqrt{\tau_i})),
 
 and this tells us how to simulate data from the model, which we'll use to forecast.
 
@@ -262,41 +256,30 @@ Going back to the example data, we can create the following values and pass them
    y = [11.11, 11.43, 6.25,   3]
    w = [  0.9,   0.7,  0.8, 1.0]
 
-The weights :math:`w_i` for the regression are obtained using `inverse-variance weighting <https://en.wikipedia.org/wiki/Inverse-variance_weighting>`_.
-We're fitting average production rates to the model, so in a time period the variance is :math:`\sigma_i^2 = \sigma^2 / \tau_i`.
-Notice the correction for :math:`\tau_i`; the longer the time period is, the lower the variance in the mean is.
-Using inverse variance weighting, the weights become 
-
-.. math::
-   w_i = \frac{1}{\sigma_i^2} = \frac{\tau_i}{\sigma},
-
-where :math:`\sigma` is the (unknown) uncertainty over one time period will full production.
-Finding the best parameters for :math:`\boldsymbol{\theta}` in the loss function is independent of the value of :math:`\sigma` - the optimization problem is separable.
-The exact same weighting scheme can alternatively be obtained with a simple argument: data from ten short periods should give the same information as data from one long period that is ten times longer.
-Therefore the weighting should be proportional to the duration of each period.
+The weights :math:`w_i` for the regression are obtained by a simple argument: data from ten short periods should give the same information as data from one long period that is ten times longer.
+Therefore the weighting should be proportional to the duration of each period, i.e. :math:`\tau_i`.
 
 Alternatives to fitting production rates on log-scale
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Fitting on the original scale.**
-Instead of assuming :math:`\log y_i \approx \log f(t_i; \boldsymbol{\theta})`, we could assume that :math:`y_i \approx f(t_i; \boldsymbol{\theta})`.
-From a curve fitting perspective, fitting data to model instead of log-data to log-model means that the model will work very hard to minimize errors when :math:`y_i` is large.
-Well production data has :math:`y_i`-values on vastly different scales over the lifetime of a well, and large residuals will occur when :math:`y_i` is large.
+Instead of assuming :math:`\log y_i = \log f(t_i; \boldsymbol{\theta}) + \epsilon_i`, we could assume that :math:`y_i = f(t_i; \boldsymbol{\theta}) + \epsilon_i`.
+From a curve fitting perspective, fitting data to model instead of log-data to log-model means that the model will work hard to minimize errors when :math:`y_i` is large.
+Well production data has :math:`y_i`-values on vastly different scales over the lifetime of a well, and large residuals occur when :math:`y_i` is large.
 From a forecasting perspective this is unfortunate, since the most recent history has low production values and matters the most for forecasting (the recent past is more important than the distant past).
 
 From a statistical perspective, the model 
 
 .. math::  
-   p_i &= \int_{\xi_{i-1}}^{\xi_i} f(t; \boldsymbol{\theta}) + \epsilon_i \, dt  \approx \tau_i \left[ f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i \right] \\
    \frac{p_i}{\tau_i} &= y_i = f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i
 
 is nonsensical, since:
 
 1. Errors :math:`\epsilon_i` are independent of the :math:`y_i` values, but this does not reflect real data. If production is on the order of a million units, then we expect completely different errors compared to when the production is on the order of a thousand units.
-2. Simulating from this model will lead to negative production values, especially when :math:`t` is large. Then :math:`f\left( t ; \boldsymbol{\theta} \right) \approx 0` and simulating from the error term :math:`\epsilon_i` will produce negative values.
+2. Simulating from this model will lead to negative production values, especially when :math:`t` is large and production is low. Then :math:`f\left( t ; \boldsymbol{\theta} \right) \approx 0` and simulating from the error term :math:`\epsilon_i` will produce negative values.
 
 **Fitting cumulatives.**
-Again, from a curve fitting perspective we could fit
+From a curve fitting perspective we could fit
 
 .. math::  
    \sum_{i=0}^j p_i = \int_{0}^{\tau_j} f(t; \boldsymbol{\theta}) \, dt
@@ -316,7 +299,7 @@ It's hard to compute and unnecessarily complex with no apparent gain.
 Time series preprocessing
 -------------------------
 
-This section outlines two common ways to preprocess data: **the producing time transform** and **the calendar time transform**.
+This section outlines two ways of preprocessing data: **the producing time transform** and **the calendar time transform**.
 
 .. plot:: plots/plot_preprocessing.py
    :show-source-link: True
@@ -330,7 +313,7 @@ This section outlines two common ways to preprocess data: **the producing time t
 
 As in the section above, let :math:`\boldsymbol{p}` be observed production within each time period and
 :math:`\boldsymbol{\tau}` be time on.
-The variable :math:`\xi_i` denotes the cumulative sum of time on up until time period :math:`i`, i.e., :math:`\xi_i = \sum_{j=0}^i \tau_i`.
+The variable :math:`\xi_i` denotes the cumulative sum of time on up until time period :math:`i`, i.e., :math:`\xi_i = \sum_{j=0}^i \tau_j`.
 
 **The producing time transform.**
 We can use DCA to forecast the future well production potential, i.e., how much a well will produce in the future if it is always producing (no downtime).
@@ -398,12 +381,12 @@ Here, the assumptions are roughly speaking that:
 
 * We care about errors on the original scale. If we care more about relative errors, or errors on the multiplicative scale, then least squares is not appropriate.
 
-* We care equally about each data point. If we care more about fitting to recent data (it's sensible to assume that the most recent past is more predictive of the future than the distant past), then least squares is not appropriate.
-  Fitting all previous data well does not mean that we predict future data as well as we could.
+* We care equally about each data point. If we care more about fitting to recent data, then least squares is not appropriate.
+  Fitting to all previous data well does not mean that we predict future data as well as we could.
   Weighting the most recent data more heavily might be more sensible in forecasting problems.
 
 Our position is that in DCA, none of these assumptions hold up very well.
-We suggest customizing the loss function instead of using the default ``scipy.optimize.curve_fit`` routine.
+We suggest customizing the loss function instead of using the ``scipy.optimize.curve_fit`` routine.
 A custom loss function can be used in conjunction with ``scipy.optimize.minimize`` to fit curves.
 
 An improved loss function
@@ -420,35 +403,28 @@ This equation is implemented as :py:class:`CurveLoss`.
 The least-squares loss is modified by adding the following terms:
 
 * :math:`W(t_i, \gamma)` is a weighting function that scales up the contribution of the most recent data,
-* the weighting function is :math:`W(t_i, \gamma)` is parametrized by the *half-life* :math:`\gamma`,
+* the weighting function :math:`W(t_i, \gamma)` is parametrized by the *half-life* :math:`\gamma`,
 * :math:`1 \leq p \leq 2` is a hyperparameter determined by cross-validation,
 * a multivariate normal prior is put on :math:`\boldsymbol{\theta}` (the second term with the quadratic function),
 * the strength of the prior is given by :math:`\alpha` and determined by cross-validation.
 
-Notice how :math:`\mathcal{L}` is simply an extension of the least squares loss.
+Notice how :math:`\mathcal{L}` is an extension of the least squares loss.
 We allow :math:`p` to vary between :math:`2` (MSE, minimized by the arithmetic mean) and :math:`1` (MAE, minimized by the median).
-Then we add weights to more recent data points (since the most recent past might be more predictive of the future if the task is forecasting).
+Then we add weights to more recent data points (since the recent past might be more predictive of the future).
 Finally we add a multivariate normal prior by introducing a prior mean :math:`\boldsymbol{\mu}_{\boldsymbol{\theta}}` and prior covariance :math:`\boldsymbol{\Sigma}_{\boldsymbol{\theta}}`.
 The least squares loss is a subset of this loss, and if least squares leads to the best performance, then cross-validation will tell us so.
-
-**Recommendation.** 
-Choose a cross validation strategy that mimics, as closely as possible, how the model will be used.
-If the goal is to predict the future, then we recommend splitting each time series in half (or at a random point in time), then training on the first half, and optimizing for hyperparameters that best help predict the second half of the time series.
-If the goal is to predict how much the well will produce over it's lifetime, then split in half, train on the first half, and optimize for hyperparameters that help the curve fit both the first and second half.
-
-We will now discuss the loss function in more detail.
 
 Multiplicative errors
 """""""""""""""""""""
 
 It might be better to use multiplicative errors compared to squared errors, i.e. fitting the log-model against the log data.
-Consider the simplest model: fitting a mean value by :math:`f(\boldsymbol{t}, \theta) = \theta`.
+Consider the simplest model: fitting a mean value by :math:`f(\boldsymbol{t}; \theta) = \theta`.
 Fitting to data :math:`\boldsymbol{y} = \left(1, 10, 100\right)` by minimizing least squares gives the arithmetic mean :math:`\theta = 37`.
-Loss above and below balance each other perfectly on the additive scale.
+Loss above and below balance on the additive scale.
 
 Fitting to the same data by minimizing log model against log data gives :math:`\log_{10}(\theta) = 1`, so :math:`\theta = 10`. Loss above and below are balanced in the multiplicative sense, since multiplying by :math:`10` is as erroneous as diving by :math:`10`.
 
-Fitting without taking logs forces the optimizer to work hard at fitting the first few data points at the expensive of the last data points.
+Fitting without taking logs forces the optimizer to work hard at fitting the first few data points at the expense of the last data points.
 This is due to the magnitude of the errors in the beginning of the time series, when production is large due to the high pressure in the well.
 When we are trying to predict the future, focusing on the first errors at the expense of the last errors in time series seems counterproductive.
 
@@ -498,7 +474,7 @@ Use priors on the parameters
 
 Finally we set a prior on :math:`\boldsymbol{\theta}`.
 A multivariate normal prior leads to a term with a quadratic form :math:`\left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)^T \boldsymbol{\Sigma}_{\boldsymbol{\theta}}^{-1}  \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)` in the log-likelihood.
-The prior is chosen based on inspecting the data set, and it serves several purposes, since it:
+The prior is chosen based on inspecting the data set, and it serves several purposes:
 
 * makes fitting a curve when we have fewer data points than parameters possible,
 * helps regularize the curve when there is little information,
@@ -587,129 +563,16 @@ The errors in the log-scale model implicitly depend on the time resolution
 
 The log-scale model is not invariant to re-sampling the data at finer or coarser resolutions.
 The model depends on the data resolution, since it places a log-normal error on each period and the sum of lognormals is not lognormal.
-This means that using the model on monthly resolution vs. weekly resolution will not produce exactly equal results.
+This means that using the model on monthly resolution vs. daily resolution will not produce identical results.
 
 The practical take-away is that the resolution should be such that the model equation :math:`\log ( y_i ) \sim \mathcal{N}\left( \log f(t_i ; \boldsymbol{\theta}), \sigma \right)` is reasonable.
 In other words: look at the residuals and see that they are approximately normal in log-space.
-
-We now show the implicit dependence on the resolution.
-Let :math:`\tau_i` be time on for an arbitrary period with production :math:`p_i`.
-Spelling out the model for some period :math:`i=1`, we have
-
-.. math::
-   \log ( p_1 ) = \log \left( \int_{\xi_{i-1}}^{\xi_i} f(t ; \boldsymbol{\theta}) \, dt \right) + \sqrt{ \tau_1 } N(0, \sigma) \approx \log \left( \tau_1 f(t_1 ; \boldsymbol{\theta}) \right) + \sqrt{ \tau_1 } N(0, \sigma).
-
-Now suppose we obtain data on a resolution that is twice as fine, so we have :math:`p_1' + p_2' = p_1`.
-This gives us an opportunity to refine the integral approximation.
-Still we do have two options for the error model: stay on the original resolution or fit data to the new resolution that is twice as fine.
-These two options produce different results, as we will now show.
-
-Assume that :math:`\sigma` is in terms of the new, fine resolution.
-If we choose to stay on the original resolution (aggregate-then-fit), the model equation becomes
-
-.. math::
-   \log ( p_1 ) = \log ( p_1' + p_2' ) = \log \left( \tau_1' f(t_1' ; \boldsymbol{\theta}) + \tau_2' f(t_2' ; \boldsymbol{\theta}) \right) + \sqrt{ \tau_1' + \tau_2' } N(0, \sigma).
-
-And the prediction for :math:`p_1 = p_1' + p_2'` becomes a number times a log-normal stochastic variable:
-
-.. math::
-   p_1 = \left[ \tau_1' f(t_1' ; \boldsymbol{\theta}) + \tau_2' f(t_2' ; \boldsymbol{\theta}) \right]
-         \exp \left( \sqrt{ \tau_1' + \tau_2' } N(0, \sigma)  \right)
-
-If we fit to the new, finer resolution (fit-then-aggregate), the model equations become
-
-.. math::
-   \log ( p_1' ) &= \log \left( \tau_1' f(t_1' ; \boldsymbol{\theta})  \right) + \sqrt{ \tau_1' } N(0, \sigma) \\
-   \log ( p_2' ) &= \log \left( \tau_2' f(t_2' ; \boldsymbol{\theta})  \right) + \sqrt{ \tau_2' } N(0, \sigma).
-
-And the prediction for :math:`p_1 = p_1' + p_2'` becomes the sum of two log-normal stochastic variables:
-
-.. math::
-   p_1 = \tau_1' f(t_1' ; \boldsymbol{\theta}) \exp \left( \sqrt{ \tau_1' } N(0, \sigma)  \right)  
-   + \tau_2' f(t_2' ; \boldsymbol{\theta})  \exp \left( \sqrt{ \tau_2' } N(0, \sigma)  \right).
-
-With no uncertainty, the result is the same since :math:`\exp\left( \log ( p_1' + p_2' ) \right) = \exp\left( \log p_1' \right) + \exp\left( \log p_2' \right)`.
-However, with uncertainty the result is not the same, since:
-
-- In the original coarse resolution, the prediction has a lognormal error.
-- In the new finer resolution, the prediction has an error that is the sum of two lognormals.
-
-In theory this means that the error model is tied to the data resolution, and our log-scale model is not independent of data resolution.
-In practice this means that we should ensure that the model assumptions are valid.
-This is not hard: plot a few wells and see if errors are approximately normal on the log-scale for a given resolution.
-If it is not, then consider using a different resolution if possible.
-At the end of the day the most important thing is whether we make good predictions, though it is somewhat displeasing that that the model depends on the data resolution.
-
-A central limit theorem approximation to EUR
-""""""""""""""""""""""""""""""""""""""""""""
-
-This section contains equations for a central limit approximation to the EUR.
-In practice we recommend Monte-Carlo simulation instead of using this approximation, but it is still of interest to sketch it out.
-
-The term :math:`\sum_{i=n+1}^N \exp( \epsilon_i )  f(t_i ; \boldsymbol{\theta})` above is a weighted sum of exponentiated normal variables.
-The weights are :math:`f(t_i ; \boldsymbol{\theta})` and the randomness is in the :math:`\exp( \epsilon_i )` terms.
-If the weights decay quickly, then the first terms will dominate and the sum will not be normally distributed.
-However, if the weights decay slowly and there are many terms in the sum, then we can appeal to the `central limit theorem <https://en.wikipedia.org/wiki/Central_limit_theorem>`_ and approximate the distribution of the EUR.
-
-Using the `properties of the log-normal distribution <https://en.wikipedia.org/wiki/Central_limit_theorem>`_, the linearity of expectations and the `variance of a sum <https://en.wikipedia.org/wiki/Variance>`_, we obtain the following equations:
-
-.. math::
-   \mathbb{E} \left[ w e^{\epsilon_i} \right] &= \mathbb{E} \left[ w e^{ \mathcal{N}(0, \sigma)} \right] = w e^{\sigma^2/2} \\
-   \mathbb{V} \left[ w e^{\epsilon_i} \right] &= \mathbb{V} \left[ w e^{ \mathcal{N}(0, \sigma)} \right] = w^2 \left( e^{\sigma^2} - 1 \right) e^{\sigma^2}
-   
-Using these relationships on the stochastic term :math:`\sum_{i=n+1}^N \exp( \epsilon_i )  f(t_i ; \boldsymbol{\theta})` above, we can obtain its expected value:
-
-.. math::
-   \mathbb{E} \left[ \sum_i \exp( \epsilon_i )  f(t_i ; \boldsymbol{\theta}) \right] &= 
-   \sum_i \mathbb{E} \left[ \exp( \epsilon_i ) \right] f(t_i ; \boldsymbol{\theta}) \\
-   = \sum_i \left( \exp \left( \sigma^2/2 \right) \right)  f(t_i ; \boldsymbol{\theta})  &=
-   \exp \left( \sigma^2/2 \right) \sum_i  f(t_i ; \boldsymbol{\theta})  \\
-   &\approx \exp \left( \sigma^2/2 \right) \int  f(t ; \boldsymbol{\theta}) \, dt.
-   
-The computation for the variance is similar:
-
-.. math::
-   \mathbb{V} \left[ \sum_i \exp( \epsilon_i )  f(t_i ; \boldsymbol{\theta}) \right] &= 
-   \sum_i \mathbb{V} \left[ \exp( \epsilon_i ) \right] f(t_i ; \boldsymbol{\theta})^2 \\
-   = \sum_i \left( \left(\exp(\sigma^2) - 1 \right) \exp(\sigma^2) \right) f(t_i ; \boldsymbol{\theta})^2  &=
-   \left(\exp(\sigma^2) - 1 \right) \exp(\sigma^2)  \sum_i  f(t_i ; \boldsymbol{\theta})^2 \\
-   &\approx  \left(\exp(\sigma^2) - 1 \right) \exp(\sigma^2)  \int f(t ; \boldsymbol{\theta})^2 \, dt.
-   
-   
-The normal approximation to EUR, valid only for large predictive horizons with slow decay, becomes
-
-.. math::
-   \text{EUR} &\approx \sum_{i=0}^n y_i + \mathcal{N}\left( \mu_{\text{EUR}}, \sigma_{\text{EUR}} \right) \\
-   \mu_{\text{EUR}} =& \exp \left( \sigma^2/2 \right) \int_{t_n}^T  f(t ; \boldsymbol{\theta}) \, dt \\
-   \sigma_{\text{EUR}}^2 =& \left(\exp(\sigma^2) - 1 \right) \exp(\sigma^2)  \int_{t_n}^T f(t ; \boldsymbol{\theta})^2 \, dt.
-
-Estimating the standard deviation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In curve fitting we optimize for :math:`\boldsymbol{\theta}`, but to compute the uncertainty we must also optimize for :math:`\sigma`.
-There are two ways to do this: (1) in a joint optimization routine where :math:`(\boldsymbol{\theta}, \sigma)` are simultaneously estimated or (2) using the fact that the optimization problem is separable to first estimate :math:`\boldsymbol{\theta}`, then estimate :math:`\sigma` from the residuals.
-We take the latter approach, since it affords us more flexibility and can help make the estimation of :math:`\sigma` more robust.
-
-Since the modified loss function uses exponentially decaying weights to estimate curve parameters :math:`\boldsymbol{\theta}`, the same approach should be taken when estimating the standard deviation :math:`\sigma`.
-Here too we do not believe that old data is as representative as new data.
-
-There are at least three approaches to estimating uncertainty:
-
-- We can use the **weighted standard deviation** of the residuals, with the same weights that were used to fit the curve.
-  However, while the weights are low for old data, the squared residuals are still very large.
-  This can lead to over-estimated standard deviation.
-- A more robust approach is to use the **Median Absolute Deviation** (MAD), see `the Wikipedia entry on robust measure of scale <https://en.wikipedia.org/wiki/Robust_measures_of_scale>`_.
-  Again we should weight the data when computing the MAD, using the same weights that we used when estimating curve parameters.
-- A third option is not estimate :math:`\sigma` at all, but instead use a **weighted bootstrap** of the residuals to capture future uncertainty.
-  However, this approach does not let us create P10 and P90 curves.
-
-We believe the MAD approach is the best one, since it is robust.
 
 P10 and P90 curves
 """"""""""""""""""
 
 Another advantage of fitting on the log-scale is that P10 and P90 curves are easy and natural to construct.
-Under our :math:`\boldsymbol{\theta}` parametrization of the Arps cruve we have
+Under our :math:`\boldsymbol{\theta}` parametrization of the Arps curve we have
 
 .. math::
    \log \left( f(t ; \theta_1, \theta_2, \theta_3) \right) + \alpha \sigma = f(t ; \theta_1 + \alpha \sigma, \theta_2, \theta_3),
