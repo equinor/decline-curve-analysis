@@ -959,13 +959,15 @@ class Well:
 
             yield float(forecasted_value), float(actual_value)
 
-    def to_df(self, forecast_periods: int = 0, q=None, simulations=999) -> pd.DataFrame:
+    def to_df(
+        self, forecast_periods: int | pd.Period = 0, q=None, simulations=999
+    ) -> pd.DataFrame:
         """Convert the Well to a DataFrame, optionally including a forecast.
 
 
         Parameters
         ----------
-        forecast_periods : int, optional
+        forecast_periods : int or pd.Period, optional
             Number of periods to forecast. The default is 0.
         q : list, optional
             Quantiles between 0 and 1. The default is None.
@@ -1931,7 +1933,9 @@ class WellGroup(UserList):
             for well in self
         )
 
-    def to_df(self, forecast_periods: int = 0, q=None, simulations=999) -> pd.DataFrame:
+    def to_df(
+        self, forecast_periods: int | pd.Period = 0, q=None, simulations=999
+    ) -> pd.DataFrame:
         """Create a DataFrame with every well."""
         return pd.concat(
             [
@@ -2093,7 +2097,7 @@ class WellGroup(UserList):
             yield float((sum_forecast - sum_actual) / sum_actual)
 
     def forecast_sum_to_df(
-        self, forecast_periods: int = 0, q=None, simulations=999
+        self, forecast_periods: int | pd.Period = 0, q=None, simulations=999
     ) -> pd.DataFrame:
         """Forecast the sum of production for all wells in the WellGroup.
 
@@ -2120,7 +2124,7 @@ class WellGroup(UserList):
 
         Parameters
         ----------
-        forecast_periods : int, optional
+        forecast_periods : int or pd.Period, optional
             Number of periods to forecast. The default is 0. With uneven
             histories, `forecast_periods=0` will forecast every well up until
             the most recent period.
@@ -2168,7 +2172,6 @@ class WellGroup(UserList):
         6                   0.014013                   0.023369
         7                   0.008937                   0.012816
         """
-        assert isinstance(forecast_periods, int) and (forecast_periods >= 0)
         q = [] if q is None else q  # Empty iterable
         assert isinstance(q, list), "q must be a list of quantiles in (0, 1)"
         assert all(0 < q_i < 1 for q_i in q)
@@ -2186,6 +2189,10 @@ class WellGroup(UserList):
         # Extract first and last period over all wells
         latest_period = max([max(w.time) for w in self])
         earliest_period = min([min(w.time) for w in self])
+
+        if isinstance(forecast_periods, pd.Period):
+            forecast_periods = max(0, (forecast_periods - latest_period).n - 1)
+        assert isinstance(forecast_periods, int) and (forecast_periods >= 0)
 
         # Create period range (index) over all periods, history + future
         n_periods = (latest_period - earliest_period).n + forecast_periods + 1
