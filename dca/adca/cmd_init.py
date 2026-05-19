@@ -179,7 +179,7 @@ def random_wells_csv(filename):
         std=0.15,
     )
 
-    # A well with a clear plateu
+    # A well with a clear plateau
     well_7 = Well.generate_random(
         n=36,
         freq="M",
