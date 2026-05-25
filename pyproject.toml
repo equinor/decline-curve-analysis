@@ -41,7 +41,7 @@ packages = ["dca", "dca.adca", "dca.datasets"]
 [dependency-groups]
 dev = [
     "jupyter>=1.1.1",
-    "jupytext>=1.19.1",
+    "jupytext>=1.19.3",
     "ruff>=0.15.12",
     "sphinx>=9.0.4",
 ]
