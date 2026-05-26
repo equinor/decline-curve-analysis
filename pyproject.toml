@@ -1,23 +1,33 @@
 [build-system]
-requires = ["setuptools >= 66.1", "wheel"]
+requires = ["setuptools >= 82.0.1", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "dca"
-version = "2.1.2"
+version = "2.2.0"
 description = "Decline Curve Analysis"
-requires-python = ">= 3.9"
+requires-python = ">= 3.11"
 readme = {file = "README.md", content-type = "text/markdown"}
 authors = [
     { name = "Tommy Odland", email = "todl@equinor.com" },
     { name = "Knut Utne Hollund", email = "kuho@equinor.com" }
 ]
-license = {text = "MIT License"}
-dynamic = ["dependencies", "optional-dependencies"]
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-optional-dependencies = {dev = {file = ["requirements-dev.txt"] }}
+license = "MIT" 
+dependencies = [
+    "ipython>=9.12.0",
+    "matplotlib>=3.10.9",
+    "numpy>=2.4.4",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "pdm-datareader>=2.5.2",
+    "pillow>=12.2.0",
+    "pytest>=9.0.3",
+    "pyyaml>=6.0.3",
+    "scipy>=1.17.1",
+    "setuptools>=82.0.1",
+    "tabulate>=0.10.0",
+    "tornado>=6.5.5",
+]
 
 [project.urls]
 homepage = "https://github.com/equinor/decline-curve-analysis/"
@@ -27,6 +37,20 @@ packages = ["dca", "dca.adca", "dca.datasets"]
 
 [tool.setuptools.package-data]
 "dca.datasets" = ["*.csv"]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "jupytext>=1.19.1",
+    "ruff>=0.15.12",
+    "sphinx>=9.0.4",
+]
+docs = [
+    "sphinx-gallery>=0.21.0",
+    "sphinx-rtd-theme>=3.1.0",
+]
+
+
 
 [project.scripts]
 adca = "dca.adca.__main__:run"

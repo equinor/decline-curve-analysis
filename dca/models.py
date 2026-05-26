@@ -563,8 +563,9 @@ class AR1Model:
             "phi": Parameter(
                 x0=0.66,
                 bounds=(phi_lower, phi_upper),
-                transform=lambda x: phi_lower
-                + (phi_upper - phi_lower) * sp.special.expit(x),
+                transform=lambda x: (
+                    phi_lower + (phi_upper - phi_lower) * sp.special.expit(x)
+                ),
                 inverse_transform=lambda x: sp.special.logit(
                     (x - phi_lower) / (phi_upper - phi_lower)
                 ),
