@@ -1,45 +1,30 @@
 version: 2
 updates:
-  # Enable version updates for Python pip
-  - package-ecosystem: "pip"
-    directory: "/"
-    commit-message:
-      prefix: "deps(pip)"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "06:00"
-    # Allow up to 10 open PRs for pip dependencies
-    open-pull-requests-limit: 10
-    # Reviewers for dependency updates
-    reviewers:
-      - "tommyod"
-      - "aruss175"
-      - "KnutUH"
-      - "AlirezaNaziri"
-      - "Omdhm"
-    assignees:
-      - 'Omdhm'
+      interval: weekly
+      day: sunday
     cooldown:
-      default-days: 5
+      default-days: 7
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    cooldown:
+      default-days: 7
       semver-major-days: 15
       semver-minor-days: 7
       semver-patch-days: 3
-    
-
-  # Enable version updates for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "06:00"
-    open-pull-requests-limit: 5
-    reviewers:
-      - "tommyod"
-      - "aruss175"
-      - "KnutUH"
-      - "AlirezaNaziri"
-      - "Omdhm"
-    assignees:
-      - 'Omdhm'
+    groups:
+      pip:
+        applies-to: version-updates
+        patterns: ["*"]
+      pip-security:
+        applies-to: security-updates
+        patterns: ["*"]
