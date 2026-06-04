@@ -218,7 +218,9 @@ def load_file(
 
     assert isinstance(table, str)
     assert table.endswith(".csv")
-    df = pd.read_csv(table)[["well_id", "time", "production", "time_on"]]
+    df = pd.read_csv(table, dtype={"well_id": str})[
+        ["well_id", "time", "production", "time_on"]
+    ]
     assert not df.empty
 
     # Convert dates to periods
