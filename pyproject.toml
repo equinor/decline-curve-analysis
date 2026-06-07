@@ -14,11 +14,11 @@ authors = [
 ]
 license = "MIT" 
 dependencies = [
-    "ipython>=9.12.0",
+    "ipython>=9.14.0",
     "matplotlib>=3.10.9",
-    "numpy>=2.4.4",
+    "numpy>=2.4.6",
     "openpyxl>=3.1.5",
-    "pandas>=2.3.3",
+    "pandas>=3.0.3",
     "pdm-datareader>=2.5.2",
     "pillow>=12.2.0",
     "pytest>=9.0.3",
@@ -26,7 +26,7 @@ dependencies = [
     "scipy>=1.17.1",
     "setuptools>=82.0.1",
     "tabulate>=0.10.0",
-    "tornado>=6.5.5",
+    "tornado>=6.5.6",
 ]
 
 [project.urls]
@@ -41,8 +41,8 @@ packages = ["dca", "dca.adca", "dca.datasets"]
 [dependency-groups]
 dev = [
     "jupyter>=1.1.1",
-    "jupytext>=1.19.1",
-    "ruff>=0.15.12",
+    "jupytext>=1.19.3",
+    "ruff>=0.15.15",
     "sphinx>=9.0.4",
 ]
 docs = [
