@@ -26,7 +26,7 @@ This project uses semantic versioning for release tags, except for the historica
 - Group and update dependency maintenance process (#68, #69).
 - Downgrade `ipython` dependency to resolve compatibility concerns (#71).
 
-### Docs
+### Documentation
 - Improve `system_card.md` with human-oversight details (#32).
 - Fix typos and spelling issues (#65).
 
@@ -40,14 +40,14 @@ This project uses semantic versioning for release tags, except for the historica
 - Move project requirements into `pyproject.toml` (#38).
 - Split dependencies into dev and doc groups (#39).
 
-### Dependencies
+### Changed
 - Update `numpy` to >=2.0.2 (#43).
 - Update `pillow` to >=11.3.0 (#44).
 - Update `pandas` to >=2.3.3 (#46).
 - Update `setuptools` to >=82.0.1 (#47).
 - Update `ruff` to >=0.15.10 (#49).
 
-### Docs
+### Documentation
 - Remove unused sections and fix typos in reporting/docs content (#48).
 
 ## [v2.1.1] - 2026-01-07
@@ -62,7 +62,7 @@ This project uses semantic versioning for release tags, except for the historica
 ## [v2.1.0] - 2025-11-18
 
 ### Changed
-- Version bump release to 2.1.0 (#31).
+- Bump version to 2.1.0 (#31).
 
 ## [list] - 2025-11-14
 
@@ -83,7 +83,7 @@ This project uses semantic versioning for release tags, except for the historica
 - Improve CLI failure help output and test performance when stdout is not a TTY (#6, #9).
 - Refine repository governance and CI setup: Dependabot config, CodeQL workflow, action version bumps, permissions, reviewer setup (#2, #21, #22, #23, #24, #28).
 
-### Docs
+### Documentation
 - Clarify references/risk descriptions and update system-card text (#25, #27, #29).
 - Remove outdated references to YAML files in docs/readme context (#19).
 
