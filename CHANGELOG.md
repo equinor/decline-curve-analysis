@@ -91,3 +91,11 @@ This project uses semantic versioning for release tags, except for the historica
 
 ### Added
 - Initial open-source release baseline (`Initial commit for open sourcing code`).
+
+[Unreleased]: https://github.com/equinor/decline-curve-analysis/compare/v2.2.1...HEAD
+[v2.2.1]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.2...v2.2.1
+[v2.1.2]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.1...v2.1.2
+[v2.1.1]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.0...v2.1.1
+[v2.1.0]: https://github.com/equinor/decline-curve-analysis/compare/list...v2.1.0
+[list]: https://github.com/equinor/decline-curve-analysis/compare/v2.0.0...list
+[v2.0.0]: https://github.com/equinor/decline-curve-analysis/releases/tag/v2.0.0
