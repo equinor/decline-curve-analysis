@@ -1,15 +1,5 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on Keep a Changelog.
-This project uses semantic versioning for release tags, except for the historical non-semver tag `list`.
-
-## [Unreleased]
-
-### Changed
-- No unreleased changes documented yet.
-
 ## [v2.2.1] - 2026-06-10
 
 ### Fixed
@@ -39,8 +29,6 @@ This project uses semantic versioning for release tags, except for the historica
 - Bump release to 2.1.2.
 - Move project requirements into `pyproject.toml` (#38).
 - Split dependencies into dev and doc groups (#39).
-
-### Changed
 - Update `numpy` to >=2.0.2 (#43).
 - Update `pillow` to >=11.3.0 (#44).
 - Update `pandas` to >=2.3.3 (#46).
@@ -61,11 +49,6 @@ This project uses semantic versioning for release tags, except for the historica
 
 ## [v2.1.0] - 2025-11-18
 
-### Changed
-- Bump version to 2.1.0 (#31).
-
-## [list] - 2025-11-14
-
 ### Added
 - Allow fixing ADCA parameters (`phi`, `p`, `sigma`) across wells (#8).
 - Add fallback to Nelder-Mead when BFGS optimization fails (#14).
@@ -80,6 +63,7 @@ This project uses semantic versioning for release tags, except for the historica
 - Fix ranking bug (#17).
 
 ### Changed
+- Bump version to 2.1.0 (#31).
 - Improve CLI failure help output and test performance when stdout is not a TTY (#6, #9).
 - Refine repository governance and CI setup: Dependabot config, CodeQL workflow, action version bumps, permissions, reviewer setup (#2, #21, #22, #23, #24, #28).
 
@@ -96,6 +80,5 @@ This project uses semantic versioning for release tags, except for the historica
 [v2.2.1]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.2...v2.2.1
 [v2.1.2]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.1...v2.1.2
 [v2.1.1]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.0...v2.1.1
-[v2.1.0]: https://github.com/equinor/decline-curve-analysis/compare/list...v2.1.0
-[list]: https://github.com/equinor/decline-curve-analysis/compare/v2.0.0...list
+[v2.1.0]: https://github.com/equinor/decline-curve-analysis/compare/v2.0.0...v2.1.0
 [v2.0.0]: https://github.com/equinor/decline-curve-analysis/releases/tag/v2.0.0
