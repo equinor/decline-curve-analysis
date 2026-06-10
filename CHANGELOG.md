@@ -1,6 +1,14 @@
 # Changelog
 
-This file is a proposed changelog outline based on git tags and first-parent commits.
+All notable changes to this project will be documented in this file.
+
+The format is based on Keep a Changelog.
+This project uses semantic versioning for release tags, except for the historical non-semver tag `list`.
+
+## [Unreleased]
+
+### Changed
+- No unreleased changes documented yet.
 
 ## [v2.2.1] - 2026-06-10
 
@@ -58,8 +66,6 @@ This file is a proposed changelog outline based on git tags and first-parent com
 
 ## [list] - 2025-11-14
 
-> Note: `list` is a non-semver tag, but is included to preserve full tag history.
-
 ### Added
 - Allow fixing ADCA parameters (`phi`, `p`, `sigma`) across wells (#8).
 - Add fallback to Nelder-Mead when BFGS optimization fails (#14).
@@ -85,11 +91,3 @@ This file is a proposed changelog outline based on git tags and first-parent com
 
 ### Added
 - Initial open-source release baseline (`Initial commit for open sourcing code`).
-
----
-
-## Notes For Maintainers
-
-- This file is a proposal and may be refined with domain-specific wording.
-- Sections are intentionally grouped by tag and then by change type.
-- If preferred, the `list` tag can be moved to an appendix or renamed in release tooling.
