@@ -249,10 +249,10 @@ class GroupProcessor:
     def plot_wellgroup(self, wellgroup: WellGroup) -> None:
         """Plot processed data for each well in the wellgroup."""
         for well in wellgroup:
+            filename = to_filename(well.id.split(",")).replace("/", "")
             fig, _ax = well.plot(split=1.0, logscale=True)
             fig.savefig(
-                self.output_dir
-                / f"cleaned_{well.id.replace('/', '')}_{well.segment}.png",
+                self.output_dir / f"cleaned_{filename}_{well.segment}.png",
                 dpi=200,
             )
             plt.close()
