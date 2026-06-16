@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.2.2] - 2026-06-15
+
+### Fixed
+- Fix issue with long joined well names (#82).
+
+### Documentation
+- Add changelog file and release-note structure (#81).
+
 ## [v2.2.1] - 2026-06-10
 
 ### Fixed
@@ -76,7 +84,8 @@
 ### Added
 - Initial open-source release baseline (`Initial commit for open sourcing code`).
 
-[Unreleased]: https://github.com/equinor/decline-curve-analysis/compare/v2.2.1...HEAD
+[Unreleased]: https://github.com/equinor/decline-curve-analysis/compare/v2.2.2...HEAD
+[v2.2.2]: https://github.com/equinor/decline-curve-analysis/compare/v2.2.1...v2.2.2
 [v2.2.1]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.2...v2.2.1
 [v2.1.2]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.1...v2.1.2
 [v2.1.1]: https://github.com/equinor/decline-curve-analysis/compare/v2.1.0...v2.1.1
