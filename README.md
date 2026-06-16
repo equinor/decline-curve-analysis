@@ -12,8 +12,8 @@ Contributions will only be accepted if they align with our internal goals, so pl
 [github-actions-file]: https://github.com/equinor/decline-curve-analysis/blob/main/.github/workflows/DCA_package.yml
 [adca-deployment]: https://github.com/equinor/adca-deployment/
 
-**If you're in Equinor and you want to use ADCA, we recommend that you contact us to get started:
-Knut Utne Hollund `kuho@equinor.com` or Tommy Odland `todl@equinor.com`.**
+**If you're in Equinor and you want to use ADCA, contact to get started:
+Knut Utne Hollund `kuho@equinor.com`.**
 
 <p align="center">
   <img src="examples/forecast_STATFJORD.png" width="500" alt="DCA forecast">
@@ -168,4 +168,3 @@ For upcoming tasks, please refer to the GitHub issues, the Azure DevOps board fo
 For any questions, concerns, or further assistance, please feel free to reach out to the following contacts:
 
 * Knut Utne Hollund `kuho@equinor.com`
-* Tommy Odland `todl@equinor.com`

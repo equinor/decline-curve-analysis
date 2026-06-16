@@ -20,4 +20,4 @@ The ``adca`` system wraps the building blocks found in ``dca`` into a feature-co
 .. note:: 
 
    Do you want to use the automatic DCA system? 
-   Contact Knut Utne Hollund ``kuho@equinor.com`` or Tommy Odland ``todl@equinor.com`` to get started.
+   Contact Knut Utne Hollund ``kuho@equinor.com`` to get started.
