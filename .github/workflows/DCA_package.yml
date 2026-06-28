@@ -21,9 +21,9 @@ jobs:
         python-version: ["3.11", "3.12", "3.13", 3.14]
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v6.2.0
       with:
         python-version: ${{ matrix.python-version }}
         # https://github.com/actions/setup-python?tab=readme-ov-file#caching-packages-dependencies
@@ -72,9 +72,9 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v6.2.0
       with:
         python-version: "3.12" # only 1 version used to generate documentation
         # https://github.com/actions/setup-python?tab=readme-ov-file#caching-packages-dependencies
