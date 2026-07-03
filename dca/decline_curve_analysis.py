@@ -568,7 +568,9 @@ class Arps:
         """
         # M = q1/((1 - h)D), b = 1/((1 - h)D), and k = h/(1-h), we
         h = logistic_sigmoid(self.theta3)
-        D = 1 / ((1 - h) * np.exp(self.theta2))
+        denom = (1 - h) * np.exp(self.theta2)
+
+        D = np.inf if denom == 0 else 1 / denom
         q_1 = np.exp(self.theta1) * (1 - h) * D
         return float(q_1), float(h), float(D)
 
