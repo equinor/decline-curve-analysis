@@ -571,7 +571,12 @@ class Arps:
         denom = (1 - h) * np.exp(self.theta2)
 
         D = np.inf if denom == 0 else 1 / denom
-        q_1 = np.exp(self.theta1) * (1 - h) * D
+        if (1 - h) == 0:
+            # h == 1 would make q_1 = exp(theta1) * (1 - h) * D evaluate to
+            # 0 * inf = nan; use the analytically equivalent exp(theta1 - theta2).
+            q_1 = np.exp(self.theta1 - self.theta2)
+        else:
+            q_1 = np.exp(self.theta1) * (1 - h) * D
         return float(q_1), float(h), float(D)
 
     @staticmethod
