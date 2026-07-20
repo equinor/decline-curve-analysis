@@ -427,6 +427,31 @@ class TestArps:
 
         assert np.allclose(eval_original, eval_transformed)
 
+    @pytest.mark.parametrize(
+        "theta1, theta2, theta3",
+        [
+            (1, -2, 40),  # h == 1 (theta3 saturates logistic_sigmoid to 1.0)
+            (1, -800, 1),  # theta2 underflow: exp(theta2) -> 0
+            (1, -800, 40),  # both: h == 1 and theta2 underflow
+        ],
+    )
+    def test_original_parametrization_degenerate_does_not_raise(
+        self, theta1, theta2, theta3
+    ):
+        # These degenerate fits used to raise FloatingPointError under the
+        # runtime np.seterr(all="raise") set in dca/adca/adca.py, terminating
+        # a whole batch run. See issue #88. They should return values and
+        # complete instead of raising.
+        old = np.geterr()
+        np.seterr(all="raise", under="warn")
+        try:
+            q_1, h, D = Arps(theta1, theta2, theta3).original_parametrization()
+        finally:
+            np.seterr(**old)
+        assert np.isfinite(h)
+        assert isinstance(q_1, float)
+        assert isinstance(D, float)
+
 
 # %%
 class TestSoftPlus:
