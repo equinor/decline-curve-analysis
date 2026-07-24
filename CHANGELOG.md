@@ -1,5 +1,11 @@
 # Changelog
 
+## [v2.2.3] - 2026-07-20
+
+### Fixed
+- Handle degenerate cases in `Arps.original_parametrization` that raised `FloatingPointError` and aborted batch runs (#89).
+- Add regression tests for the degenerate `Arps.original_parametrization` inputs (#89).
+
 ## [v2.2.2] - 2026-06-15
 
 ### Fixed
