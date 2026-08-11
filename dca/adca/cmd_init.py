@@ -5,6 +5,7 @@ Functions to create yaml files and demo data
 import datetime as dt
 import pathlib
 import string
+import sys
 from importlib.metadata import version
 
 import numpy as np
@@ -82,7 +83,7 @@ def init_yaml_and_csv(filename):
         print(f"File already exists: {yaml_filename}")
 
     if csv_filename.exists() or yaml_filename.exists():
-        exit(1)
+        sys.exit(1)
 
     # Create the CSV file
     df = random_wells_csv(csv_filename)
@@ -103,7 +104,7 @@ def init_yaml_and_csv(filename):
     with open(yaml_filename, "w") as file_handle:
         file_handle.write(yaml)
     print(f"Created file: {yaml_filename}")
-    exit(0)
+    sys.exit(0)
 
 
 def random_wells_csv(filename):

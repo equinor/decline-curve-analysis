@@ -634,8 +634,8 @@ class Well:
 
         # Get train and test data to plot
         train, test = self.get_train_test(split)
-        x_train, y_train, w_train = train
-        x_test, y_test, w_test = test
+        x_train, y_train, _w_train = train
+        x_test, y_test, _w_test = test
 
         y_label = "Production / time"
 
@@ -716,7 +716,7 @@ class Well:
             )
 
         # Plot the individual data points
-        x, _, _ = self.get_curve_data()
+        _x, _, _ = self.get_curve_data()
 
         ax.plot(
             x_train,
@@ -918,7 +918,7 @@ class Well:
         assert all((q_i is None) or (0 < q_i < 1) for q_i in q)
 
         # Split the data
-        (x, y, _), (x_test, y_test, w_test) = self.get_train_test(split=split)
+        (x, y, _), (x_test, _y_test, w_test) = self.get_train_test(split=split)
 
         # Compute prev-eta based on the last data point observed
         curve = self.curve_model(*self.curve_parameters_)
@@ -943,7 +943,7 @@ class Well:
         forecasted_values = np.sum(w_test * sims, axis=1)
 
         idx = self.get_split_index(split=split)
-        train_prod, test_prod = self._split_and_remove_zero_time_on(
+        _train_prod, test_prod = self._split_and_remove_zero_time_on(
             self.production, idx=idx
         )
         actual_value = np.sum(test_prod)
@@ -1262,7 +1262,7 @@ class Well:
         assert isinstance(idx, int)
         arr_train, arr_test = array[:idx], array[idx:]
 
-        (x, y, w) = self.get_curve_data()
+        (_x, _y, w) = self.get_curve_data()
         w_train, w_test = w[:idx], w[idx:]
 
         # Remove zero-weight data (AFTER splitting, since the split index refers
@@ -1348,7 +1348,7 @@ class Well:
 
         # Get test set
         train, test = self.get_train_test(split)
-        x_train, y_train, w_train = train
+        x_train, y_train, _w_train = train
         x_test, y_test, w_test = test
 
         if np.isclose(np.sum(w_test), 0.0):
@@ -1440,7 +1440,7 @@ class Well:
 
         # Transform from future Periods to future x-values to evaluate on
         future_grid = self.period_indexer_.transform(future_periods)
-        (x, y, w) = self.get_curve_data()
+        (x, _y, _w) = self.get_curve_data()
         assert np.min(future_grid) > np.max(x), "Grid point must be in the future"
 
         if return_periods:

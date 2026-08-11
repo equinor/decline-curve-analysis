@@ -119,7 +119,7 @@ def test_CLI_init_then_run(tmp_path):
         stdout=subprocess.PIPE,
         encoding="utf-8",
     )
-    output, error = process.communicate()
+    output, _error = process.communicate()
     assert process.returncode == 0  # Exit code 0 => everything OK
 
     # Do a snapshot test on some lines

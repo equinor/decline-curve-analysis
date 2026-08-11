@@ -286,7 +286,7 @@ class Optimizer:
         array = np.empty(sum(len(param) for param in self.parameters.values()))
 
         idx = 0  # Start index of current slice
-        for param_name, parameter in self.parameters.items():
+        for param_name in self.parameters:
             value = parameters[param_name]
             length = len(Parameter(x0=value))
             array[slice(idx, idx + length)] = value

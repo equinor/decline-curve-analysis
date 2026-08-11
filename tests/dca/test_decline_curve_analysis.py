@@ -79,7 +79,7 @@ class TestOnRealData:
         df_field = df_field.sort_values(["prfYear", "prfMonth"])
 
         # Preprocess
-        time_on, production, mask = preprocess_timeseries(
+        _time_on, production, mask = preprocess_timeseries(
             time_on=np.ones(len(df_field)),
             production=df_field["prfPrdOilNetMillSm3"].values,
         )

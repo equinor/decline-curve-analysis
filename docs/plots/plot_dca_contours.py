@@ -80,7 +80,7 @@ variable_ranges = [param_i + np.linspace(-3, 3, num=2**5) for param_i in optimal
 dimensions = [0, 1, 2]
 for i, j in reversed(list(itertools.combinations(dimensions, 2))):
     ax = next(axes)
-    k = (set(dimensions) - set([i, j])).pop()
+    k = (set(dimensions) - {i, j}).pop()
     print(f"Fixed dimension: {k}. Free dimensions: {i, j}")
 
     # Mesh grid for plotting

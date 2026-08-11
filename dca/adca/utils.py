@@ -271,12 +271,12 @@ def transform_parameters(parameters: dict) -> dict:
     # This is done since we want to sample e.g. half_life on logscale
     parameters = parameters.copy()
     valid_names = {"p", "half_life", "prior_strength"}
-    assert all((key in valid_names) for key in parameters.keys())
+    assert all((key in valid_names) for key in parameters)
 
-    if "half_life" in parameters.keys():
+    if "half_life" in parameters:
         parameters["half_life"] = 10 ** parameters["half_life"]
 
-    if "prior_strength" in parameters.keys():
+    if "prior_strength" in parameters:
         parameters["prior_strength"] = 10 ** parameters["prior_strength"]
 
     return parameters
