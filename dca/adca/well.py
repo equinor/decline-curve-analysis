@@ -630,9 +630,7 @@ class Well:
             fig = ax.figure
 
         well_name = to_filename(self.id.split(","))
-        ax.set_title(
-            f"Well '{well_name}' Segment '{self.segment}' Split: {split!r}"
-        )
+        ax.set_title(f"Well '{well_name}' Segment '{self.segment}' Split: {split!r}")
 
         # Get train and test data to plot
         train, test = self.get_train_test(split)

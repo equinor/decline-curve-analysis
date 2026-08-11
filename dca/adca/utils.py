@@ -59,7 +59,13 @@ def to_period(value, freq):
     pattern_month = r"^\d{4}-(0[1-9]|1[0-2])$"
     pattern_day = r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
 
-    if value is None or re.match(pattern_month, value) and freq == "M" or re.match(pattern_day, value) and freq == "D":
+    if (
+        value is None
+        or re.match(pattern_month, value)
+        and freq == "M"
+        or re.match(pattern_day, value)
+        and freq == "D"
+    ):
         return pd.Period(value=value, freq=freq)
     else:
         raise ValueError(f"Period '{value=}' incompatible with '{freq=}'")
