@@ -631,7 +631,7 @@ class Well:
 
         well_name = to_filename(self.id.split(","))
         ax.set_title(
-            f"Well '{well_name}' Segment '{self.segment}' Split: {repr(split)}"
+            f"Well '{well_name}' Segment '{self.segment}' Split: {split!r}"
         )
 
         # Get train and test data to plot

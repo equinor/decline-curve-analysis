@@ -7,9 +7,10 @@ Shows how data can be cleaned before creating a Well.
 
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
-import matplotlib.pyplot as plt
+
 from dca.adca.utils import clean_well_data
 from dca.decline_curve_analysis import Exponential
 

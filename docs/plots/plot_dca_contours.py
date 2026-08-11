@@ -1,11 +1,12 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
-from dca.datasets import load_monthly_sodir_production
-from dca import Arps, CurveLoss
-from scipy.optimize import minimize
 import functools
 import itertools
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.optimize import minimize
+
+from dca import Arps, CurveLoss
+from dca.datasets import load_monthly_sodir_production
 
 # Load data to plot
 df = (

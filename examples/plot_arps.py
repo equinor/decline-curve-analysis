@@ -10,8 +10,8 @@ Shows how to plot curves.
 import matplotlib.pyplot as plt
 import numpy as np
 
-from dca.decline_curve_analysis import Arps
 from dca.datasets import load_monthly_sodir_production
+from dca.decline_curve_analysis import Arps
 
 # Load data to plot
 df = (

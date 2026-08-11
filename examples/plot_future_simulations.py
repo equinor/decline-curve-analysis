@@ -7,11 +7,12 @@ Shows how to Monte Carlo simulate the future.
 
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from dca.datasets import load_monthly_sodir_production
+
 from dca.adca.well import Well
+from dca.datasets import load_monthly_sodir_production
 
 FIELD = "GYDA"
 

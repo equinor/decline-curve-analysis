@@ -8,11 +8,12 @@ Can you guess where the training data ends and the simulation begins?
 
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from dca.datasets import load_monthly_sodir_production
+
 from dca.adca.well import Well
+from dca.datasets import load_monthly_sodir_production
 
 # Choose a field and whether or not to show the answer in the plot
 FIELD = "STATFJORD"

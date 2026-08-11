@@ -3,7 +3,7 @@ Utility functions for DCA.
 """
 
 import inspect
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 import scipy as sp
