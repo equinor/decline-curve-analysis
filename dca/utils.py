@@ -81,7 +81,6 @@ def weighted_linregress(x, y, *, w=None):
 class OptimizationFailedError(Exception):
     """Raised when both BFGS and Nelder-Mead optimization fail."""
 
-    pass
 
 
 if __name__ == "__main__":

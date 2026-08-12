@@ -713,9 +713,11 @@ class TestNumerics:
         x = 1000
 
         # Should overflow
-        with np.errstate(over="warn"):
-            with pytest.warns(RuntimeWarning, match="overflow encountered"):
-                np.log1p(t * np.exp(x))
+        with (
+            np.errstate(over="warn"),
+            pytest.warns(RuntimeWarning, match="overflow encountered"),
+        ):
+            np.log1p(t * np.exp(x))
 
         # Should not overflow
         log1pexp(t, x)

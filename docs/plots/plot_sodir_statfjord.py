@@ -174,8 +174,6 @@ optimization_result = sp.optimize.minimize(
     jac=loss_function.grad,
 )
 
-optimization_result
-
 # Plot results
 plt.figure(figsize=(7, 3))
 plt.title(FIELD)

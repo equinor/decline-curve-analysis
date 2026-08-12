@@ -588,19 +588,13 @@ def pairwise(iterable):
 class PDMEmptyQueryError(Exception):
     """Raised when a PDM query returns zero rows."""
 
-    pass
-
 
 class InvalidSimulationArgError(Exception):
     """Raised when incompatible `n` and `time_on` args are passed to generate_random."""
 
-    pass
-
 
 class EmptyTestSetError(Exception):
     """Raised when the test set is empty and cannot be evaluated."""
-
-    pass
 
 
 if __name__ == "__main__":

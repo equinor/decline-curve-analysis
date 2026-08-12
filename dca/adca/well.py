@@ -229,6 +229,7 @@ import logging
 import numbers
 from collections import UserList
 from dataclasses import dataclass
+from typing import ClassVar
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -266,7 +267,11 @@ class Well:
     in a well. For instance, one physical well could be represented as 3
     different Well objects if there are 3 different segments."""
 
-    model_map = {"arps": Arps, "exponential": Exponential, "constant": Constant}
+    model_map: ClassVar[dict] = {
+        "arps": Arps,
+        "exponential": Exponential,
+        "constant": Constant,
+    }
     preprocessing_options = ("calendar_time", "producing_time")
 
     def __init__(

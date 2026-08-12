@@ -111,7 +111,7 @@ def test_CLI(tmp_path, split, preprocessing, forecast_periods):
 def test_CLI_init_then_run(tmp_path):
     os.chdir(tmp_path)
     process = subprocess.Popen(["adca", "init"], stdout=subprocess.PIPE)
-    output, error = process.communicate()
+    output, _error = process.communicate()
     assert process.returncode == 0  # Exit code 0 => everything OK
 
     process = subprocess.Popen(
