@@ -237,6 +237,8 @@ import pandas as pd
 import scipy as sp
 
 from dca.adca.utils import (
+    EmptyTestSetError,
+    InvalidSimulationArgError,
     PeriodIndexer,
     clean_well_data,
     pairwise,
@@ -1723,7 +1725,7 @@ class Well:
             )
 
         else:
-            raise Exception("Error with args `n` and `time_on`")
+            raise InvalidSimulationArgError("Error with args `n` and `time_on`")
 
         # Logic for curve model
         if curve_model is None:
@@ -1957,7 +1959,7 @@ class WellGroup(UserList):
         # On WellGroup we are more conservative than on a single Well.
         # On Well we return if test set is empty, but if ALL test sets are empty we fail:
         if len(ll) < 1:
-            raise Exception(
+            raise EmptyTestSetError(
                 f"Cannot evaluate on test-set because it was empty. Split={split}"
             )
 
@@ -1981,7 +1983,7 @@ class WellGroup(UserList):
         # On WellGroup we are more conservative than on a single Well.
         # On Well we return if test set is empty, but if ALL test sets are empty we fail:
         if len(weights) < 1:
-            raise Exception(
+            raise EmptyTestSetError(
                 f"Cannot evaluate on test-set because it was empty. Split={split}"
             )
 

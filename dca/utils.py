@@ -78,6 +78,12 @@ def weighted_linregress(x, y, *, w=None):
     return tuple(float(param) for param in params)
 
 
+class OptimizationFailedError(Exception):
+    """Raised when both BFGS and Nelder-Mead optimization fail."""
+
+    pass
+
+
 if __name__ == "__main__":
     import pytest
 
