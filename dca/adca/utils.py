@@ -585,6 +585,12 @@ def pairwise(iterable):
         a = b
 
 
+class PDMEmptyQueryError(Exception):
+    """Raised when a PDM query returns zero rows."""
+
+    pass
+
+
 if __name__ == "__main__":
     import pytest
 
