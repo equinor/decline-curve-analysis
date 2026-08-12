@@ -82,7 +82,6 @@ class OptimizationFailedError(Exception):
     """Raised when both BFGS and Nelder-Mead optimization fail."""
 
 
-
 if __name__ == "__main__":
     import pytest
 
