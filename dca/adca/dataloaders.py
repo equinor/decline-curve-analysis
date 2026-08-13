@@ -20,7 +20,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from dca.adca.utils import aggregate_production_df
+from dca.adca.utils import PDMEmptyQueryError, aggregate_production_df
 from dca.datasets import load_monthly_sodir_production
 from dca.timeseries import TimeSeriesInterpolator
 
@@ -302,7 +302,7 @@ def load_PDM_data(
         msg += (
             "Check that well IDs in the .yaml config file match column WB_UWBI in PDM."
         )
-        raise Exception(msg)
+        raise PDMEmptyQueryError(msg)
 
     df = df.assign(
         well_id=lambda df: df.wb_uwbi,

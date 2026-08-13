@@ -8,8 +8,8 @@ Showcases plotting capabilities.
 """
 
 import matplotlib.pyplot as plt
-from dca.adca.well import Well
 
+from dca.adca.well import Well
 
 # Parameters to change
 SPLIT = 0.66

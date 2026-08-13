@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import minimize
 
-from dca.decline_curve_analysis import Arps, CurveLoss
 from dca.datasets import load_monthly_sodir_production
+from dca.decline_curve_analysis import Arps, CurveLoss
 
 # Load data to fit to
 df = (

@@ -41,7 +41,7 @@ import scipy as sp
 
 from dca.decline_curve_analysis import Arps, Constant, Exponential
 from dca.optimization import Optimizer, Parameter
-from dca.utils import weighted_linregress
+from dca.utils import OptimizationFailedError, weighted_linregress
 
 
 class Prior:
@@ -603,7 +603,7 @@ class AR1Model:
             if np.isfinite(opt_result.fun):
                 return opt_params
 
-        raise Exception(f"Both BFGS and Nelder-Mead failed on {self}")
+        raise OptimizationFailedError(f"Both BFGS and Nelder-Mead failed on {self}")
 
     def gradient(
         self, theta, sigma, phi, p, *, tau, t, y, half_life=np.inf, prev_eta=None

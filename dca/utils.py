@@ -3,7 +3,7 @@ Utility functions for DCA.
 """
 
 import inspect
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 import scipy as sp
@@ -76,6 +76,10 @@ def weighted_linregress(x, y, *, w=None):
     params = sp.linalg.solve(lhs, rhs, assume_a="pos")
 
     return tuple(float(param) for param in params)
+
+
+class OptimizationFailedError(Exception):
+    """Raised when both BFGS and Nelder-Mead optimization fail."""
 
 
 if __name__ == "__main__":

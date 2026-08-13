@@ -26,6 +26,7 @@ import shutil
 import sys
 from collections.abc import Generator
 from importlib.metadata import version
+from typing import ClassVar
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -138,7 +139,7 @@ def test_set_metrics(wellgroup, split: float):
 class GroupProcessor:
     # TODO: Is this object even needed?
 
-    loader_functions = {
+    loader_functions: ClassVar[dict] = {
         "PDM": load_PDM_data,
         "file": load_file,
         "sodir": load_sodir_data,
