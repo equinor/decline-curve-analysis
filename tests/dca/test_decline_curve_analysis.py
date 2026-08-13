@@ -79,7 +79,7 @@ class TestOnRealData:
         df_field = df_field.sort_values(["prfYear", "prfMonth"])
 
         # Preprocess
-        time_on, production, mask = preprocess_timeseries(
+        _time_on, production, mask = preprocess_timeseries(
             time_on=np.ones(len(df_field)),
             production=df_field["prfPrdOilNetMillSm3"].values,
         )
@@ -713,9 +713,11 @@ class TestNumerics:
         x = 1000
 
         # Should overflow
-        with np.errstate(over="warn"):
-            with pytest.warns(RuntimeWarning, match="overflow encountered"):
-                np.log1p(t * np.exp(x))
+        with (
+            np.errstate(over="warn"),
+            pytest.warns(RuntimeWarning, match="overflow encountered"),
+        ):
+            np.log1p(t * np.exp(x))
 
         # Should not overflow
         log1pexp(t, x)

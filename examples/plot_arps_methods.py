@@ -9,6 +9,7 @@ Plot an Arps curve, its integral and shifted/scaled curves.
 
 import matplotlib.pyplot as plt
 import numpy as np
+
 from dca.decline_curve_analysis import Arps
 
 fig, axes = plt.subplots(2, 2, sharex=True, sharey=False)

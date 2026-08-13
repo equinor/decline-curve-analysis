@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from dca.decline_curve_analysis import Exponential
 from dca.adca.well import Well
+from dca.decline_curve_analysis import Exponential
 
 COLORS = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 

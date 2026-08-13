@@ -5,9 +5,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
+
 from dca.datasets import load_monthly_sodir_production
 from dca.decline_curve_analysis import Arps, CurveLoss
-
 
 # Read data from a public source (SODIR - sokkeldirektoratet)
 df = load_monthly_sodir_production()
@@ -83,7 +83,7 @@ def loss(parameters, x, y):
 
         # Here we compute the residuals in the log space
         # Alternatively, they could be computed in the original space
-        residuals.extend((y_preds - np.log(y_val)))
+        residuals.extend(y_preds - np.log(y_val))
 
     return np.sqrt(np.mean(np.array(residuals) ** 2))
 
@@ -173,8 +173,6 @@ optimization_result = sp.optimize.minimize(
     args=args,
     jac=loss_function.grad,
 )
-
-optimization_result
 
 # Plot results
 plt.figure(figsize=(7, 3))

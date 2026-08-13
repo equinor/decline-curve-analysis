@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+
 from dca.decline_curve_analysis import Exponential
 from dca.models import AR1Model
-
 
 rng = np.random.default_rng(42)
 
@@ -26,7 +26,7 @@ fig, axes = plt.subplots(1, 4, figsize=(8, 2))
 
 
 for ax, phi in zip(axes.ravel(), [0, 0.66, 0.9, 0.99]):
-    ax.set_title(f"$\phi$={phi}")
+    ax.set_title(rf"$\phi$={phi}")
 
     model.update(theta=theta, sigma=sigma, phi=phi, p=p)
     y = model.simulate(tau=tau, t=t, seed=rng, simulations=3)

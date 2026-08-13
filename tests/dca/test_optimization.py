@@ -79,7 +79,7 @@ class TestOptimizer:
             beta=Parameter(x0=np.array([1, 2])),
         )
 
-        opt_params, opt_result = optimization_problem.optimize_lbfgsb()
+        opt_params, _opt_result = optimization_problem.optimize_lbfgsb()
 
         assert np.allclose(opt_params["beta"], np.array([-0.33824323, -0.13242369]))
 
@@ -121,7 +121,7 @@ class TestOptimizer:
             ),
         )
 
-        opt_params, opt_result = optimization_problem.optimize_bfgs()
+        opt_params, _opt_result = optimization_problem.optimize_bfgs()
 
         assert np.isclose(opt_params["sigma"], 0.4437543289665066)
 
@@ -185,7 +185,7 @@ class TestOptimizer:
             ),
         )
 
-        opt_params, opt_result = optimization_problem.optimize_nelder_mead()
+        opt_params, _opt_result = optimization_problem.optimize_nelder_mead()
 
         assert np.isclose(opt_params["sigma"], 0.4437543289665066)
 

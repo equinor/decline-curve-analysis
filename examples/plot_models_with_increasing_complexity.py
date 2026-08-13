@@ -10,11 +10,12 @@ Increasing model complexity
 
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from dca.datasets import load_monthly_sodir_production
+
 from dca.adca.well import Well
+from dca.datasets import load_monthly_sodir_production
 
 # "GULLFAKS SØR", "GYDA", "HEIDRUN", "NORNE", "STATFJORD"
 FIELD = "GULLFAKS SØR"

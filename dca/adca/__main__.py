@@ -64,7 +64,7 @@ def subcommand_run(args):
                 hyperparam_maxfun=args.hyperparam_maxfun,
                 plot_verbosity=args.plot_verbosity,
             )
-        except Exception:
+        except Exception:  # noqa: BLE001
             traceback.print_exc()  # Print the exception
             print(
                 f"""

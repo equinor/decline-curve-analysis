@@ -12,13 +12,13 @@ import itertools
 
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
 import pandas as pd
+import scipy as sp
 
-from dca.decline_curve_analysis import Arps
 from dca.adca.well import Well
 from dca.datasets import load_monthly_sodir_production
-from dca.models import gamma_logpdf_grad, beta_logpdf_grad
+from dca.decline_curve_analysis import Arps
+from dca.models import beta_logpdf_grad, gamma_logpdf_grad
 
 # Load data to fit to
 series = (

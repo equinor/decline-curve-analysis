@@ -9,15 +9,16 @@ Use the Well class to find parameters and estimate EUR.
 
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
 import pandas as pd
+import scipy as sp
+
 from dca.adca.well import Well
 
 COLORS = list(plt.rcParams["axes.prop_cycle"].by_key()["color"])
 
 
 def relative_error(x, x_hat):
-    return abs((x - x_hat)) / abs(x)
+    return abs(x - x_hat) / abs(x)
 
 
 # Set up the true model f(t) = exp(ln(C) - k * t + epsilon)

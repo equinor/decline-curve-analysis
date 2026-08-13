@@ -19,8 +19,8 @@ import inspect
 import logging
 import numbers
 import warnings
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Optional, Union, Tuple
 
 import numpy as np
 import scipy as sp
@@ -40,11 +40,11 @@ class Parameter:
     An optimizable parameter with optional transformations and bounds.
     """
 
-    x0: Union[float, np.ndarray]
-    transform: Optional[Callable] = None
-    transform_derivative: Optional[Callable] = None
-    inverse_transform: Optional[Callable] = None
-    bounds: Optional[Tuple[Optional[float], Optional[float]]] = (None, None)
+    x0: float | np.ndarray
+    transform: Callable | None = None
+    transform_derivative: Callable | None = None
+    inverse_transform: Callable | None = None
+    bounds: tuple[float | None, float | None] | None = (None, None)
 
     def __post_init__(self):
         """Data validation and setup, run after __init__."""
@@ -186,7 +186,7 @@ class Optimizer:
         self,
         loss: Callable[..., float],
         *,
-        grad: Optional[Callable[..., Union[float, np.ndarray]]] = None,
+        grad: Callable[..., float | np.ndarray] | None = None,
         **parameters,
     ):
         self.loss = loss
@@ -286,7 +286,7 @@ class Optimizer:
         array = np.empty(sum(len(param) for param in self.parameters.values()))
 
         idx = 0  # Start index of current slice
-        for param_name, parameter in self.parameters.items():
+        for param_name in self.parameters:
             value = parameters[param_name]
             length = len(Parameter(x0=value))
             array[slice(idx, idx + length)] = value

@@ -59,11 +59,13 @@ def to_period(value, freq):
     pattern_month = r"^\d{4}-(0[1-9]|1[0-2])$"
     pattern_day = r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
 
-    if value is None:
-        return pd.Period(value=value, freq=freq)
-    elif re.match(pattern_month, value) and freq == "M":
-        return pd.Period(value=value, freq=freq)
-    elif re.match(pattern_day, value) and freq == "D":
+    if (
+        value is None
+        or re.match(pattern_month, value)
+        and freq == "M"
+        or re.match(pattern_day, value)
+        and freq == "D"
+    ):
         return pd.Period(value=value, freq=freq)
     else:
         raise ValueError(f"Period '{value=}' incompatible with '{freq=}'")
@@ -269,12 +271,12 @@ def transform_parameters(parameters: dict) -> dict:
     # This is done since we want to sample e.g. half_life on logscale
     parameters = parameters.copy()
     valid_names = {"p", "half_life", "prior_strength"}
-    assert all((key in valid_names) for key in parameters.keys())
+    assert all((key in valid_names) for key in parameters)
 
-    if "half_life" in parameters.keys():
+    if "half_life" in parameters:
         parameters["half_life"] = 10 ** parameters["half_life"]
 
-    if "prior_strength" in parameters.keys():
+    if "prior_strength" in parameters:
         parameters["prior_strength"] = 10 ** parameters["prior_strength"]
 
     return parameters
@@ -581,6 +583,18 @@ def pairwise(iterable):
     for b in iterator:
         yield a, b
         a = b
+
+
+class PDMEmptyQueryError(Exception):
+    """Raised when a PDM query returns zero rows."""
+
+
+class InvalidSimulationArgError(Exception):
+    """Raised when incompatible `n` and `time_on` args are passed to generate_random."""
+
+
+class EmptyTestSetError(Exception):
+    """Raised when the test set is empty and cannot be evaluated."""
 
 
 if __name__ == "__main__":
