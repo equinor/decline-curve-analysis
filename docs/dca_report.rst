@@ -108,8 +108,8 @@ Following the notation in [LEE21]_, the Arps curve is given by
 
 The parameters :math:`q` and :math:`D` are constrained to be positive.
 If :math:`0 < h < 1`, then :math:`\int_0^{\infty} f(t) \, dt` is finite.
-If :math:`\lim_{h \to 0}`, then :math:`\left(1 + hDt \right)^{-1/h} = \exp \left( -Dt \right)`.
-This follows by from one from the definitions of :math:`\exp (x)`, namely :math:`\exp x = \lim_{n \to \infty} \left(1 + \frac{x}{n}\right)^n`.
+In the limit :math:`h \to 0`, we have :math:`\left(1 + hDt \right)^{-1/h} = \exp \left( -Dt \right)`.
+This follows from one of the definitions of :math:`\exp (x)`, namely :math:`\exp x = \lim_{n \to \infty} \left(1 + \frac{x}{n}\right)^n`.
 
 Integrals
 """""""""
@@ -292,7 +292,7 @@ If we add the error term :math:`\epsilon_i` on the original scale, then we must 
 .. math::  
    \sum_{i=0}^j p_i = \int_{0}^{\tau_j} f(t; \boldsymbol{\theta}) \, dt + \xi_j \epsilon_i
 
-But the above model also assumes that to errors are constant over time, whereas in reality the errors are clearly dependent on the production values.
+But the above model also assumes that the errors are constant over time, whereas in reality the errors are clearly dependent on the production values.
 A stochastic integral like :math:`\sum_{i=0}^j p_i = \int_{0}^{\tau_j} f(t; \boldsymbol{\theta}) \exp(\epsilon(t)) \, dt` might work, but it does not appear that such a model will lead to any improvements.
 It's hard to compute and unnecessarily complex with no apparent gain.
 
@@ -309,7 +309,7 @@ This section outlines two ways of preprocessing data: **the producing time trans
    This production is the integral of the true model over the time on (uptime).
    Two preprocessing transformations are shown: (1) the producing time transform and (2) the calendar time transform.
    Forecasting with (1) answers the question "how much will this well produce in the future if it's always on?" and
-   forecasting with (2) answers the question "how much will this well produce in the future if it's future uptime is roughly equal to it's past uptime?"
+   forecasting with (2) answers the question "how much will this well produce in the future if its future uptime is roughly equal to its past uptime?"
 
 As in the section above, let :math:`\boldsymbol{p}` be observed production within each time period and
 :math:`\boldsymbol{\tau}` be time on.
@@ -422,7 +422,7 @@ Consider the simplest model: fitting a mean value by :math:`f(\boldsymbol{t}; \t
 Fitting to data :math:`\boldsymbol{y} = \left(1, 10, 100\right)` by minimizing least squares gives the arithmetic mean :math:`\theta = 37`.
 Loss above and below balance on the additive scale.
 
-Fitting to the same data by minimizing log model against log data gives :math:`\log_{10}(\theta) = 1`, so :math:`\theta = 10`. Loss above and below are balanced in the multiplicative sense, since multiplying by :math:`10` is as erroneous as diving by :math:`10`.
+Fitting to the same data by minimizing log model against log data gives :math:`\log_{10}(\theta) = 1`, so :math:`\theta = 10`. Loss above and below are balanced in the multiplicative sense, since multiplying by :math:`10` is as erroneous as dividing by :math:`10`.
 
 Fitting without taking logs forces the optimizer to work hard at fitting the first few data points at the expense of the last data points.
 This is due to the magnitude of the errors in the beginning of the time series, when production is large due to the high pressure in the well.
@@ -672,7 +672,7 @@ The remaining terms have likelihood:
 Gradient of log-likelihood - general case
 """""""""""""""""""""""""""""""""""""""""
 
-On an arbitrary data point that is not the first once (where the initial condition applies), 
+On an arbitrary data point that is not the first one (where the initial condition applies), 
 we obtain the gradient by first looking at the negative log-pdf of the generalized normal distribution:
 
 .. math::
@@ -681,7 +681,7 @@ we obtain the gradient by first looking at the negative log-pdf of the generaliz
    + \log(2\alpha\Gamma(1/\beta)) - \log(\beta)
    
 Using the `Prais–Winsten trick <https://en.wikipedia.org/wiki/Prais%E2%80%93Winsten_estimation>`_,
-we transform the regression with a weighted difference, creating independent errors to regresson on.
+we transform the regression with a weighted difference, creating independent errors to regress on.
 
 .. math::
    \mu &= \mu(\theta, \phi) = \log( f(t_i; \theta) ) + \phi \left[ \log (y_{i-1}) - \log(f(t_{i-1}; \theta) ) \right]  \\ 
@@ -815,9 +815,9 @@ Summary
 -------
 .. _section:summary:
 
-Even though the Arps curve dates back to the 1940s, we still believe it's the best choice when predicting future prediction for on-shore gas wells.
-While other models might also be worth examining, we find that the largest performance gains are arhieved when adjusting the loss function.
-In other words, how recent data is weighted, how data is reprocessed, whether we are sensitive to outliers or not, and other questions like these, matter more than the exact parametric form of the DCA model.
+Even though the Arps curve dates back to the 1940s, we still believe it's the best choice when predicting future production for on-shore gas wells.
+While other models might also be worth examining, we find that the largest performance gains are achieved when adjusting the loss function.
+In other words, how recent data is weighted, how data is preprocessed, whether we are sensitive to outliers or not, and other questions like these, matter more than the exact parametric form of the DCA model.
 
 We back our claim up with a quantitative study based on 15,000 on-shore gas wells.
 Keeping the DCA model constant (using the Arps curve) and adjusting the loss function, we obtain a 25% reduction in forecasting RMSE.

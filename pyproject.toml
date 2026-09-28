@@ -31,6 +31,7 @@ dependencies = [
 
 [project.urls]
 homepage = "https://github.com/equinor/decline-curve-analysis/"
+documentation = "https://equinor.github.io/decline-curve-analysis/"
 
 [tool.setuptools]
 packages = ["dca", "dca.adca", "dca.datasets"]

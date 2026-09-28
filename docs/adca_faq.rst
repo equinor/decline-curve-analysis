@@ -36,15 +36,15 @@ Long answer: Suppose you want to forecast 4 years.
 - If your average well has around 8 years of history, then a split of 0.5 is good because it puts 50% (4 years) in the test set
 - If your average well has around 4 years of history, then a very low split like 0.1 or 0.2 would put the test set close to 4 years.
   However, this leaves almost nothing in the training set.
-  Most likely in a situation like this, where you want to predict e.g. 4 years but you also only have around 4 years of history, a good appraoch is to set half-life equal to a pretty large number, e.g. 12 * 4 months or 12 * 8 months or 12 * 12 months.
+  Most likely in a situation like this, where you want to predict e.g. 4 years but you also only have around 4 years of history, a good approach is to set half-life equal to a pretty large number, e.g. 12 * 4 months or 12 * 8 months or 12 * 12 months.
   You could even set it to 9999 or ``null`` (infinity).
   You do not have enough data to make a meaningful train/test split and learn the optimal half life.
 
 Using a split to infer hyperparameters works pretty well if you have a good long history and you have many wells.
-If you have few well and/or little history your best bet for long-term predictions is to manually set a large half life and segment the wells if you have early ramp-up that will interfere with the fitting.
+If you have few wells and/or little history your best bet for long-term predictions is to manually set a large half life and segment the wells if you have early ramp-up that will interfere with the fitting.
 
 
-**I want to use monthly frequency, but my production data has units bbl/days. How can I convert it?**
+**I want to use monthly frequency, but my production data has units bbl/day. How can I convert it?**
 
 This is best done before invoking ADCA.
 A Python snippet like the following should do the trick:
@@ -64,7 +64,7 @@ Derived information, that can be computed using existing outputs, will likely no
 Adding derived information tends to bloat software.
 
 For instance, a user commented "it would be nice if in the data_report file we could also have the AVG decline."
-Instead of ADCA attempting to accomodate needs like this, it's better if users compute it themselves using Excel, or with a short Python snippet like:
+Instead of ADCA attempting to accommodate needs like this, it's better if users compute it themselves using Excel, or with a short Python snippet like:
 
 .. code-block:: python
 
@@ -83,7 +83,7 @@ Instead of ADCA attempting to accomodate needs like this, it's better if users c
 
 Engineers sometimes want to see forecasted values in a more readable format.
 For instance, one row per well and one column per month.
-A Pyhon snippet like the following might be useful:
+A Python snippet like the following might be useful:
 
 .. code-block:: python
 
@@ -137,7 +137,7 @@ If so, you can use something like:
      .reset_index()
      .to_csv("summed.csv", index=False))
      
-If you want to sum cumulatives, you have can use something like:
+If you want to sum cumulatives, you can use something like:
 
 .. code-block:: python
 
@@ -158,7 +158,7 @@ If you want to sum cumulatives, you have can use something like:
      )
    
    
-**How can I get all a list of all well IDS for a field?**
+**How can I get a list of all well IDs for a field?**
 
 .. code-block:: python
 
