@@ -71,8 +71,13 @@ jobs:
     strategy:
       fail-fast: false
 
+    permissions:
+      contents: write # needed to push the built documentation to the gh-pages branch
+
     steps:
     - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6
       with:
@@ -90,4 +95,27 @@ jobs:
     - name: Build docs
       run: |
         sphinx-build -M html ./docs ./docs/build -W -a -v
+
+    - name: Update GitHub Pages
+      if: |
+        github.repository_owner == 'equinor' &&
+        github.event_name == 'push' &&
+        github.ref == 'refs/heads/main'
+      run: |
+        cp -R ./docs/build/html ../html
+        git config --local user.email "dca-github-action"
+        git config --local user.name "dca-github-action"
+        git fetch origin gh-pages
+        git checkout --track origin/gh-pages
+        git clean -f -f -d -x  # Double -f is intentional.
+        git rm -r --ignore-unmatch .
+        cp -R ../html/* .
+        touch .nojekyll  # If not, github pages ignores _* directories.
+        git add .
+        if git diff-index --quiet HEAD; then
+          echo "No changes in documentation. Skip documentation deploy."
+        else
+          git commit -m "Update GitHub Pages"
+          git push "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+        fi
         
