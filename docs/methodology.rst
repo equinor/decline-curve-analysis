@@ -25,15 +25,18 @@ The main benefit from using our DCA method with the ADCA system is:
 More details on accuracy:
 
 - **15000 on-shore gas wells**
-  - Our generalization of the loss function lead to a 25% reduction in forecasting error, compared to using least-squares loss.
-  - Furthermore, we achieved 20% better forecasts (lower RMSE) than DCA performed by engineers. This was measured using RMSE. On around 75% of the wells, our method outperformed engineering estimates.
+
+  - Our generalization of the loss function led to a 25% reduction in forecasting error, compared to using least-squares loss.
+  - Furthermore, we achieved 20% better forecasts, as measured by RMSE, than DCA performed by engineers. On around 75% of the wells, our method outperformed engineering estimates.
+
 - **NCS fields**
-  - We have done comparisons on NSC (Norwegian Continental Shelf) fields. Here there is typically less data and access to historical forecasts are more scarce. However, we found our method to outperform engineering estimates of DCA parameters in every case. Due to the low number of wells we hesitate to claim statistical significance.
+
+  - We have done comparisons on NCS (Norwegian Continental Shelf) fields. Here there is typically less data and access to historical forecasts is more scarce. However, we found our method to outperform engineering estimates of DCA parameters in every case. Due to the low number of wells we hesitate to claim statistical significance.
 
 Assumptions
 -----------
 
-DCA operates under the assumption that wells exhibits a steady rate of production decline.
+DCA operates under the assumption that wells exhibit a steady rate of production decline.
 This is a common scenario for mature wells that have passed the peak production phase and entered a more predictable decline phase.
 Deviations from this assumption may impact the accuracy of the model's predictions.
 Use common sense and look at the debugging figures that the ``adca`` system outputs to assess performance.
