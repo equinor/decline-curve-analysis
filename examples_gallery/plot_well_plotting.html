@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Well plotting methods &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fit an Arps curve" href="plot_arps_fit.html" />
+    <link rel="prev" title="Curve methods" href="plot_arps_methods.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../developer_documentation.html">Developer documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../dca_api.html">DCA - API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">DCA - Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_arps.html">Plot an Arps curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_arps_methods.html">Curve methods</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Well plotting methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_arps_fit.html">Fit an Arps curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_loss_function_params.html">Loss function parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_simulation_game.html">Simulation game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_data_cleaning.html">Data cleaning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_prior_effect.html">Effect of prior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_future_simulations.html">Future simulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_models_with_increasing_complexity.html">Increasing model complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_uncertainty.html">Uncertainty</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dca_report.html">DCA - Technical report</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../developer_documentation.html">Developer documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">DCA - Examples</a></li>
+      <li class="breadcrumb-item active">Well plotting methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples_gallery/plot_well_plotting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-examples-gallery-plot-well-plotting-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="well-plotting-methods">
+<span id="sphx-glr-examples-gallery-plot-well-plotting-py"></span><h1>Well plotting methods<a class="headerlink" href="#well-plotting-methods" title="Link to this heading"></a></h1>
+<p>Showcases plotting capabilities.</p>
+<img src="../_images/sphx_glr_plot_well_plotting_001.png" srcset="../_images/sphx_glr_plot_well_plotting_001.png" alt="Production rate on logscale, Production rate, Cumulative production on logscale, Cumulative production, Cumulative production on logscale [zoomed], Cumulative production [zoomed]" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span><span class="nn">.</span><span class="nn">pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span><span class="w">
+</span><span class="w">
+</span><span class="kn">from</span><span class="w"> </span><span class="nn">dca</span><span class="nn">.</span><span class="nn">adca</span><span class="nn">.</span><span class="nn">well</span><span class="w"> </span><span class="kn">import</span> <span class="n">Well</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Parameters to change</span><span class="w">
+</span><span class="n">SPLIT</span> <span class="o">=</span> <span class="mf">0.66</span><span class="w">
+</span><span class="n">curve_parameters</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span><span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span><span class="w">
+</span><span class="n">STD</span> <span class="o">=</span> <span class="mf">0.66</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Generate a random well and fit it</span><span class="w">
+</span><span class="n">well</span> <span class="o">=</span> <span class="n">Well</span><span class="o">.</span><span class="n">generate_random</span><span class="p">(</span><span class="w">
+</span>    <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="w">
+</span>    <span class="n">curve_model</span><span class="o">=</span><span class="s2">&quot;</span><span class="s2">arps</span><span class="s2">&quot;</span><span class="p">,</span><span class="w">
+</span>    <span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w">
+</span>    <span class="n">preprocessing</span><span class="o">=</span><span class="s2">&quot;</span><span class="s2">producing_time</span><span class="s2">&quot;</span><span class="p">,</span><span class="w">
+</span>    <span class="n">curve_parameters</span><span class="o">=</span><span class="n">curve_parameters</span><span class="p">,</span><span class="w">
+</span>    <span class="n">std</span><span class="o">=</span><span class="n">STD</span><span class="p">,</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">half_life</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prior_strength</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Set up plot</span><span class="w">
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="w">
+</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">,</span> <span class="n">ax5</span><span class="p">,</span> <span class="n">ax6</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Rates</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">logscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="w">
+</span><span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Production rate on logscale</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">logscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="w">
+</span><span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Production rate</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Cumulative production</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">plot_cumulative</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">logscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="w">
+</span><span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Cumulative production on logscale</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">plot_cumulative</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">,</span> <span class="n">logscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="w">
+</span><span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Cumulative production</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Zoomed in</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">plot_cumulative</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax5</span><span class="p">,</span> <span class="n">logscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="w">
+</span><span class="n">ax5</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Cumulative production on logscale [zoomed]</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="n">ax5</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="p">[</span><span class="mf">9.8</span><span class="p">,</span> <span class="mf">10.15</span><span class="p">]</span><span class="p">)</span><span class="w">
+</span><span class="n">ax5</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">110</span><span class="p">]</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="n">well</span><span class="o">.</span><span class="n">plot_cumulative</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="n">SPLIT</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax6</span><span class="p">,</span> <span class="n">logscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="w">
+</span><span class="n">ax6</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Cumulative production [zoomed]</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="n">ax6</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="p">[</span><span class="mf">1.8e4</span><span class="p">,</span> <span class="mf">2.5e4</span><span class="p">]</span><span class="p">)</span><span class="w">
+</span><span class="n">ax6</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">110</span><span class="p">]</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="c1"># Relabel x-axes</span><span class="w">
+</span><span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="p">)</span><span class="p">:</span><span class="w">
+</span>    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="s2">Time periods</span><span class="s2">&quot;</span><span class="p">)</span><span class="w">
+</span><span class="w">
+</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="p">)</span><span class="w">
+</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="p">)</span><span class="w">
+</span></pre></div></div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.802 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-gallery-plot-well-plotting-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/6c18a0ed7cfbb598f1eb955370dd4669/plot_well_plotting.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_well_plotting.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/086da6aa11a7f14de3d3b916dae28f9b/plot_well_plotting.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_well_plotting.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/094a57a0b57b8b17f3d85ee22bb69016/plot_well_plotting.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_well_plotting.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plot_arps_methods.html" class="btn btn-neutral float-left" title="Curve methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plot_arps_fit.html" class="btn btn-neutral float-right" title="Fit an Arps curve" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

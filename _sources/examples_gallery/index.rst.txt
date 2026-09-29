@@ -1,0 +1,246 @@
+:orphan:
+
+DCA - Examples
+==============
+
+Below is a gallery of examples showing how to use DCA.
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Shows how to plot curves.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_arps_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_arps`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot an Arps curve</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot an Arps curve, its integral and shifted/scaled curves.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_arps_methods_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_arps_methods`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Curve methods</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Showcases plotting capabilities.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_well_plotting_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_well_plotting`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Well plotting methods</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Here we fit a curve to data using the low-level API and plot it.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_arps_fit_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_arps_fit`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Fit an Arps curve</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Tweaking loss function parameters.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_loss_function_params_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_loss_function_params`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Loss function parameters</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A high quality simulation should be indistinguishable from observed data. Can you guess where the training data ends and the simulation begins?">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_simulation_game_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_simulation_game`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Simulation game</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Shows how data can be cleaned before creating a Well.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_data_cleaning_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_data_cleaning`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Data cleaning</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="We show how the prior works. As more and more data is seen, the effect of the prior lessens.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_prior_effect_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_prior_effect`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Effect of prior</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Shows how to Monte Carlo simulate the future.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_future_simulations_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_future_simulations`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Future simulations</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="- &quot;Least squares&quot; is a special case of - &quot;Weighted least squares&quot;, which is a special case of - &quot;Weighted p-norm regression&quot;, which is a special case of - &quot;Weighted AR(1) regression with errors from a generalized normal distribution&quot;">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_models_with_increasing_complexity_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_models_with_increasing_complexity`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Increasing model complexity</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Use the Well class to find parameters and estimate EUR.">
+
+.. only:: html
+
+  .. image:: /examples_gallery/images/thumb/sphx_glr_plot_uncertainty_thumb.png
+    :alt:
+
+  :doc:`/examples_gallery/plot_uncertainty`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Uncertainty</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples_gallery/plot_arps
+   /examples_gallery/plot_arps_methods
+   /examples_gallery/plot_well_plotting
+   /examples_gallery/plot_arps_fit
+   /examples_gallery/plot_loss_function_params
+   /examples_gallery/plot_simulation_game
+   /examples_gallery/plot_data_cleaning
+   /examples_gallery/plot_prior_effect
+   /examples_gallery/plot_future_simulations
+   /examples_gallery/plot_models_with_increasing_complexity
+   /examples_gallery/plot_uncertainty
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: examples_gallery_python.zip </examples_gallery/examples_gallery_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: examples_gallery_jupyter.zip </examples_gallery/examples_gallery_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

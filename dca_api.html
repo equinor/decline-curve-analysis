@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DCA - API &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/sg-tags.js?v=d80f6fa4"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DCA - Examples" href="examples_gallery/index.html" />
+    <link rel="prev" title="Developer documentation" href="developer_documentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="developer_documentation.html">Developer documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DCA - API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dca.decline_curve_analysis.Arps"><code class="docutils literal notranslate"><span class="pre">Arps</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.__init__"><code class="docutils literal notranslate"><span class="pre">Arps.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.add"><code class="docutils literal notranslate"><span class="pre">Arps.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval"><code class="docutils literal notranslate"><span class="pre">Arps.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_grad_log"><code class="docutils literal notranslate"><span class="pre">Arps.eval_grad_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_integral"><code class="docutils literal notranslate"><span class="pre">Arps.eval_integral()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_integral_from_0_to_T"><code class="docutils literal notranslate"><span class="pre">Arps.eval_integral_from_0_to_T()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_integral_from_0_to_inf"><code class="docutils literal notranslate"><span class="pre">Arps.eval_integral_from_0_to_inf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_integral_from_T1_to_T2"><code class="docutils literal notranslate"><span class="pre">Arps.eval_integral_from_T1_to_T2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_integral_from_T_to_inf"><code class="docutils literal notranslate"><span class="pre">Arps.eval_integral_from_T_to_inf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_log"><code class="docutils literal notranslate"><span class="pre">Arps.eval_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_log_original_parametrization"><code class="docutils literal notranslate"><span class="pre">Arps.eval_log_original_parametrization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_original_parametrization"><code class="docutils literal notranslate"><span class="pre">Arps.eval_original_parametrization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.eval_squared_integral"><code class="docutils literal notranslate"><span class="pre">Arps.eval_squared_integral()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.from_original_parametrization"><code class="docutils literal notranslate"><span class="pre">Arps.from_original_parametrization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.original_parametrization"><code class="docutils literal notranslate"><span class="pre">Arps.original_parametrization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.shift_and_scale"><code class="docutils literal notranslate"><span class="pre">Arps.shift_and_scale()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Arps.thetas"><code class="docutils literal notranslate"><span class="pre">Arps.thetas</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential"><code class="docutils literal notranslate"><span class="pre">Exponential</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.__init__"><code class="docutils literal notranslate"><span class="pre">Exponential.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.add"><code class="docutils literal notranslate"><span class="pre">Exponential.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval"><code class="docutils literal notranslate"><span class="pre">Exponential.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_grad_log"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_grad_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_integral"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_integral()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_0_to_T"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_integral_from_0_to_T()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_0_to_inf"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_integral_from_0_to_inf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_T1_to_T2"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_integral_from_T1_to_T2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_T_to_inf"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_integral_from_T_to_inf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_log"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.eval_squared_integral"><code class="docutils literal notranslate"><span class="pre">Exponential.eval_squared_integral()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.from_original_parametrization"><code class="docutils literal notranslate"><span class="pre">Exponential.from_original_parametrization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.original_parametrization"><code class="docutils literal notranslate"><span class="pre">Exponential.original_parametrization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.shift_and_scale"><code class="docutils literal notranslate"><span class="pre">Exponential.shift_and_scale()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.Exponential.thetas"><code class="docutils literal notranslate"><span class="pre">Exponential.thetas</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dca.decline_curve_analysis.CurveLoss"><code class="docutils literal notranslate"><span class="pre">CurveLoss</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.CurveLoss.__call__"><code class="docutils literal notranslate"><span class="pre">CurveLoss.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.CurveLoss.__init__"><code class="docutils literal notranslate"><span class="pre">CurveLoss.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.decline_curve_analysis.CurveLoss.grad"><code class="docutils literal notranslate"><span class="pre">CurveLoss.grad()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dca.models.AR1Model"><code class="docutils literal notranslate"><span class="pre">AR1Model</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.__init__"><code class="docutils literal notranslate"><span class="pre">AR1Model.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.get_weights"><code class="docutils literal notranslate"><span class="pre">AR1Model.get_weights()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.gradient"><code class="docutils literal notranslate"><span class="pre">AR1Model.gradient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.negative_ll"><code class="docutils literal notranslate"><span class="pre">AR1Model.negative_ll()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.optimize"><code class="docutils literal notranslate"><span class="pre">AR1Model.optimize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.pointwise_std"><code class="docutils literal notranslate"><span class="pre">AR1Model.pointwise_std()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.simulate"><code class="docutils literal notranslate"><span class="pre">AR1Model.simulate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dca.models.AR1Model.update"><code class="docutils literal notranslate"><span class="pre">AR1Model.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_gallery/index.html">DCA - Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dca_report.html">DCA - Technical report</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="developer_documentation.html">Developer documentation</a></li>
+      <li class="breadcrumb-item active">DCA - API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dca_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dca-api">
+<h1>DCA - API<a class="headerlink" href="#dca-api" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">dca.decline_curve_analysis.</span></span><span class="sig-name descname"><span class="pre">Arps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps" title="Link to this definition"></a></dt>
+<dd><p>Create an Arps instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta1</strong> (<em>float</em>) – Parameter number one. Interpreted as the logarithm of the integral from
+zero to infinity. This scales the generalized Pareto distribution.</p></li>
+<li><p><strong>theta2</strong> (<em>float</em>) – Parameter number two.</p></li>
+<li><p><strong>theta3</strong> (<em>float</em>) – Parameter number three.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>We use the parametrization given in the paper ‘Bayesian Hierarchical Modeling’
+by Se Yoon Lee et al by default. This parametrization is over unbounded
+variables <span class="math notranslate nohighlight">\(\boldsymbol{\theta} = (\theta_1, \theta_2, \theta_3)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\mu(t; \boldsymbol{\theta}) =
+\exp \left(
+    \theta_1 - \theta_2 - (1 + \exp(-\theta_3))
+    \log(1 + t \exp(\theta_3 - \theta_2))
+    \right)\]</div>
+<p>It’s also possible to use the “original” parametrization with parameters
+<span class="math notranslate nohighlight">\((q_1, h, D)\)</span></p>
+<dl class="simple">
+<dt>See also:</dt><dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_Pareto_distribution">https://en.wikipedia.org/wiki/Generalized_Pareto_distribution</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Arps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="go">array([20.08...,  0.31...,  0.12...,  0.072... ,  0.04...])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Arps</span><span class="o">.</span><span class="n">from_original_parametrization</span><span class="p">(</span><span class="n">q_1</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.66</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.add" title="Link to this definition"></a></dt>
+<dd><p>Add a constant k in log space and return a new instance.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Arps</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">Arps(12.0, 3.0, 1.0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval" title="Link to this definition"></a></dt>
+<dd><p>Evaluate <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_grad_log">
+<span class="sig-name descname"><span class="pre">eval_grad_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_grad_log" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the gradient of the log-Arps curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array of shape (3, len(t)) with gradient information.
+To compute the gradient with respect to the parameters
+<span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, the caller must sum over <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method evaluates the gradient of the log-Arps curve:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\boldsymbol{\theta}} \log \mu(t; \boldsymbol{\theta}) =
+\frac{1}{\mu(t; \boldsymbol{\theta})}
+\nabla_{\boldsymbol{\theta}} \mu(t; \boldsymbol{\theta})\]</div>
+<p>Note that this method can be used to evaluate the gradient of the Arps
+curve, since:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\boldsymbol{\theta}} \mu(t; \boldsymbol{\theta}) =
+\mu(t; \boldsymbol{\theta})
+\nabla_{\boldsymbol{\theta}} \log \mu(t; \boldsymbol{\theta})\]</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Arps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">eval_grad_log</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(3, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([5.        , 0.334..., 0.286...])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_integral">
+<span class="sig-name descname"><span class="pre">eval_integral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_integral" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the anti-derivative of <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_integral_from_0_to_T">
+<span class="sig-name descname"><span class="pre">eval_integral_from_0_to_T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_integral_from_0_to_T" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_0^{T} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_integral_from_0_to_inf">
+<span class="sig-name descname"><span class="pre">eval_integral_from_0_to_inf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_integral_from_0_to_inf" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_0^{\infty} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_integral_from_T1_to_T2">
+<span class="sig-name descname"><span class="pre">eval_integral_from_T1_to_T2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_integral_from_T1_to_T2" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_{T_1}^{T_2} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_integral_from_T_to_inf">
+<span class="sig-name descname"><span class="pre">eval_integral_from_T_to_inf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_integral_from_T_to_inf" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_T^{\infty} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_log">
+<span class="sig-name descname"><span class="pre">eval_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_log" title="Link to this definition"></a></dt>
+<dd><p>Evaluate <span class="math notranslate nohighlight">\(\log \mu(t; \boldsymbol{\theta})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_log_original_parametrization">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">eval_log_original_parametrization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_log_original_parametrization" title="Link to this definition"></a></dt>
+<dd><p>Evaluate <span class="math notranslate nohighlight">\(\log \mu(t; q_1, h, D)\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_original_parametrization">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">eval_original_parametrization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_original_parametrization" title="Link to this definition"></a></dt>
+<dd><p>Evaluate <span class="math notranslate nohighlight">\(\mu(t; q_1, h, D)\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.eval_squared_integral">
+<span class="sig-name descname"><span class="pre">eval_squared_integral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.eval_squared_integral" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the anti-derivative of <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})^2\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.from_original_parametrization">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_original_parametrization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.from_original_parametrization" title="Link to this definition"></a></dt>
+<dd><p>Initialize an instance using the original parametrization.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.original_parametrization">
+<span class="sig-name descname"><span class="pre">original_parametrization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.original_parametrization" title="Link to this definition"></a></dt>
+<dd><p>Return parameters <span class="math notranslate nohighlight">\((q_1, h, D)\)</span> in the original
+parametrization of the Arps curve, given by:</p>
+<div class="math notranslate nohighlight">
+\[\mu(t; q_1, h, D) = \frac{q_1}{(1 + hDt)^{1/h}}\]</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Arps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">original_parametrization</span><span class="p">()</span>
+<span class="go">(20.08..., 0.73..., 27.47...)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.shift_and_scale">
+<span class="sig-name descname"><span class="pre">shift_and_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.shift_and_scale" title="Link to this definition"></a></dt>
+<dd><p>Scale and shift the curve along the horizontal axis.</p>
+<dl class="simple">
+<dt>Equivalent to fitting on a transformed grid:</dt><dd><p><span class="math notranslate nohighlight">\(t' = t \times \text{scale} + \text{shift}\)</span>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span> <span class="o">=</span> <span class="n">Arps</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span><span class="o">.</span><span class="n">eval_log</span><span class="p">(</span><span class="n">x_grid</span><span class="p">)</span>
+<span class="go">array([5.        , 4.97517309, 4.95078876, 4.92683151, 4.8801402 ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span><span class="o">.</span><span class="n">shift_and_scale</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">eval_log</span><span class="p">((</span><span class="n">x_grid</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">array([5.        , 4.97517309, 4.95078876, 4.92683151, 4.8801402 ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Arps.thetas">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">thetas</span></span><a class="headerlink" href="#dca.decline_curve_analysis.Arps.thetas" title="Link to this definition"></a></dt>
+<dd><p>Return the thetas as a tuple.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">dca.decline_curve_analysis.</span></span><span class="sig-name descname"><span class="pre">Exponential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential" title="Link to this definition"></a></dt>
+<dd><p>Create an Exponential instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta1</strong> (<em>float</em>) – Parameter number one. Interpreted as the logarithm of the integral from
+zero to infinity. This scales the exponential distribution.</p></li>
+<li><p><strong>theta2</strong> (<em>float</em>) – Parameter number two. This is the rate parameter. Compared to Wikipedia’s
+article on the exponential distribution, lambda = exp(theta2).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The Exponential class holds an exponential curve, <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})\)</span>
+given by,</p>
+<div class="math notranslate nohighlight">
+\[\log \left( \mu(t; \theta_1, \theta_2) \right) = \theta_1 - \theta_2 - t \exp(-\theta_2),\]</div>
+<p>which assures that the curve is positive and decreasing.</p>
+<dl class="simple">
+<dt>See also:</dt><dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_distribution">https://en.wikipedia.org/wiki/Exponential_distribution</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="go">array([7.38905610e+00, 4.87589299e-01, 3.21750601e-02, 2.12316902e-03,</span>
+<span class="go">       1.40103753e-04])</span>
+</pre></div>
+</div>
+<p>Verify that Exponential(theta1, theta2) == Arps(theta1, theta2, -∞):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exponential</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arps</span> <span class="o">=</span> <span class="n">Arps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># Small value of theta3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">exponential</span><span class="p">(</span><span class="n">time</span><span class="p">),</span> <span class="n">arps</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>This example shows the difference between midpoint evaluation and integrating
+the exponential decline curve within each time period. Since the decline
+curve is convex, using the midpoint rule underestimates, but very slightly:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exponential</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="n">from_original_parametrization</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_on</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">time_on</span><span class="p">)</span> <span class="o">-</span> <span class="n">time_on</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exponential</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">midpoints</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_on</span>
+<span class="go">array([0.95122942, 0.44124845, 0.81873075, 0.3053518 , 0.71177032])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">time_on</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T1</span> <span class="o">=</span> <span class="n">T2</span> <span class="o">-</span> <span class="n">time_on</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exponential</span><span class="o">.</span><span class="n">eval_integral_from_T1_to_T2</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">)</span>
+<span class="go">array([0.95162582, 0.44129442, 0.81907193, 0.30537215, 0.71206693])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.add" title="Link to this definition"></a></dt>
+<dd><p>Add a constant k in log space and return a new instance.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">Exponential(12.0, 3.0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval" title="Link to this definition"></a></dt>
+<dd><p>Evaluate <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_grad_log">
+<span class="sig-name descname"><span class="pre">eval_grad_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_grad_log" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the gradient of the log-Exponential curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array of shape (2, len(t)) with gradient information.
+To compute the gradient with respect to the parameters
+<span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, the caller must sum over <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method evaluates the gradient of the log-Exponential curve:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\boldsymbol{\theta}} \log \mu(t; \boldsymbol{\theta}) =
+\frac{1}{\mu(t; \boldsymbol{\theta})}
+\nabla_{\boldsymbol{\theta}} \mu(t; \boldsymbol{\theta})\]</div>
+<p>Note that this method can be used to evaluate the gradient of the
+Exponential curve, since:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\boldsymbol{\theta}} \mu(t; \boldsymbol{\theta}) =
+\mu(t; \boldsymbol{\theta})
+\nabla_{\boldsymbol{\theta}} \log \mu(t; \boldsymbol{\theta})\]</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">eval_grad_log</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([5.        , 0.16851334])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_integral">
+<span class="sig-name descname"><span class="pre">eval_integral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_integral" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the anti-derivative of <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_integral_from_0_to_T">
+<span class="sig-name descname"><span class="pre">eval_integral_from_0_to_T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_0_to_T" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_0^{T} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_integral_from_0_to_inf">
+<span class="sig-name descname"><span class="pre">eval_integral_from_0_to_inf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_0_to_inf" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_0^{\infty} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_integral_from_T1_to_T2">
+<span class="sig-name descname"><span class="pre">eval_integral_from_T1_to_T2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_T1_to_T2" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_{T_1}^{T_2} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_integral_from_T_to_inf">
+<span class="sig-name descname"><span class="pre">eval_integral_from_T_to_inf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_integral_from_T_to_inf" title="Link to this definition"></a></dt>
+<dd><p>Evaluate
+<span class="math notranslate nohighlight">\(\int_T^{\infty} \mu(t; \boldsymbol{\theta}) dt\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_log">
+<span class="sig-name descname"><span class="pre">eval_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_log" title="Link to this definition"></a></dt>
+<dd><p>Evaluate <span class="math notranslate nohighlight">\(\log \mu(t; \boldsymbol{\theta})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.eval_squared_integral">
+<span class="sig-name descname"><span class="pre">eval_squared_integral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.eval_squared_integral" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the anti-derivative of <span class="math notranslate nohighlight">\(\mu(t; \boldsymbol{\theta})^2\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.from_original_parametrization">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_original_parametrization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.from_original_parametrization" title="Link to this definition"></a></dt>
+<dd><p>Initialize an instance using the original parametrization.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="n">from_original_parametrization</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">thetas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Exponential</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span><span class="o">.</span><span class="n">original_parametrization</span><span class="p">()</span>
+<span class="go">(10.0000000..., 0.1000000...)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.original_parametrization">
+<span class="sig-name descname"><span class="pre">original_parametrization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.original_parametrization" title="Link to this definition"></a></dt>
+<dd><p>Return parameters <span class="math notranslate nohighlight">\((C, k)\)</span> in the original
+parametrization of the Exponential curve, given by:</p>
+<div class="math notranslate nohighlight">
+\[\mu(t; C, k) = C \exp(-k t)\]</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="n">from_original_parametrization</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span> <span class="o">*</span> <span class="n">time</span><span class="p">),</span> <span class="n">curve</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.shift_and_scale">
+<span class="sig-name descname"><span class="pre">shift_and_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.shift_and_scale" title="Link to this definition"></a></dt>
+<dd><p>Scale and shift the curve along the horizontal axis.</p>
+<dl class="simple">
+<dt>Equivalent to fitting on a transformed grid:</dt><dd><p><span class="math notranslate nohighlight">\(t' = t \times \text{scale} + \text{shift}\)</span>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span><span class="o">.</span><span class="n">eval_log</span><span class="p">(</span><span class="n">x_grid</span><span class="p">)</span>
+<span class="go">array([9.        , 8.63212056, 8.26424112, 7.89636168, 7.16060279])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">curve</span><span class="o">.</span><span class="n">shift_and_scale</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">eval_log</span><span class="p">((</span><span class="n">x_grid</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">array([9.        , 8.63212056, 8.26424112, 7.89636168, 7.16060279])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.Exponential.thetas">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">thetas</span></span><a class="headerlink" href="#dca.decline_curve_analysis.Exponential.thetas" title="Link to this definition"></a></dt>
+<dd><p>Return the thetas as a tuple.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.CurveLoss">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">dca.decline_curve_analysis.</span></span><span class="sig-name descname"><span class="pre">CurveLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_life</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_func_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.CurveLoss" title="Link to this definition"></a></dt>
+<dd><p>Create a curve loss instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curve_func</strong> (<em>callable</em>) – A callable with signature (x, theta1, theta2, theta3), returning y.
+The thetas will be optimized by curve fitting.</p></li>
+<li><p><strong>mu</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – A vector of prior means for curve fitting parameters.
+The default is None (interpreted as no prior).</p></li>
+<li><p><strong>precision_matrix</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – A matrix of prior precisions for curve fitting parameters.
+(The inverse of the covariance matrix).
+The default is None (interpreted as no prior).</p></li>
+<li><p><strong>p</strong> (<em>float</em><em>, </em><em>optional</em>) – The p in the p-norm used in the loss function. The default is 1.4.</p></li>
+<li><p><strong>half_life</strong> (<em>float</em><em>, </em><em>optional</em>) – Half life used to create weights for exponential decay, weighting
+the most recent data points more. For instance, if half_life=100,
+then a data point today is worth twice as much as a data point
+from 100 days ago, and four times as much as a data point 200 days
+ago. The default is None (interpreted as infinity, or no decay).</p></li>
+<li><p><strong>curve_func_grad</strong> (<em>callable</em>) – A callable with signature (x, theta1, theta2, theta3), which returns
+a numpy array of shape (3, len(x)) representing the gradient at each
+point in x.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Loss function used for curve fitting.</p>
+<p>We use a class to set up common hyperparmeters.</p>
+<p>Curves are fit using a multivariate Gaussian prior. An instance of this
+class is meant to be used with <cite>scipy.optimize.minimize</cite>.</p>
+<p>The loss function is:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\boldsymbol{\theta}) =
+\sum_i w_i (\gamma) \lvert \ln y_i - \ln f(t_i; \boldsymbol{\theta}) \rvert ^p
++ \alpha \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)^T
+\boldsymbol{\Sigma}_{\boldsymbol{\theta}}^{-1}
+\left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)\]</div>
+<p>where,</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(w_i(\gamma)\)</span> is a weighting function that scales up the contribution of the most recent data,</p></li>
+<li><p>the choice of whether we use a logarithm or not is determined by cross-validation,</p></li>
+<li><p><span class="math notranslate nohighlight">\(1 \leq p \leq 2\)</span> is a hyperparameter determined by cross-validation,</p></li>
+<li><p>a multivariate normal prior is put on <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> (the second term with the quadratic function)</p></li>
+<li><p>the strength of the prior is given by <span class="math notranslate nohighlight">\(\alpha\)</span> and determined by cross-validation.</p></li>
+</ul>
+</div></blockquote>
+<p>Regularization of the prior is obatined by scaling the precision_matrix
+with a scalar value.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">14.615444</span><span class="p">,</span> <span class="mf">1.879282</span><span class="p">,</span> <span class="mf">0.004616</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">precision_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.80</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.32</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.11</span><span class="p">],</span>
+<span class="gp">... </span>                             <span class="p">[</span><span class="o">-</span><span class="mf">0.32</span><span class="p">,</span>  <span class="mf">0.67</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.19</span><span class="p">],</span>
+<span class="gp">... </span>                             <span class="p">[</span><span class="o">-</span><span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.19</span><span class="p">,</span>  <span class="mf">0.26</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">log_Arps</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">theta3</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">Arps</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">theta3</span><span class="p">)</span><span class="o">.</span><span class="n">eval_log</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_function</span> <span class="o">=</span> <span class="n">CurveLoss</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">precision_matrix</span><span class="o">=</span><span class="n">precision_matrix</span><span class="p">,</span>
+<span class="gp">... </span>                          <span class="n">curve_func</span><span class="o">=</span><span class="n">log_Arps</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optimization_result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">loss_function</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+<span class="gp">... </span>                               <span class="n">method</span><span class="o">=</span><span class="s2">"BFGS"</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,),)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">14.38081254</span><span class="p">,</span> <span class="mf">4.30188387</span><span class="p">,</span> <span class="mf">7.62215325</span><span class="p">]))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.CurveLoss.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thetas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.CurveLoss.__call__" title="Link to this definition"></a></dt>
+<dd><p>Get the loss of the curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>thetas</strong> (<em>np.ndarray</em>) – Parameters to be optimized.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – The x-values (typically time).</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – The y-values.</p></li>
+<li><p><strong>weights</strong> (<em>np.ndarray</em>) – Weights used for each data point. Will be multiplied with existing
+weights given by the half life parameter, if they exist.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Negative log posterior, proportional to log(likelihood) + log(prior).
+Minimizing this is the same as maximizing the likelihood.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.CurveLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_life</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_func_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.CurveLoss.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.decline_curve_analysis.CurveLoss.grad">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thetas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.decline_curve_analysis.CurveLoss.grad" title="Link to this definition"></a></dt>
+<dd><p>Gradient of the loss function.</p>
+<p>Returns an array of shape (num_parameters,). For instance, if the DCA
+curve is the Arps curve, then a length-3 array is returned, which
+represents the objective function differentiated with respect to
+theta_1, theta_2 and theta_3.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dca.models.AR1Model">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">dca.models.</span></span><span class="sig-name descname"><span class="pre">AR1Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model" title="Link to this definition"></a></dt>
+<dd><p>Class for an autoregressive regression model, consisting of:</p>
+<ol class="arabic simple">
+<li><p>A non linear-regression and</p></li>
+<li><p>errors that follow an AR(1) model</p></li>
+</ol>
+<p>We need two or three things to make a statistical model like this work:</p>
+<ul class="simple">
+<li><p>Simulation</p></li>
+<li><p>Likelihood</p></li>
+<li><p>Gradients (not needed, but makes optimizer hyperparams faster/robust)</p></li>
+</ul>
+<p>In probabilistic programming languages like Stan, you only need to specify
+the forward simulation model. Stan will infer the likelihood and the
+gradients automatically. Stan also has the option of running MCMC instead
+of optimizing. Using Stan instead of writing out models “by hand” could be
+a good option, and samples from the posterior via MCMC could be useful.
+We chose not to use Stan because of difficulties with C++ compiles across
+platforms, setting up environments on Windows, etc. Maybe in the future!</p>
+<p>An important thing to know about this model is that it underspecified
+without a prior on the autocorrelation coefficient phi. A declining trend
+can either be interpreted as:</p>
+<ol class="arabic simple">
+<li><p>an actual declining trend, with some autocorrlated noise on top</p></li>
+<li><p>an arbitrary trend, with huge autocorrelation</p></li>
+</ol>
+<p>In case (2), the whole trend is interpreted as one big autocorrelated noise
+event. This happens as phi goes to one (typically phi&gt;0.99), and it’s not
+what we want. It’s important to regularize phi with an appropriate prior.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_model">https://en.wikipedia.org/wiki/Autoregressive_model</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Cochrane%E2%80%93Orcutt_estimation">https://en.wikipedia.org/wiki/Cochrane%E2%80%93Orcutt_estimation</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Prais%E2%80%93Winsten_estimation">https://en.wikipedia.org/wiki/Prais%E2%80%93Winsten_estimation</a></p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">dca</span><span class="w"> </span><span class="kn">import</span> <span class="n">Arps</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AR1Model</span><span class="p">(</span><span class="n">curve_cls</span><span class="o">=</span><span class="n">Arps</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simulations</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">simulations</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simulations</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(5, 10)</span>
+</pre></div>
+</div>
+<p>A good and a bad guess:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">negative_ll</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+<span class="gp">... </span>                  <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">simulations</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="go">7.35...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">negative_ll</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+<span class="gp">... </span>                  <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">simulations</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="go">89.6...</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.get_weights">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_life</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.get_weights" title="Link to this definition"></a></dt>
+<dd><p>Return weights for exponential decay going back in time. If half_life
+is set to infinity, then all weights become unity.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Assuming tau is constant for simplicity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">-</span> <span class="n">tau</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">AR1Model</span><span class="o">.</span><span class="n">get_weights</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+<span class="go">array([1., 1., 1., 1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">AR1Model</span><span class="o">.</span><span class="n">get_weights</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">half_life</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([0.552..., 0.781..., 1.104... , 1.562...])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.gradient">
+<span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_life</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.gradient" title="Link to this definition"></a></dt>
+<dd><p>Returns the gradient of the negative-log-likelihood with respect to:</p>
+<ul class="simple">
+<li><p>theta</p></li>
+<li><p>sigma</p></li>
+<li><p>phi</p></li>
+<li><p>p</p></li>
+</ul>
+<p>Returns an array of shape (len(theta) + 3, len(t)).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.negative_ll">
+<span class="sig-name descname"><span class="pre">negative_ll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_life</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.negative_ll" title="Link to this definition"></a></dt>
+<dd><p>Returns the elementwise negative log-likelihood of the model.</p>
+<p>Likelihood of <span class="math notranslate nohighlight">\(\log(y_0)\)</span> if <code class="docutils literal notranslate"><span class="pre">prev_eta=None</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}P(\log y_0) &amp;\sim \mathcal{N}(\text{loc}, \text{scale}) \\
+\quad \text{loc} &amp;= \log(f(t_i; \theta)) \\
+\quad \text{scale} &amp;= \frac{\text{std}(\text{GN}(\text{std}=\sigma, \beta=p))}{\sqrt{1 - \phi^2}}\end{split}\]</div>
+<p>Likelihood of <span class="math notranslate nohighlight">\(\log(y_i)\)</span> given <span class="math notranslate nohighlight">\(\log(y_{i-1})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}P(\log y_i \mid \log y_{i-1}) &amp;\sim \text{GN}(\text{loc}, \text{scale}, \beta=p) \\
+\quad \text{loc} &amp;= \log(f(t_i; \theta)) + \phi \left[ \log(y_{i-1}) - \log(f(t_{i-1}; \theta)) \right] \\
+\quad \text{scale} &amp;= \sqrt{\tau_i} \sigma\end{split}\]</div>
+<p>Returns a vector with entries <span class="math notranslate nohighlight">\(-w_i \log P(\log y_i \mid \log y_{i-1})\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_strength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_life</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_logpdf_prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.optimize" title="Link to this definition"></a></dt>
+<dd><p>Optimize over parameters (theta, sigma, phi, p).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.pointwise_std">
+<span class="sig-name descname"><span class="pre">pointwise_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.pointwise_std" title="Link to this definition"></a></dt>
+<dd><p>Compute the pointwise standard deviation.</p>
+<div class="math notranslate nohighlight">
+\[\frac{\sqrt{\Gamma(3 / \beta)}}{\sqrt{\Gamma(1 / \beta)}} \frac{\sigma}{\sqrt{1 - \phi^2}}\]</div>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process">https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_normal_distribution">https://en.wikipedia.org/wiki/Generalized_normal_distribution</a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.simulate">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.simulate" title="Link to this definition"></a></dt>
+<dd><p>Simulate production rates <span class="math notranslate nohighlight">\(y\)</span> from the model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\log(y_i) &amp;= \log(f(t_i)) + \eta_i \\
+\quad \eta_i &amp;= \phi \cdot \eta_{i-1} + \sqrt{\tau_i} \cdot \epsilon_i \\
+\quad \epsilon_i &amp;\sim \text{GN}(\mu=0, \alpha=\sigma, \beta)\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(y_i = \frac{p_i}{\tau_i} = \text{production per time}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau_i = \text{time_on}\)</span></p></li>
+<li><p>GN is the Generalized Normal with p-norm given by <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+</ul>
+<p>To get simulated production, multiply by <span class="math notranslate nohighlight">\(\text{time_on}\)</span>.</p>
+<p>The returned numpy array has shape (simulations, len(x)).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dca.models.AR1Model.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dca.models.AR1Model.update" title="Link to this definition"></a></dt>
+<dd><p>Update parameters (theta, sigma, phi, p) to values on the original,
+bounded scale. Setting them to None means they will be inferred by optimization.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="developer_documentation.html" class="btn btn-neutral float-left" title="Developer documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples_gallery/index.html" class="btn btn-neutral float-right" title="DCA - Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

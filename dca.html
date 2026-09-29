@@ -1,0 +1,177 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The DCA package &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/sg-tags.js?v=d80f6fa4"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The ADCA package" href="adca.html" />
+    <link rel="prev" title="User Guide" href="user_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The DCA package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dca-and-the-improved-loss-function">DCA and the improved loss function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main-features-of-the-dca-package">Main features of the DCA package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adca.html">The ADCA package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adca_tutorial.html">ADCA tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adca_faq.html">ADCA FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_documentation.html">Developer documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">The DCA package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dca.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-dca-package">
+<h1>The DCA package<a class="headerlink" href="#the-dca-package" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">dca</span></code> package contains core mathematical routines for decline curve analysis.
+This part of the code is meant to be used by developers and tech-savvy engineers who want to build their own DCA on top of our building blocks.
+The best way to get started might be to look at the example gallery.</p>
+<section id="dca-and-the-improved-loss-function">
+<h2>DCA and the improved loss function<a class="headerlink" href="#dca-and-the-improved-loss-function" title="Link to this heading"></a></h2>
+<p>Decline Curve Analysis (DCA) is the process of fitting curves to well production time series data.
+Two commonly used curves are <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Arps" title="dca.decline_curve_analysis.Arps"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arps</span></code></a> and <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Exponential" title="dca.decline_curve_analysis.Exponential"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exponential</span></code></a>.
+The purpose of DCA can be to analyze past well behavior, or to predict future well behavior.</p>
+<p>This Python package implements fast and robust DCA.
+Instead of fitting a curve <span class="math notranslate nohighlight">\(f(t; \boldsymbol{\theta})\)</span> to the standard least-squares loss function</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\boldsymbol{\theta}) = \sum_i \left( y_i - f(t_i; \boldsymbol{\theta}) \right)^2\]</div>
+<p>we use a loss function implemented as <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.CurveLoss" title="dca.decline_curve_analysis.CurveLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurveLoss</span></code></a>, which generalizes least-squares and has better out-of-sample predictions.</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\boldsymbol{\theta}) =
+\sum_i w_i (\gamma) \lvert \ln y_i - \ln f(t_i; \boldsymbol{\theta}) \rvert ^p
+   + \alpha \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)^T
+     \boldsymbol{\Sigma}_{\boldsymbol{\theta}}^{-1}
+     \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)\]</div>
+<p>Taking this idea further, to a probabilistic setting where we account for autocorrelation, we implement <a class="reference internal" href="dca_api.html#dca.models.AR1Model" title="dca.models.AR1Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">AR1Model</span></code></a>.
+This model joins an AR(1) process with a non-linear regression.
+The forward simulation equations are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\log(y_i) &amp;= \log(f(t_i)) + \eta_i \\
+\eta_i &amp;= \phi \cdot \eta_{i-1} + \sqrt{\tau_i} \cdot \epsilon_i \\
+\epsilon_i &amp;\sim \text{GN}(\mu=0, \alpha=\sigma, \beta)\end{split}\]</div>
+</section>
+<section id="main-features-of-the-dca-package">
+<h2>Main features of the DCA package<a class="headerlink" href="#main-features-of-the-dca-package" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Lightning fast.</strong> Fits around 1000 wells per minute.</p></li>
+<li><p><strong>Beats least-squares.</strong> Typically 25% reduction in forecasting RMSE compared to least squares. Measured as out-of-sample error on real well data.</p></li>
+<li><p><strong>Robustness.</strong> Robust to outliers since we allow <span class="math notranslate nohighlight">\(1 \leq p \leq 2\)</span> in the loss, as well as fitting on the log scale.</p></li>
+<li><p><strong>Proven performance.</strong> Tested against engineering estimates on several fields, typically outperforms engineering forecasts by 20% or so.</p></li>
+</ul>
+<p>The user must decide on the following to get the most out of the method:</p>
+<ul class="simple">
+<li><p><strong>What is the forecasting horizon?</strong> A year? Ten years? etc.</p></li>
+<li><p><strong>What should the hyper-parameters be set to?</strong> Decided by either manually fixing parameters, or by running cross validation on a time-based train/test split.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dca</span></code> package implements low-level building blocks.
+Users will have to pre-process data correctly, connect to a numerical optimizer, implement hyperparameter search if relevant, etc.
+A user can avoid all of this by using <code class="docutils literal notranslate"><span class="pre">adca</span></code> instead.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user_guide.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adca.html" class="btn btn-neutral float-right" title="The ADCA package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

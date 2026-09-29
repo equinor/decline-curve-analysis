@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADCA tutorial &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ADCA FAQ" href="adca_faq.html" />
+    <link rel="prev" title="The ADCA package" href="adca.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dca.html">The DCA package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adca.html">The ADCA package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ADCA tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-demo-dataset">Creating a demo dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-first-run">A first run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customizing-the-configuration-file">Customizing the configuration file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#segmenting-a-well">Segmenting a well</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hyperparameters">Hyperparameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adca_faq.html">ADCA FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_documentation.html">Developer documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">ADCA tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/adca_tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adca-tutorial">
+<h1>ADCA tutorial<a class="headerlink" href="#adca-tutorial" title="Link to this heading"></a></h1>
+<p>This tutorial assumes that you have installed ADCA and that your Python virtual environment is activated.
+See <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> for more information about how to install ADCA.
+Read <a class="reference internal" href="adca.html"><span class="doc">The ADCA package</span></a> before starting this tutorial, or alongside it.</p>
+<section id="creating-a-demo-dataset">
+<h2>Creating a demo dataset<a class="headerlink" href="#creating-a-demo-dataset" title="Link to this heading"></a></h2>
+<p>If you want to run on a demo dataset instead of on real-world data, you can use the <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">init</span></code> command.
+Assuming you have followed the installation instructions, open a terminal, activate the virtual environment, change directories to a suitable folder using the <code class="docutils literal notranslate"><span class="pre">cd</span></code> command, then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adca</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p>To list all available sub-commands.
+You’ll see that one of the sub-commands is <code class="docutils literal notranslate"><span class="pre">init</span></code>, so run the following in your terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adca</span> <span class="n">init</span>
+</pre></div>
+</div>
+<p>Two files will be created in your current working directory.
+If you open a file explorer you will see:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">demo.csv</span></code>: demo data with columns <code class="docutils literal notranslate"><span class="pre">well_id</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">production</span></code> and <code class="docutils literal notranslate"><span class="pre">time_on</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code>: a file with a basic configuration setup for ADCA.</p></li>
+</ul>
+<p>Have a look at both files if you like.
+They are text files and can be opened in Notepad on Windows.
+You might have to close them before running ADCA on them if you’re on Windows.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to run on real-world wells from PDM, change <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code> to:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>source:
+  name: "PDM"
+  table: "PDMVW.WB_PROD_DAY"
+  phases: ["oil"]
+  frequency: "monthly"
+  period_range: [null, null]
+
+wells:
+  "NO 16/X-X-XX":
+  "NO 16/X-X-YY":
+</pre></div>
+</div>
+<p>Another option is to run on the public Volve data set:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>source:
+  name: "volve"
+  phases: ["oil"]
+  frequency: "monthly"
+
+wells:
+  "NO 15/9-F-11 H":
+  "NO 15/9-F-12 H":
+  "NO 15/9-F-14 H":
+  "NO 15/9-F-15 D":
+</pre></div>
+</div>
+<p>If you run on real-world wells, your numbers might differ from mine for the rest of the tutorial.
+I recommend first running on the demo dataset before running on real-world wells.</p>
+</div>
+</section>
+<section id="a-first-run">
+<h2>A first run<a class="headerlink" href="#a-first-run" title="Link to this heading"></a></h2>
+<p>To run ADCA on the recently created files above, execute the following command in the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adca</span> <span class="n">run</span> <span class="n">demo</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>Congratulations!
+You have just forecasted your first group of wells!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running on the demo dataset should take approximately one minute.
+Forecasting 200 real-world wells on monthly resolution will take around 12 minutes.</p>
+</div>
+<p>The result of the run are stored in the folder <code class="docutils literal notranslate"><span class="pre">./output/YYYY-MM-DD-HH-MM-demo-demo_wells/</span></code>.
+The folder is timestamped with the current time.</p>
+<p>In the output folder you will find many files and figures:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">forecast.csv</span></code>: the actual forecasted values for every well - daily/monthly rates and cumulatives.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">curve_parameters.csv</span></code>: the curve parameters that ADCA found.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log.log</span></code>: the terminal output, stored as a log file.</p></li>
+<li><p>Many <code class="docutils literal notranslate"><span class="pre">.png</span></code> figures to help you assess the fit and forecasts.</p></li>
+</ul>
+<p>Have a look at the outputs and familiarize yourself with them.
+Especially the <code class="docutils literal notranslate"><span class="pre">.png</span></code> figures, since they are the most important part of assessing the models.</p>
+</section>
+<section id="customizing-the-configuration-file">
+<h2>Customizing the configuration file<a class="headerlink" href="#customizing-the-configuration-file" title="Link to this heading"></a></h2>
+<p>Because ADCA fits decline curves automatically, it removes a lot of subjective assessments.
+Once you have a good setup you can re-run without much effort in the future.
+Simply execute <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">demo.yaml</span></code> a few months or years later.
+That said, you will have to spend some time on the initial configuration.
+There is no configuration that is universally the best for all forecasting scenarios, so the initial setup requires some work.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Need help setting up a good configuration?
+If you still have questions after reading the documentation, do not hesitate to contact us!</p>
+</div>
+<ul class="simple">
+<li><p>The first step to building a good configuration is to decide on a few things in the configuration file <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code>.</p></li>
+<li><p>The second step is to do a few trial runs and potentially change some hyper parameters.</p></li>
+</ul>
+<p>Let us first look at the basic configuration that you should set up:</p>
+<ul class="simple">
+<li><p>Pick a good descriptive name. The name in the demo file is <code class="docutils literal notranslate"><span class="pre">demo_wells</span></code>.</p></li>
+<li><p>Choose the correct phase, e.g. <code class="docutils literal notranslate"><span class="pre">gas</span></code> or <code class="docutils literal notranslate"><span class="pre">oil</span></code>. When reading local CSV files like <code class="docutils literal notranslate"><span class="pre">demo.csv</span></code>, this choice does not matter because the column <code class="docutils literal notranslate"><span class="pre">production</span></code> is read regardless of the phase specified in the config file.</p></li>
+<li><p>Choose the desired frequency. In general we recommend <code class="docutils literal notranslate"><span class="pre">monthly</span></code>, but <code class="docutils literal notranslate"><span class="pre">daily</span></code> is possible too.</p></li>
+<li><p>Choose the appropriate preprocessing option, either <code class="docutils literal notranslate"><span class="pre">producing_time</span></code> or <code class="docutils literal notranslate"><span class="pre">calendar_time</span></code>.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">forecast_periods</span></code> to an appropriate number, e.g. <code class="docutils literal notranslate"><span class="pre">360</span></code> for a 30-year forecast on monthly resolution.</p></li>
+</ul>
+<p>For more information about the options available in the config file, see <a class="reference internal" href="adca.html"><span class="doc">The ADCA package</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can reduce the number of output plots to speed up ADCA and avoid cluttering your folders.
+You can also output more plots than the default if you want.
+To control the number of plots generated, use the <code class="docutils literal notranslate"><span class="pre">--plot-verbosity</span></code> argument or its shorthand <code class="docutils literal notranslate"><span class="pre">-pv</span></code>.
+The higher the number, the more plots will be produced.
+For instance, to output all possible plots, run <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">demo.yaml</span> <span class="pre">--plot-verbosity</span> <span class="pre">9</span></code>.
+To output no plots at all, run <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">demo.yaml</span> <span class="pre">--plot-verbosity</span> <span class="pre">0</span></code>.
+For more information about optional arguments, run <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">--help</span></code>.</p>
+</div>
+</section>
+<section id="segmenting-a-well">
+<h2>Segmenting a well<a class="headerlink" href="#segmenting-a-well" title="Link to this heading"></a></h2>
+<p>Let us start by looking at the terminal outputs.
+You can skip most of the data processing output in the beginning.
+Go down to the section</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
+  "half_life": 6.261375778652348,
+  "prior_strength": 0.0011364636663857253
+}
+-------------------EVALUATE ON TEST SET WITH BEST HYPERPARAMETERS-------------------
+ Negative log-likelihood: -0.4391
+ RMSE in logspace: 0.2509
+ Relative error (expected): 5.63%
+ Relative error (P50): -15.90%
+</pre></div>
+</div>
+<p>Here we observe that the expected case forecast, which corresponds to the column <code class="docutils literal notranslate"><span class="pre">cumulative_production</span></code> in <code class="docutils literal notranslate"><span class="pre">forecast.csv</span></code>, leads to a total error of 5.63 %.
+In other words, ADCA over-forecasted slightly compared to what actually happened on the test set.</p>
+<p>Have a look at the plot <code class="docutils literal notranslate"><span class="pre">forecast_ramp_up_well_1.png</span></code> in the output folder.
+You’ll see that the decline curve does not achieve a great fit because the ramp-up period confuses the model.</p>
+<p>You can also see this if you study table with individual errors in the ADCA terminal output.
+The well <code class="docutils literal notranslate"><span class="pre">ramp_up_well</span></code> has a high RMSE, high relative error, etc:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>| well_id             |   RMSE in logspace | Rel. error (expected)   | Rel. error (P50)   |
+|:--------------------|-------------------:|:------------------------|:-------------------|
+| constant_well       |             0.2191 | -1.53%                  | -13.98%            |
+| little_data_well    |             0.1787 | 9.80%                   | -14.62%            |
+| plateu_well         |             0.2606 | 9.69%                   | -2.80%             |
+| long_declining_well |             0.1079 | -7.68%                  | -18.26%            |
+| noisy_well          |             0.264  | 18.93%                  | -17.04%            |
+| ramp_up_well        |             0.463  | 36.91%                  | -37.35%            |
+| arps_well           |             0.1607 | -8.89%                  | -18.68%            |
+</pre></div>
+</div>
+<p>Let us segment the problematic well by changing the <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code> file to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">"ramp_up_well"</span><span class="p">:</span>
+  <span class="o">-</span> <span class="p">[</span><span class="s2">"2010-09"</span><span class="p">,</span> <span class="n">null</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>After making this change, you can re-run <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">demo.yaml</span></code>.
+If you re-run without any other changes, you’ll see that the output changes to:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Best hyperparams:
+{
+  "half_life": 6.261375778652348,
+  "prior_strength": 0.0011364636663857253
+}
+-------------------EVALUATE ON TEST SET WITH BEST HYPERPARAMETERS-------------------
+ Negative log-likelihood: -0.4576
+ RMSE in logspace: 0.1888
+ Relative error (expected): 2.88%
+ Relative error (P50): -14.15%
+</pre></div>
+</div>
+<p>The overall test-set error went down from 5.63% to 2.88% when we segmented the well.
+If you examine the plot <code class="docutils literal notranslate"><span class="pre">forecast_ramp_up_well_1.png</span></code> in the output folder for this new run, you’ll see that the problematic ramp-up phase has been filtered out.</p>
+</section>
+<section id="hyperparameters">
+<h2>Hyperparameters<a class="headerlink" href="#hyperparameters" title="Link to this heading"></a></h2>
+<p>ADCA has a few hyperparameters.
+These can either be set as fixed values, or as brackets, in which case ADCA will search for the optimal parameters within the range.
+The optimal hyperparameters are those that lead to the best out-of-sample predictions on the test set.</p>
+<p>In our runs so far, the hyperparameter ranges in <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code> were given as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hyperparameters given as numbers are fixed, and those given as</span>
+<span class="c1"># a range [low, high] are tuned out-of-sample on test data using the split</span>
+<span class="n">hyperparameters</span><span class="p">:</span>
+  <span class="n">half_life</span> <span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+  <span class="n">prior_strength</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The chosen hyperparameters were:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Best</span> <span class="n">hyperparams</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"half_life"</span><span class="p">:</span> <span class="mf">6.261375778652348</span><span class="p">,</span>
+  <span class="s2">"prior_strength"</span><span class="p">:</span> <span class="mf">0.0011364636663857253</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Both parameters are in the lower end of their ranges: <code class="docutils literal notranslate"><span class="pre">6.2613</span></code> is near the bottom of <code class="docutils literal notranslate"><span class="pre">[6,</span> <span class="pre">60]</span></code> and <code class="docutils literal notranslate"><span class="pre">0.0011</span></code> is near the bottom of <code class="docutils literal notranslate"><span class="pre">[0.001,</span> <span class="pre">1]</span></code>.
+This suggests that we should broaden the search range in the lower end.
+Let us try with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span><span class="p">:</span>
+  <span class="n">half_life</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+  <span class="n">prior_strength</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.0000001</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Making this change, saving <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code> and re-running adca produces:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Best hyperparams:
+{
+  "half_life": 4.223240466094437,
+  "prior_strength": 1.2915496650148853e-07
+}
+-------------------EVALUATE ON TEST SET WITH BEST HYPERPARAMETERS-------------------
+ Negative log-likelihood: -0.4874
+ RMSE in logspace: 0.1756
+ Relative error (expected): 1.79%
+ Relative error (P50): -14.30%
+</pre></div>
+</div>
+<p>We got the error down to 1.79%.
+The optimal half-life was found to be <code class="docutils literal notranslate"><span class="pre">half_life=4.22324...</span></code>, which means that the most recent month of production data has a relative weighting of <code class="docutils literal notranslate"><span class="pre">1</span></code>, the month before it <code class="docutils literal notranslate"><span class="pre">2^(-1</span> <span class="pre">/</span> <span class="pre">4.22)</span> <span class="pre">=</span> <span class="pre">0.84</span></code>, the month before that <code class="docutils literal notranslate"><span class="pre">2^(-2</span> <span class="pre">/</span> <span class="pre">4.22)</span> <span class="pre">=</span> <span class="pre">0.72</span></code>, and so on.</p>
+<p>Some subjective assessment of hyperparameters can be appropriate, especially when there are few wells in the well group.
+With little data, like in this demo example, there is good reason to use some engineering judgement and override the hyperparameters.
+A half life of 4 months is quite short after all.</p>
+<p>Manually setting hyperparameters to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span><span class="p">:</span>
+  <span class="n">half_life</span> <span class="p">:</span> <span class="mi">8</span>
+  <span class="n">prior_strength</span> <span class="p">:</span> <span class="mf">0.000001</span> <span class="c1"># 1e-06</span>
+</pre></div>
+</div>
+<p>Will make ADCA run much faster since it does not have to search for hyperparameters.
+The test-set error does go up a little bit, but a half-life of 8 instead of 4 might be more appropriate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can increase or decrease the number of hyperparameter combinations used in search.
+Use the <code class="docutils literal notranslate"><span class="pre">--hyperparam-maxfun</span></code> argument or its shorthand <code class="docutils literal notranslate"><span class="pre">-hm</span></code>.
+For instance, <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">demo.yaml</span> <span class="pre">--hyperparam-maxfun</span> <span class="pre">10</span></code>.</p>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p>Here are some exercises that are highly recommended to get some hands-on experience.</p>
+<ol class="arabic simple">
+<li><p><strong>Train/test split.</strong> Set <code class="docutils literal notranslate"><span class="pre">split</span></code> to <code class="docutils literal notranslate"><span class="pre">0.5</span></code> instead of <code class="docutils literal notranslate"><span class="pre">0.8</span></code> in <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code> and examine the output figures. You should see that the split is made at 50%, so the first half of the data is in the training data set and the remaining half is in the test data set. Then try setting <code class="docutils literal notranslate"><span class="pre">split</span></code> to <code class="docutils literal notranslate"><span class="pre">-1</span></code>. You should see that only the last data point is in the test data set. The train/test split should mimic your forecasting scenario - if your goal is to forecast short term, then the test set should be relatively small, and vice versa.</p></li>
+<li><p><strong>Hyperparameter experimentation.</strong> Manually set <code class="docutils literal notranslate"><span class="pre">half_life=1</span></code> and run ADCA. Look at the output figures. You should see that the curve model becomes very dependent on the last few data points. You can also set <code class="docutils literal notranslate"><span class="pre">prior_strength=1000</span></code> and see that every well has the same prediction, which is close to the grand mean of every well.</p></li>
+<li><p><strong>Preprocessing options.</strong> Read the description of <code class="docutils literal notranslate"><span class="pre">preprocessing</span></code> in <a class="reference internal" href="adca.html"><span class="doc">The ADCA package</span></a>. Then update <code class="docutils literal notranslate"><span class="pre">demo.csv</span></code> with a dataset that has <code class="docutils literal notranslate"><span class="pre">time_on=0.5</span></code>:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>well_id,time,production,time_on
+arps_well,2010-01,100,0.5
+arps_well,2010-02,100,0.5
+arps_well,2010-03,100,0.5
+arps_well,2010-04,100,0.5
+arps_well,2010-05,100,0.5
+arps_well,2010-06,100,0.5
+arps_well,2010-07,100,0.5
+arps_well,2010-08,100,0.5
+</pre></div>
+</div>
+<p>and run it with the preprocessing option <code class="docutils literal notranslate"><span class="pre">producing_time</span></code>.
+Remember to remove all wells except <code class="docutils literal notranslate"><span class="pre">arps_well</span></code> from <code class="docutils literal notranslate"><span class="pre">demo.yaml</span></code>.
+You should see that predictions in <code class="docutils literal notranslate"><span class="pre">forecast.csv</span></code> are close to <code class="docutils literal notranslate"><span class="pre">200</span></code> for every future period.
+Then run it with preprocessing option <code class="docutils literal notranslate"><span class="pre">calendar_time</span></code>.
+Now you should see that predictions are close to <code class="docutils literal notranslate"><span class="pre">100</span></code> for every future period.</p>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adca.html" class="btn btn-neutral float-left" title="The ADCA package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adca_faq.html" class="btn btn-neutral float-right" title="ADCA FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

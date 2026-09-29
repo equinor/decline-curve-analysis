@@ -1,0 +1,920 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DCA - Technical report &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/sg-tags.js?v=d80f6fa4"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Uncertainty" href="examples_gallery/plot_uncertainty.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="developer_documentation.html">Developer documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dca_api.html">DCA - API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples_gallery/index.html">DCA - Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DCA - Technical report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#abstract">Abstract</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-and-previous-work">Introduction and previous work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#decline-curves">Decline Curves</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-exponential-curve">The Exponential curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-arps-curve">The Arps curve</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-mathematical-model">The mathematical model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#alternatives-to-fitting-production-rates-on-log-scale">Alternatives to fitting production rates on log-scale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#time-series-preprocessing">Time series preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loss-functions-for-dca">Loss functions for DCA</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#least-squares-loss">Least squares loss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#an-improved-loss-function">An improved loss function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainty-and-eur-forecasting">Uncertainty and EUR-forecasting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#on-the-original-scale">On the original scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#on-the-log-scale">On the log-scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-ar-1-regression-model">The AR(1) regression model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="developer_documentation.html">Developer documentation</a></li>
+      <li class="breadcrumb-item active">DCA - Technical report</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dca_report.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dca-technical-report">
+<h1>DCA - Technical report<a class="headerlink" href="#dca-technical-report" title="Link to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#abstract" id="id32">Abstract</a></p></li>
+<li><p><a class="reference internal" href="#introduction-and-previous-work" id="id33">Introduction and previous work</a></p></li>
+<li><p><a class="reference internal" href="#decline-curves" id="id34">Decline Curves</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-exponential-curve" id="id35">The Exponential curve</a></p></li>
+<li><p><a class="reference internal" href="#the-arps-curve" id="id36">The Arps curve</a></p>
+<ul>
+<li><p><a class="reference internal" href="#integrals" id="id37">Integrals</a></p></li>
+<li><p><a class="reference internal" href="#reparametrization" id="id38">Reparametrization</a></p></li>
+<li><p><a class="reference internal" href="#integrals-of-the-reparameterized-arps-curve" id="id39">Integrals of the reparameterized Arps curve</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#the-mathematical-model" id="id40">The mathematical model</a></p>
+<ul>
+<li><p><a class="reference internal" href="#alternatives-to-fitting-production-rates-on-log-scale" id="id41">Alternatives to fitting production rates on log-scale</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#time-series-preprocessing" id="id42">Time series preprocessing</a></p></li>
+<li><p><a class="reference internal" href="#loss-functions-for-dca" id="id43">Loss functions for DCA</a></p>
+<ul>
+<li><p><a class="reference internal" href="#least-squares-loss" id="id44">Least squares loss</a></p></li>
+<li><p><a class="reference internal" href="#an-improved-loss-function" id="id45">An improved loss function</a></p>
+<ul>
+<li><p><a class="reference internal" href="#multiplicative-errors" id="id46">Multiplicative errors</a></p></li>
+<li><p><a class="reference internal" href="#setting-p-to-be-a-hyperparameter" id="id47">Setting <span class="math notranslate nohighlight">\(p\)</span> to be a hyperparameter</a></p></li>
+<li><p><a class="reference internal" href="#weight-recent-data-points-more-heavily" id="id48">Weight recent data points more heavily</a></p></li>
+<li><p><a class="reference internal" href="#use-priors-on-the-parameters" id="id49">Use priors on the parameters</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#uncertainty-and-eur-forecasting" id="id50">Uncertainty and EUR-forecasting</a></p>
+<ul>
+<li><p><a class="reference internal" href="#on-the-original-scale" id="id51">On the original scale</a></p></li>
+<li><p><a class="reference internal" href="#on-the-log-scale" id="id52">On the log-scale</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-errors-in-the-log-scale-model-implicitly-depend-on-the-time-resolution" id="id53">The errors in the log-scale model implicitly depend on the time resolution</a></p></li>
+<li><p><a class="reference internal" href="#p10-and-p90-curves" id="id54">P10 and P90 curves</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#the-ar-1-regression-model" id="id55">The AR(1) regression model</a></p>
+<ul>
+<li><p><a class="reference internal" href="#forward-simulation" id="id56">Forward simulation</a></p></li>
+<li><p><a class="reference internal" href="#parameter-estimation" id="id57">Parameter estimation</a></p></li>
+<li><p><a class="reference internal" href="#gradient-of-log-likelihood-general-case" id="id58">Gradient of log-likelihood - general case</a></p></li>
+<li><p><a class="reference internal" href="#gradient-of-log-likelihood-initial-condition" id="id59">Gradient of log-likelihood - initial condition</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id60">Summary</a></p></li>
+</ul>
+</nav>
+<p>(<a class="reference download internal" download="" href="_downloads/3573f704cbd58f3ce062a7060f09fe6d/plot_dca_intro.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/2c12b5c4d34b4c6e3bde482291e8bb2a/plot_dca_intro.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/db4318ad5b12190c416b27523f7e6a3b/plot_dca_intro.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/db09aa4021c5510b2f1c74ed5e4b4894/plot_dca_intro.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/plot_dca_intro.png" class="plot-directive" src="_images/plot_dca_intro.png" />
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This report is more static in nature than the rest of the documentation.
+Always check the API documentation, docstrings and code for details.</p>
+</div>
+<section id="abstract">
+<h2><a class="toc-backref" href="#id32" role="doc-backlink">Abstract</a><a class="headerlink" href="#abstract" title="Link to this heading"></a></h2>
+<p>Decline Curve Analysis (DCA) is the process of fitting curves to well production time series data.
+The purpose of DCA is typically to either (1) analyze past well behavior or (2) predict future production (forecasting).
+The most commonly used curve is the three-parameter <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Arps" title="dca.decline_curve_analysis.Arps"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arps</span></code></a> equation.
+Arps is an extension of the <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Exponential" title="dca.decline_curve_analysis.Exponential"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exponential</span></code></a> equation that permits sub-exponential decline under certain parameter choices.
+The most commonly used loss function is least squares loss.</p>
+<p>In this report we discuss our experiences after years of working with DCA.
+We state useful analytical properties of the <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Arps" title="dca.decline_curve_analysis.Arps"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arps</span></code></a> equation, give practical tips for preprocessing data for DCA, and generalize the least squares loss function to <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.CurveLoss" title="dca.decline_curve_analysis.CurveLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurveLoss</span></code></a>.</p>
+</section>
+<section id="introduction-and-previous-work">
+<h2><a class="toc-backref" href="#id33" role="doc-backlink">Introduction and previous work</a><a class="headerlink" href="#introduction-and-previous-work" title="Link to this heading"></a></h2>
+<p>Decline Curve Analysis (DCA) dates back to the start of the 1900s, and the history is detailed in <a class="reference internal" href="#arp45" id="id1"><span>[ARP45]</span></a>.
+Jan J. Arps proposed fitting observed production to a curve of the form</p>
+<div class="math notranslate nohighlight">
+\[\mu(t; q, h, D) = q (1 + h D t)^{-1/h},\]</div>
+<p>which we will refer to as the Arps equation.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/10dcc4f0487a319428d64cf527dd6b0c/plot_dca_parameters.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/ff9b4eec12d4279aa0c4bcfe6927d0e1/plot_dca_parameters.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/69213eaa8690c48c42a2683448307cc2/plot_dca_parameters.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/ef05ed69d5c478dc878bb192ac24edb8/plot_dca_parameters.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="_images/plot_dca_parameters.png" class="plot-directive" src="_images/plot_dca_parameters.png" />
+</figure>
+<p>Fitting in the 1940s was done graphically on paper or by algorithms specific to the curve being fit.
+These days we use general purpose algorithms for minimizing loss functions.</p>
+<p>Many recent papers describe DCA and suggest marginal improvements, but overall the core methodology is unchanging.
+For instance, <a class="reference internal" href="#tang21" id="id2"><span>[TANG21]</span></a> propose taking the logarithm of the production rate before fitting a decline curve.
+<a class="reference internal" href="#liu18" id="id3"><span>[LIU18]</span></a> list eight different DCA models, e.g. Arps, power law, stretched exponential, and so forth.
+A non-quantitative comparison is provided.
+<a class="reference internal" href="#liang20" id="id4"><span>[LIANG20]</span></a> compare 18 different DCA models.
+Wells are classified as one of three different types based on first year performance, and for each type of well a different recommendation is given.
+Unfortunately no quantitative error metrics are given.
+Other papers are <a class="reference internal" href="#joch96" id="id5"><span>[JOCH96]</span></a>.</p>
+<p>The papers above are published.
+However, when searching the internet one finds many low-quality reports concerning DCA.
+They are typically all over the place in terms of methodology, have few or no quantitative error metrics, contain pixelated or unintelligible figures, are not proofread, have not been peer-reviewed, and so forth.</p>
+<p>In our view the exact form of the DCA model is not as important as (1) the loss function, (2) the data quality and (3) the data preprocessing.
+We also believe that while examining individual wells is worthwhile, such an analysis must be accompanied by a birds-eye view of performance over many wells.
+It is always possible to find individual wells where performance is particularly good or bad, so we must assess overall error in our analyses.</p>
+</section>
+<section id="decline-curves">
+<h2><a class="toc-backref" href="#id34" role="doc-backlink">Decline Curves</a><a class="headerlink" href="#decline-curves" title="Link to this heading"></a></h2>
+<p>This section contains information about decline curves.
+Any curve <span class="math notranslate nohighlight">\(f(t; \boldsymbol{\theta})\)</span> that is (1) positive, (2) decreasing and (3) goes to zero is a candidate curve for use in DCA.
+One way to find such curves is to consider probability density functions (PDFs).
+In fact, both the Exponential curve and the Arps curve are of this form:</p>
+<ul class="simple">
+<li><p>the Exponential curve is the PDF of the <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_distribution">exponential distribution</a></p></li>
+<li><p>the Arps curve is the PDF of the <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_Pareto_distribution">generalized Pareto distribution</a></p></li>
+</ul>
+<section id="the-exponential-curve">
+<h3><a class="toc-backref" href="#id35" role="doc-backlink">The Exponential curve</a><a class="headerlink" href="#the-exponential-curve" title="Link to this heading"></a></h3>
+<p>The simplest decline curve is the exponential curve <span class="math notranslate nohighlight">\(f(t; C, k) = C \exp(-kt)\)</span> with parameters constrained to be positive.</p>
+<p>A re-parametrization that leads to parameters that are not constrained to be positive, and are generally on the same order of magnitude, is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\theta_1 &amp;= \log(C / k)  \qquad &amp; &amp;C= \exp(\theta_1 - \theta_2) \\
+\theta_2 &amp;= -\log(k)     \qquad &amp; &amp;k= \exp(-\theta_2)\end{split}\]</div>
+<p>This leads to the following equation:</p>
+<div class="math notranslate nohighlight">
+\[\log \left( f(t; \theta_1, \theta_2) \right) = \theta_1 - \theta_2 - t \exp(-\theta_2)\]</div>
+<p>Integrals, gradients and other mathematical properties are simple to derive, and will not be presented here (see the code and the class <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Exponential" title="dca.decline_curve_analysis.Exponential"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exponential</span></code></a>).
+Do notice that <span class="math notranslate nohighlight">\(\int_0^{\infty} f(t; C, k) \, dt = C/k = \exp(\theta_1)\)</span>, so the logarithm of the integral is equal to <span class="math notranslate nohighlight">\(\theta_1\)</span>.
+This gives the parameter <span class="math notranslate nohighlight">\(\theta_1\)</span> a nice interpretation.
+The parametrization above also has the property that <span class="math notranslate nohighlight">\(\lim_{\theta_3 \to -\infty} \text{arps}(\theta_1, \theta_2, \theta_3) = \text{exponential}(\theta_1, \theta_2)\)</span>.</p>
+</section>
+<section id="the-arps-curve">
+<h3><a class="toc-backref" href="#id36" role="doc-backlink">The Arps curve</a><a class="headerlink" href="#the-arps-curve" title="Link to this heading"></a></h3>
+<p>(<a class="reference download internal" download="" href="_downloads/5a2e47c7a5c34aaba151e6bf0f315071/plot_arps_and_exponential.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/5cee181fb5fd0b6a7920dc87033db8ef/plot_arps_and_exponential.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/11ee13d5a1ac3ab15e32f6ee6d575bd8/plot_arps_and_exponential.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/3659333116e851acdf019ebf294cde6e/plot_arps_and_exponential.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id14">
+<img alt="_images/plot_arps_and_exponential.png" class="plot-directive" src="_images/plot_arps_and_exponential.png" />
+<figcaption>
+<p><span class="caption-text">The Exponential curve and Arps curve for various values of <span class="math notranslate nohighlight">\(\theta_3\)</span>.
+As <span class="math notranslate nohighlight">\(\theta_3\)</span> goes to negative infinity, the Arps curve converges to the Exponential curve.</span><a class="headerlink" href="#id14" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Following the notation in <a class="reference internal" href="#lee21" id="id6"><span>[LEE21]</span></a>, the Arps curve is given by</p>
+<div class="math notranslate nohighlight">
+\[f(t; q, h, D) = q \left(1 + hDt \right)^{-1/h}.\]</div>
+<p>The parameters <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(D\)</span> are constrained to be positive.
+If <span class="math notranslate nohighlight">\(0 &lt; h &lt; 1\)</span>, then <span class="math notranslate nohighlight">\(\int_0^{\infty} f(t) \, dt\)</span> is finite.
+In the limit <span class="math notranslate nohighlight">\(h \to 0\)</span>, we have <span class="math notranslate nohighlight">\(\left(1 + hDt \right)^{-1/h} = \exp \left( -Dt \right)\)</span>.
+This follows from one of the definitions of <span class="math notranslate nohighlight">\(\exp (x)\)</span>, namely <span class="math notranslate nohighlight">\(\exp x = \lim_{n \to \infty} \left(1 + \frac{x}{n}\right)^n\)</span>.</p>
+<section id="integrals">
+<h4><a class="toc-backref" href="#id37" role="doc-backlink">Integrals</a><a class="headerlink" href="#integrals" title="Link to this heading"></a></h4>
+<p>Since <span class="math notranslate nohighlight">\(f(t; q, h, D)\)</span> is fit to a time series of production rates (e.g. production per day), it’s useful to be able to integrate the Arps curve to obtain total production up to a certain point in time.</p>
+<p>Some useful integral relationships are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\int f(t; q, h, D) \, dt &amp;= \frac{q \left( 1 + hDt \right)^{\frac{h-1}{h}}}{(h-1)D} + C \\
+\int_0^T f(t; q, h, D) \, dt &amp;= \frac{q \left[  (1 + ThD)^{\frac{h-1}{h}} - 1 \right]}{(h-1) D} \\
+\int_T^\infty f(t; q, h, D) \, dt &amp;= \frac{q}{(1-h) D (1 + T h D)^{\frac{1-h}{h}}} \\
+\int_0^\infty f(t; q, h, D) \, dt &amp;= \frac{q}{D(1-h)}\end{split}\]</div>
+<p>More integrals, gradients and transformations are implemented in the code, see <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.Arps" title="dca.decline_curve_analysis.Arps"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arps</span></code></a>.</p>
+</section>
+<section id="reparametrization">
+<h4><a class="toc-backref" href="#id38" role="doc-backlink">Reparametrization</a><a class="headerlink" href="#reparametrization" title="Link to this heading"></a></h4>
+<p>As shown in <a class="reference internal" href="#lee21" id="id7"><span>[LEE21]</span></a>, the Arps curve is identical to the (scaled) <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_Pareto_distribution">generalized Pareto distribution</a> after a reparametrization:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\theta_1 &amp;= \log \left(   q  / ((1 - h) D) \right) \qquad  &amp; &amp; h= 1 / (1 + \exp(-\theta_3)) \\
+\theta_2 &amp;= \log \left( 1  / ((1 - h) D) \right)   \qquad &amp; &amp; D= 1 / ((1 - h) \exp(\theta_2) ) \\
+\theta_3 &amp;= \log \left(  h  / (1 - h) \right)      \qquad &amp; &amp; q= \exp(\theta_1) (1-h ) D\end{split}\]</div>
+<p>When we apply the transformation, we obtain the logarithm of the Arps curve as</p>
+<div class="math notranslate nohighlight">
+\[\mu(t; \boldsymbol{\theta}) =\theta_1 - \theta_2 - \left( 1 + e^{-\theta_3} \right) \log \left( 1 + t e^{\theta_3 - \theta_2} \right),\]</div>
+<p>which is Equation (3.3) in <a class="reference internal" href="#lee21" id="id9"><span>[LEE21]</span></a>.
+Notice that <span class="math notranslate nohighlight">\(\theta_1\)</span> determines the logarithm of the integral: <span class="math notranslate nohighlight">\(\exp \theta_1 = q  / ((1 - h) D) = \int_0^\infty f(t; q, h, D) \, dt\)</span>.
+Thinking in terms of scaled probability distributions opens up an interesting possibility: <em>any</em> sensible probability density function can be scaled and used for DCA, e.g. the Weibull distribution or the Gamma distribution.</p>
+<p>Working in <span class="math notranslate nohighlight">\((\theta_1, \theta_2, \theta_3)\)</span>-space instead of <span class="math notranslate nohighlight">\((q, h, D)\)</span>-space has some practical advantages:</p>
+<ul class="simple">
+<li><p><strong>Parameters on the same scale.</strong>
+In <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>-space all parameters are on the same order of magnitude.
+This will help an optimizer.
+On the original scale <span class="math notranslate nohighlight">\(q\)</span> is typically large, while <span class="math notranslate nohighlight">\(h \approx 1\)</span>.</p></li>
+<li><p><strong>Parameters are unbounded.</strong>
+In <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>-space all parameters are unbounded.
+This makes it easy to set up a multivariate normal prior.
+Working in <span class="math notranslate nohighlight">\((q, h, D)\)</span>-space we would need different probability distributions for the parameters, to impose the constraints <span class="math notranslate nohighlight">\(0 &lt; h &lt; 1\)</span> and <span class="math notranslate nohighlight">\(D &gt; 0\)</span>.</p></li>
+</ul>
+<p>(<a class="reference download internal" download="" href="_downloads/077de195fc19a8c079a7528c6c6070d0/plot_dca_contours.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/9f8171dbe4b555fadba432d41ac3e34f/plot_dca_contours.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/0f38d6c5c9b4df1b3d23d07d6fd8d6aa/plot_dca_contours.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/06b102f51520ab8ffc34fc4aa33e4e0f/plot_dca_contours.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id16">
+<img alt="_images/plot_dca_contours.png" class="plot-directive" src="_images/plot_dca_contours.png" />
+<figcaption>
+<p><span class="caption-text">This figure shows the contours of the loss function in <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>-space for a curve fit.</span><a class="headerlink" href="#id16" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="integrals-of-the-reparameterized-arps-curve">
+<h4><a class="toc-backref" href="#id39" role="doc-backlink">Integrals of the reparameterized Arps curve</a><a class="headerlink" href="#integrals-of-the-reparameterized-arps-curve" title="Link to this heading"></a></h4>
+<p>The equation is simply the logarithm of the Arps curve, with an alternative parametrization.
+Its integrals are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\int \exp \left( \mu(t; \boldsymbol{\theta}) \right) \, dt &amp;= - \exp \left( \theta_{1} - e^{- \theta_{3}} \log{\left(t e^{- \theta_{2} + \theta_{3}} + 1 \right)} \right) + C \\
+\int_0^T \exp \left( \mu(t; \boldsymbol{\theta}) \right) \, dt &amp;= e^{\theta_1} - \exp \left( \theta_{1} - e^{- \theta_{3}} \log{\left(T e^{- \theta_{2} + \theta_{3}} + 1 \right)} \right) \\
+\int_T^{\infty} \exp \left( \mu(t; \boldsymbol{\theta}) \right) \, dt &amp;= \exp \left( \theta_{1} - e^{- \theta_{3}} \log{\left(T e^{- \theta_{2} + \theta_{3}} + 1 \right)} \right) \\
+\int_0^{\infty} \exp \left( \mu(t; \boldsymbol{\theta}) \right) \, dt &amp;= \exp \left( \theta_{1} \right)\end{split}\]</div>
+</section>
+</section>
+</section>
+<section id="the-mathematical-model">
+<h2><a class="toc-backref" href="#id40" role="doc-backlink">The mathematical model</a><a class="headerlink" href="#the-mathematical-model" title="Link to this heading"></a></h2>
+<p>This section explains how raw input data should be transformed to a tuple <span class="math notranslate nohighlight">\((t, y, w)\)</span> for use in curve fitting.
+Curve fitting routines minimize an error, and this section also explains how to set up an appropriate error model.</p>
+<p>The curve <span class="math notranslate nohighlight">\(f(t; \boldsymbol{\theta})\)</span> must be tied to the data somehow.
+Here is an example of the data that we receive:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">production</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">10</span><span class="p">,</span>   <span class="mi">8</span><span class="p">,</span>   <span class="mi">5</span><span class="p">,</span>   <span class="mi">3</span><span class="p">]</span>
+<span class="n">time_on</span>    <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">time</span> <span class="o">=</span>       <span class="p">[</span><span class="s2">"2020-01"</span><span class="p">,</span> <span class="s2">"2020-02"</span><span class="p">,</span> <span class="s2">"2020-03"</span><span class="p">,</span> <span class="s2">"2020-04"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">production</span></code> contains the total production within each time period.
+The variable <code class="docutils literal notranslate"><span class="pre">time_on</span></code> is a fraction that indicates the uptime of the well within each period.
+The variable <code class="docutils literal notranslate"><span class="pre">time</span></code> is mostly used for bookkeeping; it represents the period at each index and can be in yearly, monthly, daily or even hourly resolution.
+Typically a period represents a month or a day.</p>
+<p>Switching to mathematical notation, let <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> be a vector with observed production and <span class="math notranslate nohighlight">\(\boldsymbol{\tau}\)</span> be “time on” (i.e. uptime).
+Let <span class="math notranslate nohighlight">\(\xi_i\)</span> be the cumulative sum of <code class="docutils literal notranslate"><span class="pre">time_on</span></code> up until time period <span class="math notranslate nohighlight">\(i\)</span>, i.e., <span class="math notranslate nohighlight">\(\xi_i = \sum_{j=0}^i \tau_j\)</span>.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/6893352f317cc4f7fb67c90dc483fa77/plot_mathematical_model.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/f33507225cca74e9115d193cfacbb14c/plot_mathematical_model.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/d7b73fdcb9504d5d669648cdc656d819/plot_mathematical_model.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/997b4af1bb2cda519d784cbb5ffaf15f/plot_mathematical_model.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id18">
+<img alt="_images/plot_mathematical_model.png" class="plot-directive" src="_images/plot_mathematical_model.png" />
+<figcaption>
+<p><span class="caption-text">The mathematical model visualized. At the end of each period we observe the total production <span class="math notranslate nohighlight">\(p_i\)</span> within that period.
+We assume that <span class="math notranslate nohighlight">\(p_i\)</span> is the integral of an unknown curve <span class="math notranslate nohighlight">\(f(t; \boldsymbol{\theta})\)</span>.</span><a class="headerlink" href="#id18" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>We assume that production within each time period is the integral of the curve within that period.
+Recall that the units for the curve is production per time.
+Assuming that each time period represents a small unit of time, we can use the <em>midpoint rule</em> <span class="math notranslate nohighlight">\(\int_a^b f(t) dt \approx (b - a)f((a+b)/2)\)</span> to approximate the integral.
+Since decline curves typically are convex and decreasing, the midpoint rule will underestimate slightly.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}p_i &amp;= \int_{\xi_{i-1}}^{\xi_i} f(t; \boldsymbol{\theta}) \, dt \approx
+\left( \xi_i -  \xi_{i-1} \right) f\left( (\xi_i +  \xi_{i-1})/2 ; \boldsymbol{\theta} \right) \\
+&amp;= \tau_i  f\left( (\xi_i +  \xi_{i-1})/2 ; \boldsymbol{\theta} \right) = \tau_i f\left( t_i ; \boldsymbol{\theta} \right)\end{split}\]</div>
+<p>In the equation above, we define <span class="math notranslate nohighlight">\(t_i = (\xi_i +  \xi_{i-1})/2 = \xi_i - \tau_i/2\)</span>.
+When we use the midpoint rule, we can fit <span class="math notranslate nohighlight">\(f(t; \boldsymbol{\theta})\)</span> to the observed values directly instead of fitting the integral.
+This is simpler, because computing the gradient <span class="math notranslate nohighlight">\(\nabla_\boldsymbol{\theta} f(t; \boldsymbol{\theta})\)</span> for BFGS is easier than computing the gradient of the integral.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/70a3636bed912ca697fe788c863ba972/plot_curve_shift.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/74a33e1ec098f5c252ddee1c9e933229/plot_curve_shift.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/f8e2be8ea4c1551aaa398541cd13e1b7/plot_curve_shift.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/1e7905827a326c77d39cb70d129366f2/plot_curve_shift.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id20">
+<img alt="_images/plot_curve_shift.png" class="plot-directive" src="_images/plot_curve_shift.png" />
+<figcaption>
+<p><span class="caption-text">In this figure we assume the well is always on.
+The midpoint rule shifts the curve to the left so the integral closely matches the sum.
+If the curve is linear, then the integrals match the sum perfectly.
+However, since decline curves are decreasing and convex, we do end up with a slight bias: the midpoint rule underestimates the integral.</span><a class="headerlink" href="#id20" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>The error model.</strong>
+We will now introduce the error model.
+We assume that errors <span class="math notranslate nohighlight">\(\epsilon_i \sim N(0, \sigma)\)</span> are tied to the order of magnitude of the production rate.
+For instance, if the production rate is <span class="math notranslate nohighlight">\(100\)</span>, then the probability of producing <span class="math notranslate nohighlight">\(100 (1.2)\)</span> is equal to the probability of producing <span class="math notranslate nohighlight">\(100 (1/1.2)\)</span>.
+Or, if the production rate is <span class="math notranslate nohighlight">\(10\)</span>, then the probability of producing <span class="math notranslate nohighlight">\(10 (1.5)\)</span> is equal to the probability of producing <span class="math notranslate nohighlight">\(10 (1/1.5)\)</span>.
+This leads us to fit on the log scale.
+The full model becomes:</p>
+<div class="math notranslate nohighlight">
+\[\log \left( y_i \right) &amp;=  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i\]</div>
+<p>In the equation above, we defined the average production rate as <span class="math notranslate nohighlight">\(y_i = p_i / \tau_i\)</span>.
+Going back to the original scale by exponentiating both sides of the equation above, the model becomes</p>
+<div class="math notranslate nohighlight">
+\[y_i =  \mathbb{E}\left[ f\left( t_i ; \boldsymbol{\theta} \right) \exp(\epsilon_i) \right] = f\left( t_i ; \boldsymbol{\theta} \right) \exp(N(0, \sigma \sqrt{\tau_i})),\]</div>
+<p>and this tells us how to simulate data from the model, which we’ll use to forecast.</p>
+<p>Going back to the example data, we can create the following values and pass them to a curve fitting routine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">production</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">10</span><span class="p">,</span>   <span class="mi">8</span><span class="p">,</span>   <span class="mi">5</span><span class="p">,</span>   <span class="mi">3</span><span class="p">]</span>
+<span class="n">time_on</span>    <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">time</span> <span class="o">=</span>       <span class="p">[</span><span class="s2">"2020-01"</span><span class="p">,</span> <span class="s2">"2020-02"</span><span class="p">,</span> <span class="s2">"2020-03"</span><span class="p">,</span> <span class="s2">"2020-04"</span><span class="p">]</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.45</span><span class="p">,</span>  <span class="mf">1.25</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">11.11</span><span class="p">,</span> <span class="mf">11.43</span><span class="p">,</span> <span class="mf">6.25</span><span class="p">,</span>   <span class="mi">3</span><span class="p">]</span>
+<span class="n">w</span> <span class="o">=</span> <span class="p">[</span>  <span class="mf">0.9</span><span class="p">,</span>   <span class="mf">0.7</span><span class="p">,</span>  <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The weights <span class="math notranslate nohighlight">\(w_i\)</span> for the regression are obtained by a simple argument: data from ten short periods should give the same information as data from one long period that is ten times longer.
+Therefore the weighting should be proportional to the duration of each period, i.e. <span class="math notranslate nohighlight">\(\tau_i\)</span>.</p>
+<section id="alternatives-to-fitting-production-rates-on-log-scale">
+<h3><a class="toc-backref" href="#id41" role="doc-backlink">Alternatives to fitting production rates on log-scale</a><a class="headerlink" href="#alternatives-to-fitting-production-rates-on-log-scale" title="Link to this heading"></a></h3>
+<p><strong>Fitting on the original scale.</strong>
+Instead of assuming <span class="math notranslate nohighlight">\(\log y_i = \log f(t_i; \boldsymbol{\theta}) + \epsilon_i\)</span>, we could assume that <span class="math notranslate nohighlight">\(y_i = f(t_i; \boldsymbol{\theta}) + \epsilon_i\)</span>.
+From a curve fitting perspective, fitting data to model instead of log-data to log-model means that the model will work hard to minimize errors when <span class="math notranslate nohighlight">\(y_i\)</span> is large.
+Well production data has <span class="math notranslate nohighlight">\(y_i\)</span>-values on vastly different scales over the lifetime of a well, and large residuals occur when <span class="math notranslate nohighlight">\(y_i\)</span> is large.
+From a forecasting perspective this is unfortunate, since the most recent history has low production values and matters the most for forecasting (the recent past is more important than the distant past).</p>
+<p>From a statistical perspective, the model</p>
+<div class="math notranslate nohighlight">
+\[\frac{p_i}{\tau_i} &amp;= y_i = f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i\]</div>
+<p>is nonsensical, since:</p>
+<ol class="arabic simple">
+<li><p>Errors <span class="math notranslate nohighlight">\(\epsilon_i\)</span> are independent of the <span class="math notranslate nohighlight">\(y_i\)</span> values, but this does not reflect real data. If production is on the order of a million units, then we expect completely different errors compared to when the production is on the order of a thousand units.</p></li>
+<li><p>Simulating from this model will lead to negative production values, especially when <span class="math notranslate nohighlight">\(t\)</span> is large and production is low. Then <span class="math notranslate nohighlight">\(f\left( t ; \boldsymbol{\theta} \right) \approx 0\)</span> and simulating from the error term <span class="math notranslate nohighlight">\(\epsilon_i\)</span> will produce negative values.</p></li>
+</ol>
+<p><strong>Fitting cumulatives.</strong>
+From a curve fitting perspective we could fit</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=0}^j p_i = \int_{0}^{\tau_j} f(t; \boldsymbol{\theta}) \, dt\]</div>
+<p>for every period <span class="math notranslate nohighlight">\(j\)</span>, but the issue is again the relative sizes of the residuals as well as the error model.
+Where would one place residuals in such a model?</p>
+<p>If we add the error term <span class="math notranslate nohighlight">\(\epsilon_i\)</span> on the original scale, then we must at the very least account for the fact that errors accumulate over the whole history:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=0}^j p_i = \int_{0}^{\tau_j} f(t; \boldsymbol{\theta}) \, dt + \xi_j \epsilon_i\]</div>
+<p>But the above model also assumes that the errors are constant over time, whereas in reality the errors are clearly dependent on the production values.
+A stochastic integral like <span class="math notranslate nohighlight">\(\sum_{i=0}^j p_i = \int_{0}^{\tau_j} f(t; \boldsymbol{\theta}) \exp(\epsilon(t)) \, dt\)</span> might work, but it does not appear that such a model will lead to any improvements.
+It’s hard to compute and unnecessarily complex with no apparent gain.</p>
+</section>
+</section>
+<section id="time-series-preprocessing">
+<h2><a class="toc-backref" href="#id42" role="doc-backlink">Time series preprocessing</a><a class="headerlink" href="#time-series-preprocessing" title="Link to this heading"></a></h2>
+<p>This section outlines two ways of preprocessing data: <strong>the producing time transform</strong> and <strong>the calendar time transform</strong>.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/3e02bab3727b9f6025107d364813d08d/plot_preprocessing.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/750c6db0cf62539da457a89dadb68004/plot_preprocessing.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/a0cdd8be213e82abb523c9e50d2e89a2/plot_preprocessing.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/c67d0736d255386d47f9fe480694aece/plot_preprocessing.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id22">
+<img alt="_images/plot_preprocessing.png" class="plot-directive" src="_images/plot_preprocessing.png" />
+<figcaption>
+<p><span class="caption-text">In this figure, the true model is an exponential function.
+At the end of each time period, we observe the total production (dots) that occurred within each time period.
+This production is the integral of the true model over the time on (uptime).
+Two preprocessing transformations are shown: (1) the producing time transform and (2) the calendar time transform.
+Forecasting with (1) answers the question “how much will this well produce in the future if it’s always on?” and
+forecasting with (2) answers the question “how much will this well produce in the future if its future uptime is roughly equal to its past uptime?”</span><a class="headerlink" href="#id22" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>As in the section above, let <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> be observed production within each time period and
+<span class="math notranslate nohighlight">\(\boldsymbol{\tau}\)</span> be time on.
+The variable <span class="math notranslate nohighlight">\(\xi_i\)</span> denotes the cumulative sum of time on up until time period <span class="math notranslate nohighlight">\(i\)</span>, i.e., <span class="math notranslate nohighlight">\(\xi_i = \sum_{j=0}^i \tau_j\)</span>.</p>
+<p><strong>The producing time transform.</strong>
+We can use DCA to forecast the future well production potential, i.e., how much a well will produce in the future if it is always producing (no downtime).
+For curve fitting, we need a triple <span class="math notranslate nohighlight">\((\boldsymbol{t}, \boldsymbol{y}, \boldsymbol{w})\)</span> of <span class="math notranslate nohighlight">\(t\)</span>-values, <span class="math notranslate nohighlight">\(y\)</span>-values and weights <span class="math notranslate nohighlight">\(w\)</span>.
+The producing time transform is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}t_i &amp;= \xi_i - \tau_i/2 \\
+y_i &amp;= p_i / \tau_i \\
+w_i &amp;= \tau_i\end{split}\]</div>
+<p>To create the <span class="math notranslate nohighlight">\(t\)</span>-values, we contract time as if the well was always on and place each <span class="math notranslate nohighlight">\(t\)</span>-value at the midpoint.
+To create the <span class="math notranslate nohighlight">\(y\)</span>-values, we divide production by time on to get production rates.
+To create the weights <span class="math notranslate nohighlight">\(w\)</span>, we use the time on within each period.</p>
+<p><strong>The calendar time transform.</strong>
+We can use DCA to forecast how much a well will produce if time on in the future is roughly equal to time on in the past.
+The calendar time transform simply sets <span class="math notranslate nohighlight">\(\tau_i = 1\)</span> for all periods <span class="math notranslate nohighlight">\(i\)</span>.
+The resulting transform is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}t_i &amp;= \xi_i - \tau_i/2 = i + 0.5 \\
+y_i &amp;= p_i \\
+w_i &amp;= 1\end{split}\]</div>
+<p>Which transform to use depends on the question that DCA is supposed to answer.
+The producing time transform answers the question “what will this well produce if it’s always on in the future?”.
+The calendar time transform answers the question “what will this well produce if the uptime in the future is roughly equal to the uptime in the past?”.</p>
+<p>Regardless of which transform we choose, some prior data cleaning should be done.
+Missing values, zero values and inconsistent values must be dealt with.</p>
+</section>
+<section id="loss-functions-for-dca">
+<h2><a class="toc-backref" href="#id43" role="doc-backlink">Loss functions for DCA</a><a class="headerlink" href="#loss-functions-for-dca" title="Link to this heading"></a></h2>
+<p>The curve fitting problem is, given vectors <span class="math notranslate nohighlight">\((\boldsymbol{t}, \boldsymbol{y}, \boldsymbol{w})\)</span>, to find parameters <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> such that <span class="math notranslate nohighlight">\(f(\boldsymbol{t} ; \boldsymbol{\theta})\)</span> is close to <span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span>.
+The function <span class="math notranslate nohighlight">\(f\)</span> can be the Arps curve, the exponential function, the scaled Weibull distribution, or some other function.
+We will assume that <span class="math notranslate nohighlight">\(f\)</span> is the Arps curve.
+See <a class="reference internal" href="#boyd04" id="id10"><span>[BOYD04]</span></a> for more on loss and optimization.</p>
+<section id="least-squares-loss">
+<h3><a class="toc-backref" href="#id44" role="doc-backlink">Least squares loss</a><a class="headerlink" href="#least-squares-loss" title="Link to this heading"></a></h3>
+<p>To our knowledge, all previous DCA in Equinor that used Python have relied upon the optimization routine <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">scipy.optimize.curve_fit</a>.
+This routine determines <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> as the solution to the least squares optimization problem</p>
+<div class="math notranslate nohighlight">
+\[\underset{\boldsymbol{\theta}}{\operatorname{minimize}}
+\sum_i^n \left( y_i - f(t_i ; \boldsymbol{\theta}) \right)^2,\]</div>
+<p>which is equivalent to assuming <span class="math notranslate nohighlight">\(y_i = f(t_i ; \boldsymbol{\theta}) + \epsilon\)</span> with <span class="math notranslate nohighlight">\(\epsilon \sim \text{Normal}(0, \sigma)\)</span> and maximizing the log-likelihood</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\log         \mathcal{L}(\boldsymbol{\theta} ) &amp; = \log \prod_{i}^{n} \text{Normal}(f(t_i ; \boldsymbol{\theta}), \sigma) \\
+&amp; = \sum_i^n \log  \frac{1}{\sqrt{2 \pi } \sigma} \exp \left( - \frac{(y_i -f(t_i ; \boldsymbol{\theta}) )^2}{2 \sigma^2 } \right) \\
+&amp; \propto \sum_i^n  (y_i -f(t_i ; \boldsymbol{\theta}) )^2\end{split}\]</div>
+<p>with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.</p>
+<p>The loss function defined by the likelihood above is sensible if the assumptions hold.
+Here, the assumptions are roughly speaking that:</p>
+<ul class="simple">
+<li><p>The errors <span class="math notranslate nohighlight">\(\epsilon\)</span> are normally distributed. If they are not, then the model will be very sensitive to outliers.
+In least squares, doubling the error increases the penalty by four.</p></li>
+<li><p>We care about errors on the original scale. If we care more about relative errors, or errors on the multiplicative scale, then least squares is not appropriate.</p></li>
+<li><p>We care equally about each data point. If we care more about fitting to recent data, then least squares is not appropriate.
+Fitting to all previous data well does not mean that we predict future data as well as we could.
+Weighting the most recent data more heavily might be more sensible in forecasting problems.</p></li>
+</ul>
+<p>Our position is that in DCA, none of these assumptions hold up very well.
+We suggest customizing the loss function instead of using the <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code> routine.
+A custom loss function can be used in conjunction with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code> to fit curves.</p>
+</section>
+<section id="an-improved-loss-function">
+<h3><a class="toc-backref" href="#id45" role="doc-backlink">An improved loss function</a><a class="headerlink" href="#an-improved-loss-function" title="Link to this heading"></a></h3>
+<p>We propose the loss function</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\boldsymbol{\theta}) = \sum_i w_i W(t_i, \gamma) |\log y_i - \log f(t_i; \boldsymbol{\theta}) |^p + \alpha \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)^T \boldsymbol{\Sigma}_{\boldsymbol{\theta}}^{-1} \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(w_i\)</span>, <span class="math notranslate nohighlight">\(y_i\)</span> and <span class="math notranslate nohighlight">\(t_i\)</span> are data and <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> is the unknown vector of curve parameters that we’re optimizing.
+This equation is implemented as <a class="reference internal" href="dca_api.html#dca.decline_curve_analysis.CurveLoss" title="dca.decline_curve_analysis.CurveLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurveLoss</span></code></a>.</p>
+<p>The least-squares loss is modified by adding the following terms:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W(t_i, \gamma)\)</span> is a weighting function that scales up the contribution of the most recent data,</p></li>
+<li><p>the weighting function <span class="math notranslate nohighlight">\(W(t_i, \gamma)\)</span> is parametrized by the <em>half-life</em> <span class="math notranslate nohighlight">\(\gamma\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(1 \leq p \leq 2\)</span> is a hyperparameter determined by cross-validation,</p></li>
+<li><p>a multivariate normal prior is put on <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> (the second term with the quadratic function),</p></li>
+<li><p>the strength of the prior is given by <span class="math notranslate nohighlight">\(\alpha\)</span> and determined by cross-validation.</p></li>
+</ul>
+<p>Notice how <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is an extension of the least squares loss.
+We allow <span class="math notranslate nohighlight">\(p\)</span> to vary between <span class="math notranslate nohighlight">\(2\)</span> (MSE, minimized by the arithmetic mean) and <span class="math notranslate nohighlight">\(1\)</span> (MAE, minimized by the median).
+Then we add weights to more recent data points (since the recent past might be more predictive of the future).
+Finally we add a multivariate normal prior by introducing a prior mean <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_{\boldsymbol{\theta}}\)</span> and prior covariance <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_{\boldsymbol{\theta}}\)</span>.
+The least squares loss is a subset of this loss, and if least squares leads to the best performance, then cross-validation will tell us so.</p>
+<section id="multiplicative-errors">
+<h4><a class="toc-backref" href="#id46" role="doc-backlink">Multiplicative errors</a><a class="headerlink" href="#multiplicative-errors" title="Link to this heading"></a></h4>
+<p>It might be better to use multiplicative errors compared to squared errors, i.e. fitting the log-model against the log data.
+Consider the simplest model: fitting a mean value by <span class="math notranslate nohighlight">\(f(\boldsymbol{t}; \theta) = \theta\)</span>.
+Fitting to data <span class="math notranslate nohighlight">\(\boldsymbol{y} = \left(1, 10, 100\right)\)</span> by minimizing least squares gives the arithmetic mean <span class="math notranslate nohighlight">\(\theta = 37\)</span>.
+Loss above and below balance on the additive scale.</p>
+<p>Fitting to the same data by minimizing log model against log data gives <span class="math notranslate nohighlight">\(\log_{10}(\theta) = 1\)</span>, so <span class="math notranslate nohighlight">\(\theta = 10\)</span>. Loss above and below are balanced in the multiplicative sense, since multiplying by <span class="math notranslate nohighlight">\(10\)</span> is as erroneous as dividing by <span class="math notranslate nohighlight">\(10\)</span>.</p>
+<p>Fitting without taking logs forces the optimizer to work hard at fitting the first few data points at the expense of the last data points.
+This is due to the magnitude of the errors in the beginning of the time series, when production is large due to the high pressure in the well.
+When we are trying to predict the future, focusing on the first errors at the expense of the last errors in time series seems counterproductive.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/3317b6a7f0069fb1590f338cefa65611/plot_log_vs_nolog.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/5654237ad78b1ccefe1d8a61db362b4a/plot_log_vs_nolog.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/1341a6c7599ab39b2ea02a02545b36b4/plot_log_vs_nolog.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/0807ad7933fc34a43077c31491bddadb/plot_log_vs_nolog.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id24">
+<img alt="_images/plot_log_vs_nolog.png" class="plot-directive" src="_images/plot_log_vs_nolog.png" />
+<figcaption>
+<p><span class="caption-text">Two curves fitted to data.
+Fitting to <span class="math notranslate nohighlight">\(y = a + bt\)</span> in log-space and exponentiating the result is not equivalent to fitting <span class="math notranslate nohighlight">\(y = \exp (a + bt)\)</span> in normal-space.</span><a class="headerlink" href="#id24" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="setting-p-to-be-a-hyperparameter">
+<h4><a class="toc-backref" href="#id47" role="doc-backlink">Setting <span class="math notranslate nohighlight">\(p\)</span> to be a hyperparameter</a><a class="headerlink" href="#setting-p-to-be-a-hyperparameter" title="Link to this heading"></a></h4>
+<p>We’ve observed that when we try to minimize forecasting error as measured by RMSE, the exponent <span class="math notranslate nohighlight">\(p\)</span> in <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> should often be closer to <span class="math notranslate nohighlight">\(1\)</span>, rather than <span class="math notranslate nohighlight">\(2\)</span>.
+This is a bit surprising, since choosing <span class="math notranslate nohighlight">\(p=2\)</span> means choosing the loss function that minimizes the RMSE metric.
+However, when <span class="math notranslate nohighlight">\(p=1\)</span> we’re fitting the median curve (percentile regression), which is more robust to outliers.
+We propose to let <span class="math notranslate nohighlight">\(p \in [1, 2]\)</span> be a hyperparameter, to be determined by cross validation on the data and prediction task.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/2cd3e21aa2f6166316871c44043314bf/plot_rmse_vs_mae.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/12ea267619cb07b214e8f54dcf2baf17/plot_rmse_vs_mae.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/557da6c49535d7b0009ccdbc649ad06d/plot_rmse_vs_mae.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/f177a3417978876dfa857e4de105de91/plot_rmse_vs_mae.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id26">
+<img alt="_images/plot_rmse_vs_mae.png" class="plot-directive" src="_images/plot_rmse_vs_mae.png" />
+<figcaption>
+<p><span class="caption-text">Two curves fitted to data with outliers.
+The curves use different <span class="math notranslate nohighlight">\(p\)</span> norms, and we observe that <span class="math notranslate nohighlight">\(p=1\)</span> is robust to outliers.</span><a class="headerlink" href="#id26" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="weight-recent-data-points-more-heavily">
+<h4><a class="toc-backref" href="#id48" role="doc-backlink">Weight recent data points more heavily</a><a class="headerlink" href="#weight-recent-data-points-more-heavily" title="Link to this heading"></a></h4>
+<p>We propose adding weights <span class="math notranslate nohighlight">\(W(t_i, \gamma)\)</span> to each term in the loss function.
+The loss function then becomes</p>
+<div class="math notranslate nohighlight">
+\[\sum_i^n W(t_i, \gamma) w_i  |\log y_i - \log f(t_i; \boldsymbol{\theta}) |^p\]</div>
+<p>We set <span class="math notranslate nohighlight">\(W(t_i, \gamma) = C 2^{(t_i - \max_i t_i) / \gamma}\)</span>, where <span class="math notranslate nohighlight">\(\gamma\)</span> is the half-life of the exponential decay and <span class="math notranslate nohighlight">\(C\)</span> is a constant.
+For instance, a half-life of <span class="math notranslate nohighlight">\(\gamma = 12\)</span> months means that the 12th most recent data point gets a relative weight of <span class="math notranslate nohighlight">\(50 \%\)</span>, the 24th data point gets a weight of <span class="math notranslate nohighlight">\(25 \%\)</span>, the 36th data point gets a weight of <span class="math notranslate nohighlight">\(12.5 \%\)</span>, and so forth.
+We determine <span class="math notranslate nohighlight">\(C\)</span> by the constraint <span class="math notranslate nohighlight">\(\sum_{i=1}^n W(t_i, \gamma) = n\)</span>.
+The half life <span class="math notranslate nohighlight">\(\gamma &gt; 0\)</span> becomes a hyperparameter, to be determined by cross validation on the data and prediction task.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/c875d9585da5a21ff31180739bd8f77e/plot_weighting_by_recency.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/acdc41b024272a1cc7edfed77229d4c7/plot_weighting_by_recency.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/76c9fdef061da8f5de02e5c22ebbb46d/plot_weighting_by_recency.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/ef5aebfb49477a3a104d8723ad1709b0/plot_weighting_by_recency.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id28">
+<img alt="_images/plot_weighting_by_recency.png" class="plot-directive" src="_images/plot_weighting_by_recency.png" />
+<figcaption>
+<p><span class="caption-text">A small half-life leads the curve to fit more recent data better.</span><a class="headerlink" href="#id28" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="use-priors-on-the-parameters">
+<h4><a class="toc-backref" href="#id49" role="doc-backlink">Use priors on the parameters</a><a class="headerlink" href="#use-priors-on-the-parameters" title="Link to this heading"></a></h4>
+<p>Finally we set a prior on <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.
+A multivariate normal prior leads to a term with a quadratic form <span class="math notranslate nohighlight">\(\left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)^T \boldsymbol{\Sigma}_{\boldsymbol{\theta}}^{-1}  \left( \boldsymbol{\theta} - \boldsymbol{\mu}_{\boldsymbol{\theta}}  \right)\)</span> in the log-likelihood.
+The prior is chosen based on inspecting the data set, and it serves several purposes:</p>
+<ul class="simple">
+<li><p>makes fitting a curve when we have fewer data points than parameters possible,</p></li>
+<li><p>helps regularize the curve when there is little information,</p></li>
+<li><p>makes the numerical routines more stable, and provides an alternative to hard constraints on the parameter space.</p></li>
+</ul>
+<p>In <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> we set a parameter <span class="math notranslate nohighlight">\(\alpha\)</span> in front of the prior, which determines regularization strength.
+This parameter could alternatively be absorbed into <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_{\boldsymbol{\theta}}^{-1}\)</span>, but separating it out can be helpful.</p>
+<p>For more on Bayesian statistics, see <a class="reference internal" href="#bish11" id="id11"><span>[BISH11]</span></a>, <a class="reference internal" href="#mcel20" id="id12"><span>[MCEL20]</span></a>, <a class="reference internal" href="#gelm13" id="id13"><span>[GELM13]</span></a></p>
+</section>
+</section>
+</section>
+<section id="uncertainty-and-eur-forecasting">
+<h2><a class="toc-backref" href="#id50" role="doc-backlink">Uncertainty and EUR-forecasting</a><a class="headerlink" href="#uncertainty-and-eur-forecasting" title="Link to this heading"></a></h2>
+<p>This section contains information about how to incorporate uncertainty into forecasts with Arps curves.</p>
+<p>Note that:</p>
+<ul class="simple">
+<li><p>We do not consider full posterior predictive uncertainty, since we ignore uncertainty in <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.
+This uncertainty could be incorporated, but would make the code more complex and potentially more slow.
+A <a class="reference external" href="https://en.wikipedia.org/wiki/Laplace%27s_approximation">Laplace approximation</a> or full <a class="reference external" href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo">Markov chain Monte Carlo</a> could be used to capture this uncertainty.
+But we believe that it is unnecessary; we typically have a lot of data (wells on steady decline require significant history) and in that case the uncertainty in the parameters <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> is low.</p></li>
+<li><p>The uncertainty that we capture is only with respect to the model and the data, not with respect to everything that might happen to a real-life well (interventions, stopping, adding other wells, injectors, etc).</p></li>
+<li><p>We take a pragmatic approach: the goal is to get good probability estimates in reasonable time, not construct a perfect theoretical model.</p></li>
+</ul>
+<section id="on-the-original-scale">
+<h3><a class="toc-backref" href="#id51" role="doc-backlink">On the original scale</a><a class="headerlink" href="#on-the-original-scale" title="Link to this heading"></a></h3>
+<p>If we assume normally distributed errors on the observed scale (not log-scale), we can construct a probability model like</p>
+<div class="math notranslate nohighlight">
+\[y_i \sim \mathcal{N}\left( f(t_i ; \boldsymbol{\theta}), \sigma \right),\]</div>
+<p>which is equivalent to the model <span class="math notranslate nohighlight">\(y_i = f(t_i ; \boldsymbol{\theta}) + \epsilon_i\)</span> with <span class="math notranslate nohighlight">\(\epsilon_i \sim \mathcal{N}(0, \sigma)\)</span>.
+This is not a very realistic model: we can estimate negative production, and the model assumes that the errors are on the absolute scale.
+Still it is instructive to look at this model first, before we study a more realistic log-scale model.</p>
+<p>Suppose we wish to estimate the EUR (Estimated Ultimate Recovery) with associated uncertainty.
+We have observed <span class="math notranslate nohighlight">\(n\)</span> data points so far, and the final time we have observed is <span class="math notranslate nohighlight">\(t_n\)</span>.
+We must first form the sum <span class="math notranslate nohighlight">\(\sum_{i=0}^n y_i\)</span> of what we have observed,
+then we must sum our predictions for the future <span class="math notranslate nohighlight">\(\sum_{i=n+1}^N \hat{y}_i\)</span>.</p>
+<p>The EUR calculation with uncertainty becomes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{EUR} = \sum_{i=0}^n y_i + \sum_{i=n+1}^N \hat{y}_i &amp;= \sum_{i=0}^n y_i + \sum_{i=n+1}^N \left( f(t_i ; \boldsymbol{\theta}) + \epsilon_i \right) \\
+ = \sum_{i=0}^n y_i + \sum_{i=n+1}^N f(t_i ; \boldsymbol{\theta}) + \sum_{i=n+1}^N \epsilon_i &amp;= \sum_{i=0}^n y_i + \sum_{i=n+1}^N f(t_i ; \boldsymbol{\theta}) + \mathcal{N}(0, \sigma \sqrt{N - n})\end{split}\]</div>
+<p>where we have used fact that a sum of <span class="math notranslate nohighlight">\(n\)</span> normal variables <span class="math notranslate nohighlight">\(\mathcal{N}(0, \sigma)\)</span> is a normal variable with distribution <span class="math notranslate nohighlight">\(\mathcal{N}(0, \sigma \sqrt{n})\)</span>.
+The EUR decomposes into three parts: the sum of observed production in each period where we have data,
+the integral of the model from the last observed period forward in time,
+and the random noise.</p>
+<div class="math notranslate nohighlight">
+\[\text{EUR} = \underbrace{\sum_{i=0}^n y_i}_\text{observed} +
+\underbrace{\int_{t_{n+1}}^{t_{N}} f(t_i ; \boldsymbol{\theta}) dt }_\text{predicted mean} +
+\underbrace{\mathcal{N}(0, \sigma \sqrt{N - n} )}_\text{noise}\]</div>
+<p>Only the last term is stochastic, so the uncertainty is captured in that term, which has a closed-form distribution.
+Notice how the uncertainty range grows like <span class="math notranslate nohighlight">\(\sqrt{n}\)</span> into the future.</p>
+</section>
+<section id="on-the-log-scale">
+<h3><a class="toc-backref" href="#id52" role="doc-backlink">On the log-scale</a><a class="headerlink" href="#on-the-log-scale" title="Link to this heading"></a></h3>
+<p>The model above with errors on the original scale assumes that the magnitude of the errors are independent of the size of the observations <span class="math notranslate nohighlight">\(y_i\)</span>.
+In reality, a more accurate model is to assume that errors are on the log scale.
+For instance, going 20% over the predicted value has a constant probability, no matter what the production value <span class="math notranslate nohighlight">\(y_i\)</span> is.
+To accomplish this we fit the log-model to the log-data, and the model becomes</p>
+<div class="math notranslate nohighlight">
+\[\log ( y_i ) \sim \mathcal{N}\left( \log f(t_i ; \boldsymbol{\theta}), \sigma \right),\]</div>
+<p>which is equivalent to <span class="math notranslate nohighlight">\(\log (y_i) = \log \left( f(t_i ; \boldsymbol{\theta}) \right) + \epsilon_i\)</span> with <span class="math notranslate nohighlight">\(\epsilon_i \sim \mathcal{N}(0, \sigma)\)</span>.</p>
+<p>To obtain EUR, we again sum the estimates with the uncertainty:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{EUR} = \sum_{i=0}^n y_i + \sum_{i=n+1}^N \hat{y}_i &amp;= \sum_{i=0}^n y_i + \sum_{i=n+1}^N \exp( \log \hat{y}_i ) \\
+= \sum_{i=0}^n y_i + \sum_{i=n+1}^N \exp( \log \left( f(t_i ; \boldsymbol{\theta}) \right) + \epsilon_i )
+&amp;= \sum_{i=0}^n y_i + \sum_{i=n+1}^N \exp( \epsilon_i )  f(t_i ; \boldsymbol{\theta})\end{split}\]</div>
+<p>In this model, final prediction term is a sum-of-products, so we cannot decompose the randomness from the predicted mean.
+However, the equation above can be Monte-Carlo simulated: by drawing random values of <span class="math notranslate nohighlight">\(\epsilon_i\)</span> and computing sums we obtain the distribution of the EUR.</p>
+<section id="the-errors-in-the-log-scale-model-implicitly-depend-on-the-time-resolution">
+<h4><a class="toc-backref" href="#id53" role="doc-backlink">The errors in the log-scale model implicitly depend on the time resolution</a><a class="headerlink" href="#the-errors-in-the-log-scale-model-implicitly-depend-on-the-time-resolution" title="Link to this heading"></a></h4>
+<p>The log-scale model is not invariant to re-sampling the data at finer or coarser resolutions.
+The model depends on the data resolution, since it places a log-normal error on each period and the sum of lognormals is not lognormal.
+This means that using the model on monthly resolution vs. daily resolution will not produce identical results.</p>
+<p>The practical take-away is that the resolution should be such that the model equation <span class="math notranslate nohighlight">\(\log ( y_i ) \sim \mathcal{N}\left( \log f(t_i ; \boldsymbol{\theta}), \sigma \right)\)</span> is reasonable.
+In other words: look at the residuals and see that they are approximately normal in log-space.</p>
+</section>
+<section id="p10-and-p90-curves">
+<h4><a class="toc-backref" href="#id54" role="doc-backlink">P10 and P90 curves</a><a class="headerlink" href="#p10-and-p90-curves" title="Link to this heading"></a></h4>
+<p>Another advantage of fitting on the log-scale is that P10 and P90 curves are easy and natural to construct.
+Under our <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> parametrization of the Arps curve we have</p>
+<div class="math notranslate nohighlight">
+\[\log \left( f(t ; \theta_1, \theta_2, \theta_3) \right) + \alpha \sigma = f(t ; \theta_1 + \alpha \sigma, \theta_2, \theta_3),\]</div>
+<p>so constructing curves for percentiles like P10 and P90 is easily done.
+This amounts to multiplying <span class="math notranslate nohighlight">\(q\)</span> with <span class="math notranslate nohighlight">\(\exp(\alpha \sigma)\)</span> in the original parametrization.
+To see why this is true, recall the relationship <span class="math notranslate nohighlight">\(q = \exp(\theta_1) (1-h ) D\)</span> between the two parametrization, so</p>
+<div class="math notranslate nohighlight">
+\[\exp(\theta_1 + \alpha \sigma) (1-h ) D = \exp(\alpha \sigma) \exp(\theta_1) (1-h ) D = \exp(\alpha \sigma) q.\]</div>
+<p>The same does not apply if we fit in the original space, since <span class="math notranslate nohighlight">\(f(t ; \boldsymbol{\theta}) + \alpha \sigma\)</span> is not in the family of Arps curves (it does not decay to zero).</p>
+<p>Note that P10 and P90 curves represent <em>pointwise uncertainty for each individual period</em>, and cannot be integrated directly to obtain the EUR.
+The sum of P90 values of each period is not equal to the P90 of the sum of periods, so simulation must be performed as outlined above.</p>
+</section>
+</section>
+<section id="the-ar-1-regression-model">
+<h3><a class="toc-backref" href="#id55" role="doc-backlink">The AR(1) regression model</a><a class="headerlink" href="#the-ar-1-regression-model" title="Link to this heading"></a></h3>
+<section id="forward-simulation">
+<h4><a class="toc-backref" href="#id56" role="doc-backlink">Forward simulation</a><a class="headerlink" href="#forward-simulation" title="Link to this heading"></a></h4>
+<p>Real wells exhibit autocorrelation that can sometimes be quite strong.
+We capture autocorrelation by the parameter <span class="math notranslate nohighlight">\(\phi\)</span> using the following model,
+which is a blend of an AR(1) process and a non-linear regression.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\log (y_i) &amp;= \log(f(t_i; \theta) ) + \eta_i \\
+\eta_i &amp;= \phi \eta_{i-1} + \sqrt{\tau_i} \epsilon_i \\
+\epsilon_i &amp;\sim \operatorname{GN}(\mu=0, \alpha=\sigma, \beta=\beta)\end{split}\]</div>
+<p>The parameters are <span class="math notranslate nohighlight">\((\theta, \phi, \sigma, \beta)\)</span> and <span class="math notranslate nohighlight">\(\operatorname{GN}\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_normal_distribution">generalized normal distribution</a>.
+Given data <span class="math notranslate nohighlight">\((\tau_i, t_i)\)</span> and parameters <span class="math notranslate nohighlight">\((\theta, \phi, \sigma, \beta)\)</span>,
+the model above gives a recipe for how to simulate <span class="math notranslate nohighlight">\(y_i\)</span>.</p>
+<p>(<a class="reference download internal" download="" href="_downloads/48d1024c1ad139f958352ab0f8a8fdea/plot_ar1_simulation.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/b69f53d30b7c08efbad537adf3ba43e5/plot_ar1_simulation.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/1118b2a89c18effb3e30e8583fff0dfe/plot_ar1_simulation.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/568678e673df1affc4ff5c0645bf371b/plot_ar1_simulation.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id30">
+<img alt="_images/plot_ar1_simulation.png" class="plot-directive" src="_images/plot_ar1_simulation.png" />
+<figcaption>
+<p><span class="caption-text">Simulations from the model, showing the DCA curve in black.</span><a class="headerlink" href="#id30" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>If the purpose was to merely estimate the curve parameters <span class="math notranslate nohighlight">\(\theta\)</span>,
+then whether we use independent errors or an AR(1) structure matters little.
+However, when it comes to predicting uncertainty in forecasts by forward simulation,
+modeling autocorrelation helps a great deal.
+Modeling autocorrelation helps create realistic-looking forecasts and therefore realistic uncertainty estimates.</p>
+<p>The probability density function of the GN is given by:</p>
+<div class="math notranslate nohighlight">
+\[p(y \mid \mu, \alpha, \beta) = \frac{\beta}{2\alpha\Gamma(1/\beta)} \exp\left( -(|y-\mu|/\alpha)^\beta \right)\]</div>
+</section>
+<section id="parameter-estimation">
+<h4><a class="toc-backref" href="#id57" role="doc-backlink">Parameter estimation</a><a class="headerlink" href="#parameter-estimation" title="Link to this heading"></a></h4>
+<p>To infer parameters, we need a posterior distribution to maximize.
+Recall that the posterior answers the question:
+given observed data <span class="math notranslate nohighlight">\((\tau_i, t_i, y_i)\)</span>, what are the most likely parameters?</p>
+<p>Let us first consider the initial condition.
+At steady state, the <a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process">AR1 process</a> has a steady state variance</p>
+<div class="math notranslate nohighlight">
+\[\frac{\sigma^2_\epsilon}{1 - \phi^2}
+=
+\frac{\alpha^2 \Gamma(3/\beta)}{\Gamma(1/\beta) (1 - \phi^2)}
+=
+\frac{\sigma^2 \Gamma(3/\beta)}{\Gamma(1/\beta) (1 - \phi^2)},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Gamma(\cdot)\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a>.</p>
+<p>If <span class="math notranslate nohighlight">\(\phi \approx 0\)</span>, then the steady state distribution is a generalized normal distribution.
+If <span class="math notranslate nohighlight">\(\phi \gg 0\)</span>, then the steady state is a weighted sum of generalized normal distributions,
+and we appeal to the central limit theorem and approximate the steady state as normally distributed.
+Our approximation is only wrong if <span class="math notranslate nohighlight">\(\phi \approx 0\)</span> and <span class="math notranslate nohighlight">\(\beta \ll 2\)</span>,
+and even then it’s only wrong on one data point (the initial condition).</p>
+<p>The likelihood steady-state initial condition becomes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\log y_0
+&amp;\sim
+N \left( \log( f(t_0; \theta) ), \sigma_0 \right )  \\
+\sigma_0 &amp;= \sigma \frac{\sqrt{\Gamma (3 / \beta)}}{\sqrt{\Gamma(1/\beta) (1 - \phi^2)}}\end{split}\]</div>
+<p>The remaining terms have likelihood:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\log (y_i) \mid \log (y_{i-1})
+&amp;\sim
+GN \left( \mu_i, \sqrt{\tau_i} \sigma, \beta  \right ) \\
+\mu_i
+&amp;=
+ \log( f(t_i; \theta) ) + \phi \left[ \log (y_{i-1}) - \log(f(t_{i-1}; \theta) ) \right]\end{split}\]</div>
+</section>
+<section id="gradient-of-log-likelihood-general-case">
+<h4><a class="toc-backref" href="#id58" role="doc-backlink">Gradient of log-likelihood - general case</a><a class="headerlink" href="#gradient-of-log-likelihood-general-case" title="Link to this heading"></a></h4>
+<p>On an arbitrary data point that is not the first one (where the initial condition applies),
+we obtain the gradient by first looking at the negative log-pdf of the generalized normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[L( \log(y_i) \mid \mu, \alpha, \beta) =
+\frac{\lvert \log(y_i) - \mu \rvert ^\beta}{\alpha^\beta }
++ \log(2\alpha\Gamma(1/\beta)) - \log(\beta)\]</div>
+<p>Using the <a class="reference external" href="https://en.wikipedia.org/wiki/Prais%E2%80%93Winsten_estimation">Prais–Winsten trick</a>,
+we transform the regression with a weighted difference, creating independent errors to regress on.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mu &amp;= \mu(\theta, \phi) = \log( f(t_i; \theta) ) + \phi \left[ \log (y_{i-1}) - \log(f(t_{i-1}; \theta) ) \right]  \\
+\alpha &amp;= \alpha(\sigma) = \sqrt{\tau_i} \sigma\end{split}\]</div>
+<p>Let us put an arbitrary likelihood weight <span class="math notranslate nohighlight">\(w(\beta)\)</span> on the negative log-likelihood.
+Differentiating with respect to the curve parameters <span class="math notranslate nohighlight">\(\theta\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\theta L &amp;=
+- \frac{\beta \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} w{\left(\beta \right)} \frac{\partial}{\partial \theta} \mu{\left(\theta,\phi \right)}}{\log(y_i) - \mu{\left(\theta,\phi \right)}} \\
+&amp;=
+- \frac{\beta \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} w{\left(\beta \right)}
+\left( \partial_\theta \log( f(t_i; \theta) ) - \phi  \partial_\theta \log(f(t_{i-1}; \theta) )  \right)
+}{\log(y_i) - \mu{\left(\theta,\phi \right)}}\end{split}\]</div>
+<p>as long as we have the gradient of the curve parameters available, i.e. <span class="math notranslate nohighlight">\(\partial_\theta \log(f(t; \theta) )\)</span>, the above can be computed.</p>
+<p>Differentiating with respect to the autocorrelation parameter <span class="math notranslate nohighlight">\(\phi\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\phi L &amp;=
+- \frac{\beta \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} w{\left(\beta \right)} \frac{\partial}{\partial \phi} \mu{\left(\theta,\phi \right)}}{\log(y_i) - \mu{\left(\theta,\phi \right)}} \\
+&amp;=
+- \frac{\beta \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} w{\left(\beta \right)}
+\left( \log (y_{i-1}) - \log(f(t_{i-1}; \theta) ) \right)
+}{\log(y_i) - \mu{\left(\theta,\phi \right)}}\end{split}\]</div>
+<p>Differentiating with respect to the error parameter <span class="math notranslate nohighlight">\(\sigma\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\sigma L &amp;=
+- \frac{\left(\beta \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} - 1\right) w{\left(\beta \right)} \frac{d}{d \sigma} \alpha{\left(\sigma \right)}}{\alpha{\left(\sigma \right)}} \\
+&amp;=
+- \frac{\left(\beta \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} - 1\right) w{\left(\beta \right)} \sqrt{\tau_i} }{\alpha{\left(\sigma \right)}} \\
+&amp;=
+- w (\beta) \left( \frac{\beta \left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|^\beta}{(\sigma \sqrt{\tau_i})^\beta} - \frac{1}{\sigma} \right)\end{split}\]</div>
+<p>Finally, differentiating with respect to the scale parameter <span class="math notranslate nohighlight">\(\beta\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\beta L &amp;=
+\left(   \frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} w{\left(\beta \right)} \log{\left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}} \right)} \\
+&amp;+ \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} \frac{d}{d \beta} w{\left(\beta \right)} - \log{\left(\beta \right)} \frac{d}{d \beta} w{\left(\beta \right)} \\
+&amp;+ \log{\left(2 \alpha{\left(\sigma \right)} \Gamma\left(1/\beta\right) \right)} \frac{d}{d \beta} w{\left(\beta \right)} - \frac{w{\left(\beta \right)}}{\beta} - \frac{w{\left(\beta \right)} \psi \left(\frac{1}{\beta} \right)}{\beta^{2}}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\psi\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Digamma_function">digamma function</a>.</p>
+<p>If <span class="math notranslate nohighlight">\(w\)</span> is not a function of <span class="math notranslate nohighlight">\(\beta\)</span>, then the above simplifies to</p>
+<div class="math notranslate nohighlight">
+\[\partial_\beta L =
+w \left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}}\right)^{\beta} \log{\left(\frac{\left|{\log(y_i) - \mu{\left(\theta,\phi \right)}}\right|}{\alpha{\left(\sigma \right)}} \right)} - \frac{w}{\beta} - \frac{w \psi \left(\frac{1}{\beta} \right)}{\beta^{2}}\]</div>
+</section>
+<section id="gradient-of-log-likelihood-initial-condition">
+<h4><a class="toc-backref" href="#id59" role="doc-backlink">Gradient of log-likelihood - initial condition</a><a class="headerlink" href="#gradient-of-log-likelihood-initial-condition" title="Link to this heading"></a></h4>
+<p>In a similar fashion, <strong>gradients of the initial condition can be computed</strong>.
+Recall that the initial condition is given by the negative log-pdf of a normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}L(\log(y_0) \mid \mu, \sigma_0) &amp;=
+\frac{\left(\log(y_0) - \mu \right)^{2}}{2 \sigma_0^2}
++ \frac{1}{2}\log(2 \pi \sigma_0^2) \\
+\mu{\left(\theta \right)} &amp;= \log( f(t_0; \theta) ) \\
+\sigma_0(\sigma, \beta, \phi) &amp;= \sigma \frac{\sqrt{\Gamma (3 / \beta)}}{\sqrt{\Gamma(1/\beta) (1 - \phi^2)}}\end{split}\]</div>
+<p>Let us differentiate <span class="math notranslate nohighlight">\(\sigma_0(\sigma, \beta, \phi)\)</span> first:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\phi \sigma_0(\sigma, \beta, \phi)  &amp;= \sigma_0(\sigma, \beta, \phi) \frac{\phi}{(1- \phi^2)^3} + \sigma_0(\sigma, \beta, \phi) \frac{\phi}{(1- \phi^2) \sqrt{(1- \phi^2)}}  \\
+\partial_\sigma \sigma_0(\sigma, \beta, \phi)  &amp;= \frac{\sigma_0(\sigma, \beta, \phi)}{\sigma} \\
+\partial_\beta \sigma_0(\sigma, \beta, \phi) &amp;= \sigma_0(\sigma, \beta, \phi) \frac{\psi (1/\beta) - 3 \psi (3/\beta)}{2 \beta^2}\end{split}\]</div>
+<p>We can now use the chain rule to differentiate the negative log pdf with respect to the parameters.</p>
+<p>Differentiating with respect to the curve parameters <span class="math notranslate nohighlight">\(\theta\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\theta L
+&amp;=
+- \frac{\left( \log(y_0) - \mu{\left(\theta \right)} \right) w{\left(\beta \right)} \frac{d}{d \theta} \mu{\left(\theta \right)}}{\sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}} \\
+&amp;=
+- \frac{\left( \log(y_0) - \mu{\left(\theta \right)}\right) w{\left(\beta \right)}
+\partial_\theta \log( f(t_0; \theta) )
+}{\sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}}\end{split}\]</div>
+<p>Differentiating with respect to the autocorrelation parameter <span class="math notranslate nohighlight">\(\phi\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\phi L &amp;=
+- \frac{\left(\left(\log(y_0) - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)} \frac{\partial}{\partial \phi} \sigma_{0}{\left(\sigma,\beta,\phi \right)}}{\sigma_{0}^{3}{\left(\sigma,\beta,\phi \right)}} \\
+&amp;=
+- \frac{\left(\left(\log(y_0) - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)}
+\sigma_0{\left(\sigma,\beta,\phi \right)} \frac{\phi}{(1- \phi^2)^3}
+}{\sigma_{0}^{3}{\left(\sigma,\beta,\phi \right)}} \\
+&amp;=
+- \frac{\left(\left(\log(y_0) - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)}
+ \phi
+}{\sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)} (1- \phi^2)^3}\end{split}\]</div>
+<p>Differentiating with respect to the error parameter <span class="math notranslate nohighlight">\(\sigma\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\sigma L &amp;=
+- \frac{\left(\left(\log(y_0) - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)} \frac{\partial}{\partial \sigma} \sigma_{0}{\left(\sigma,\beta,\phi \right)}}{\sigma_{0}^{3}{\left(\sigma,\beta,\phi \right)}} \\
+&amp;=
+- \frac{\left(\left(\log(y_0) - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)} }{\sigma \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}} \\
+&amp;=
+- w(\beta)
+\left( \frac{\left(\log(y_0) - \mu{\left(\theta \right)}\right)^{2}}{\sigma \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)} } - \frac{1}{\sigma} \right)\end{split}\]</div>
+<p>Finally, differentiating with respect to the scale parameter <span class="math notranslate nohighlight">\(\beta\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\beta L &amp;=
+\frac{\left(\left(y - \mu{\left(\theta \right)}\right)^{2} + \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)} \log{\left(2 \pi \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)} \right)}\right) \frac{d}{d \beta} w{\left(\beta \right)}}{2 \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}} \\
+&amp;- \frac{\left(\left(y - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)} \left( \psi(1/ \beta) - 3 \psi(3/\beta) \right)}{2 \beta^2 \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}}\end{split}\]</div>
+<p>If <span class="math notranslate nohighlight">\(w\)</span> is not a function of <span class="math notranslate nohighlight">\(\beta\)</span>, then the above simplifies to only the second term:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_\beta L &amp;= - \frac{\left(\left(y - \mu{\left(\theta \right)}\right)^{2} - \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}\right) w{\left(\beta \right)} \left( \psi(1/ \beta) - 3 \psi(3/\beta) \right)}{2 \beta^2 \sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}}  \\
+&amp;= - w(\beta)
+\left( \frac{\left(y - \mu{\left(\theta \right)}\right)^{2} }{\sigma_{0}^{2}{\left(\sigma,\beta,\phi \right)}} - 1 \right)
+\frac{ \psi(1/ \beta) - 3 \psi(3/\beta) }{2 \beta^2}\end{split}\]</div>
+</section>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id60" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p id="section-summary">Even though the Arps curve dates back to the 1940s, we still believe it’s the best choice when predicting future production for on-shore gas wells.
+While other models might also be worth examining, we find that the largest performance gains are achieved when adjusting the loss function.
+In other words, how recent data is weighted, how data is preprocessed, whether we are sensitive to outliers or not, and other questions like these, matter more than the exact parametric form of the DCA model.</p>
+<p>We back our claim up with a quantitative study based on 15,000 on-shore gas wells.
+Keeping the DCA model constant (using the Arps curve) and adjusting the loss function, we obtain a 25% reduction in forecasting RMSE.</p>
+<div role="list" class="citation-list">
+<div class="citation" id="bish11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">BISH11</a><span class="fn-bracket">]</span></span>
+<p>Bishop, Christopher M., “Pattern Recognition and Machine Learning,” Springer, New York, April 2011. <a class="reference external" href="https://www.springer.com/gp/book/9780387310732">ISBN 978-0-387-31073-2</a>.</p>
+</div>
+<div class="citation" id="mcel20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">MCEL20</a><span class="fn-bracket">]</span></span>
+<p>McElreath, Richard, “Statistical Rethinking: A Bayesian Course with Examples in R and STAN,” 2nd Edition, Chapman and Hall/CRC, Boca Raton, March 2020. <a class="reference external" href="https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919">ISBN 978-0-367-13991-9</a>.</p>
+</div>
+<div class="citation" id="lee21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>LEE21<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id9">3</a>)</span>
+<p>Lee, Se Yoon and Mallick, Bani, “Bayesian Hierarchical Modeling: Application Towards Production Results in the Eagle Ford Shale of South Texas,” Sankhya B, January 2021. <a class="reference external" href="https://doi.org/10.1007/s13571-020-00245-8">DOI 10.1007/s13571-020-00245-8</a>.</p>
+</div>
+<div class="citation" id="gelm13" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">GELM13</a><span class="fn-bracket">]</span></span>
+<p>Gelman, Andrew, et al., “Bayesian Data Analysis,” 3rd Edition, Chapman and Hall/CRC, Boca Raton, November 2013. <a class="reference external" href="https://www.crcpress.com/Bayesian-Data-Analysis/Gelman-Carlin-Stern-Dunson-Vehtari-Rubin/p/book/9781439840955">ISBN 978-1-4398-4095-5</a>.</p>
+</div>
+<div class="citation" id="arp45" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">ARP45</a><span class="fn-bracket">]</span></span>
+<p>Arps, J.J., “Analysis of Decline Curves,” Transactions of the AIME, Vol. 160, pp. 228-247, December 1945. <a class="reference external" href="https://onepetro.org/TRANS/article/160/01/228/161823/Analysis-of-Decline-Curves">DOI 10.2118/945228-G</a>.</p>
+</div>
+<div class="citation" id="joch96" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">JOCH96</a><span class="fn-bracket">]</span></span>
+<p>Jochen, V. A. and Spivey, J. P., “Probabilistic Reserves Estimation Using Decline Curve Analysis with the Bootstrap Method,” SPE Annual Technical Conference and Exhibition, October 1996. <a class="reference external" href="https://onepetro.org/SPEATCE/proceedings/96SPE/All-96SPE/SPE-36633-MS/58944">DOI 10.2118/36633-MS</a>.</p>
+</div>
+<div class="citation" id="boyd04" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">BOYD04</a><span class="fn-bracket">]</span></span>
+<p>Boyd, Stephen and Vandenberghe, Lieven, “Convex Optimization,” Cambridge University Press, 2004.</p>
+</div>
+<div class="citation" id="tang21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">TANG21</a><span class="fn-bracket">]</span></span>
+<p>Tang, Huiying, et al., “A novel decline curve regression procedure for analyzing shale gas production,” Journal of Natural Gas Science and Engineering, Vol. 88, 103818, 2021. <a class="reference external" href="https://doi.org/10.1016/j.jngse.2021.103818">DOI 10.1016/j.jngse.2021.103818</a>.</p>
+</div>
+<div class="citation" id="liu18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">LIU18</a><span class="fn-bracket">]</span></span>
+<p>Tan, Lei, et al., “Methods of Decline Curve Analysis for Shale Gas Reservoirs,” Energies, Vol. 11, No. 3, 552, 2018. <a class="reference external" href="https://www.mdpi.com/1996-1073/11/3/552">DOI 10.3390/en11030552</a>.</p>
+</div>
+<div class="citation" id="liang20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">LIANG20</a><span class="fn-bracket">]</span></span>
+<p>Liang, Hong-Bin, et al., “Empirical methods of decline-curve analysis for shale gas reservoirs: Review, evaluation, and application,” Journal of Natural Gas Science and Engineering, Vol. 83, 103531, 2020. <a class="reference external" href="https://doi.org/10.1016/j.jngse.2020.103531">DOI 10.1016/j.jngse.2020.103531</a>.</p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples_gallery/plot_uncertainty.html" class="btn btn-neutral float-left" title="Uncertainty" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

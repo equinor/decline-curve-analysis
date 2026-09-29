@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The ADCA package &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/sg-tags.js?v=d80f6fa4"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ADCA tutorial" href="adca_tutorial.html" />
+    <link rel="prev" title="The DCA package" href="dca.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dca.html">The DCA package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The ADCA package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-to-adca">Introduction to ADCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yaml-configuration-files">YAML configuration files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-local-csv-files-as-input">Using local .csv files as input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-metrics-and-diagnostics">Error metrics and diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adca-outputs">ADCA outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adca_tutorial.html">ADCA tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adca_faq.html">ADCA FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_documentation.html">Developer documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">The ADCA package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/adca.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-adca-package">
+<h1>The ADCA package<a class="headerlink" href="#the-adca-package" title="Link to this heading"></a></h1>
+<section id="introduction-to-adca">
+<h2>Introduction to ADCA<a class="headerlink" href="#introduction-to-adca" title="Link to this heading"></a></h2>
+<p>The Automatic DCA (<code class="docutils literal notranslate"><span class="pre">adca</span></code>) system is built on top of the <code class="docutils literal notranslate"><span class="pre">dca</span></code> package.
+It wraps the core mathematical routines into a system that lets the user run DCA on a dataset without having to write code.
+ADCA is configured with a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file that specifies data sources, well groupings, preprocessing steps, curve fitting parameters and more.</p>
+<p>After reading this page, try to follow the <a class="reference internal" href="adca_tutorial.html"><span class="doc">ADCA tutorial</span></a>.</p>
+</section>
+<section id="yaml-configuration-files">
+<h2>YAML configuration files<a class="headerlink" href="#yaml-configuration-files" title="Link to this heading"></a></h2>
+<p>Here is a minimal example of a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> configuration file for ADCA package.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">group</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Example_Group"</span><span class="w"> </span><span class="c1"># Name of a group (collection of wells)</span>
+
+<span class="w">  </span><span class="c1"># Data source settings</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"DataSourceName"</span><span class="w"> </span><span class="c1"># PDM, local files, ...</span>
+<span class="w">    </span><span class="nt">table</span><span class="p">:</span><span class="w"> </span><span class="s">"Database.Table"</span>
+<span class="w">    </span><span class="nt">phases</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"oil"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># One or more phases. If &gt;1, they are summed.</span>
+<span class="w">    </span><span class="nt">frequency</span><span class="p">:</span><span class="w"> </span><span class="s">"monthly"</span><span class="w"> </span><span class="c1"># 'monthly' or 'daily'</span>
+<span class="w">    </span><span class="c1"># Filter by time (for backtesting). Must have format 'YYYY-MM' or</span>
+<span class="w">    </span><span class="c1"># 'YYYY-MM-DD' matching 'frequency'. Start (inclusive), end (exclusive)</span>
+<span class="w">    </span><span class="nt">period_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">null</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">null</span><span class="p p-Indicator">]</span>
+
+<span class="w">  </span><span class="c1"># Wells to include</span>
+<span class="w">  </span><span class="nt">wells</span><span class="p">:</span>
+<span class="w">    </span><span class="s">"well1"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># Complete history for this well</span>
+<span class="w">    </span><span class="s">"well2"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># Split this well into two segments</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">null</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"2020-01"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Format: 'YYYY-MM' or 'YYYY-MM-DD'</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"2020-01"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">null</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="s">"well3,well4"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># Sum wells with ',' (no space), then split</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"2010-01"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">null</span><span class="p p-Indicator">]</span>
+
+<span class="w">  </span><span class="c1"># Preprocessing steps</span>
+<span class="w">  </span><span class="nt">preprocessing</span><span class="p">:</span><span class="w"> </span><span class="s">"producing_time"</span><span class="w"> </span><span class="c1"># or 'calendar_time'</span>
+
+<span class="w">  </span><span class="c1"># Postprocessing steps</span>
+<span class="w">  </span><span class="nt">postprocessing</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"pforecast"</span>
+
+<span class="w">  </span><span class="c1"># Curve fitting settings</span>
+<span class="w">  </span><span class="nt">curve_fitting</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">split</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.8</span><span class="w"> </span><span class="c1"># Make a 80/20 train/test split</span>
+<span class="w">    </span><span class="nt">curve_model</span><span class="p">:</span><span class="w"> </span><span class="s">"arps"</span><span class="w"> </span><span class="c1"># Curve model for DCA ('arps' or 'exponential')</span>
+<span class="w">    </span><span class="c1"># Forecast 120 months (matching 'source.frequency'), alternatively use</span>
+<span class="w">    </span><span class="c1"># 'YYYY-MM' or 'YYYY-MM-DD' to forecast up to and excluding that period</span>
+<span class="w">    </span><span class="nt">forecast_periods</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+
+<span class="w">  </span><span class="c1"># Hyperparameter tuning</span>
+<span class="w">  </span><span class="nt">hyperparameters</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">half_life</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">120</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Value range =&gt; tune this hyperparameter</span>
+<span class="w">    </span><span class="nt">prior_strength</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span><span class="w"> </span><span class="c1"># Single value =&gt; fixed hyperparameter</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We recommend running <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">init</span></code> from the terminal to get an initial demo config file.</p>
+</div>
+<p>Below are the main configuration options available in the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> files for the ADCA system:</p>
+<ul class="simple">
+<li><p><strong>Group</strong>: Defines a collection of wells to be run together, with a group name. This allows one asset, e.g. Troll, to have several groups in a file <code class="docutils literal notranslate"><span class="pre">troll.yaml</span></code>, for instance <code class="docutils literal notranslate"><span class="pre">TrollGasShortTermPredictions</span></code> and <code class="docutils literal notranslate"><span class="pre">TrollGasLongTermPredictions</span></code>.</p></li>
+<li><p><strong>Source</strong>: Data source details including the database table and phases (e.g., oil, gas) to consider. Typically the Production Data Mart (PDM).</p></li>
+<li><p><strong>Wells</strong>: Lists the wells and their production segments for analysis. Segmenting wells is one of the most important things a user can do to improve performance of ADCA. Ramp-up periods should be removed. Any earlier production history segments where a well behaved differently should be removed. There is a balance between having data (more data is generally better) and removing low-quality data not relevant for future prediction (data from a different regime can misinform the DCA model).</p></li>
+<li><p><strong>Preprocessing</strong>: Specify how the production data should be preprocessed (e.g., using <code class="docutils literal notranslate"><span class="pre">producing_time</span></code> or <code class="docutils literal notranslate"><span class="pre">calendar_time</span></code>). What you choose depends on what you want to predict. Calendar time predicts production if the time on in the future is roughly what it has been in the past (e.g. 80% uptime). Producing time predicts future production if the well is always on (i.e. 100% uptime). The difference can be illustrated by a simple example: if <code class="docutils literal notranslate"><span class="pre">production=[100,</span> <span class="pre">100,</span> <span class="pre">100]</span></code> and <code class="docutils literal notranslate"><span class="pre">time_on=[0.8,</span> <span class="pre">0.8,</span> <span class="pre">0.8]</span></code> then <code class="docutils literal notranslate"><span class="pre">producing_time</span></code> will predict roughly <code class="docutils literal notranslate"><span class="pre">100</span> <span class="pre">/</span> <span class="pre">0.8</span> <span class="pre">=</span> <span class="pre">125</span></code> in the next period, whereas <code class="docutils literal notranslate"><span class="pre">calendar_time</span></code> will predict roughly <code class="docutils literal notranslate"><span class="pre">100</span></code> in the next period.</p></li>
+<li><p><strong>Postprocessing</strong>: Defines any postprocessing steps.</p></li>
+<li><p><strong>Curve Fitting</strong>: Choose the type of decline curve model and specify how to split the time series for error reporting and hyperparameter tuning. The split should roughly match the purpose of the study. An engineer that is interested in short-term forecasting will choose 0.8 or 0.9. An engineer interested in long-term forecasting will choose 0.2 or 0.5. Three formats are supported: (1) a number like <code class="docutils literal notranslate"><span class="pre">0.8</span></code>, (2) a period like <code class="docutils literal notranslate"><span class="pre">YYYY-MM</span></code> or <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code> that matches <code class="docutils literal notranslate"><span class="pre">frequency</span></code> or (3) an integer corresponding to Python slice syntax. The negative integer like <code class="docutils literal notranslate"><span class="pre">-12</span></code> means “keep the last 12 months in the test set and the rest in the training set” and a positive integer like <code class="docutils literal notranslate"><span class="pre">36</span></code> means “keep the first 36 months in the training set and the rest in the test set”.</p></li>
+<li><p><strong>Forecast periods</strong>: The parameter <code class="docutils literal notranslate"><span class="pre">forecast_periods</span></code> denotes how many periods to forecast. For instance, with monthly frequency and <code class="docutils literal notranslate"><span class="pre">forecast_periods=12</span></code> ADCA will forecast each well one year into the future, counting from the most recent observed period (not from today’s date). Alternatively, you may provide a string in the format <code class="docutils literal notranslate"><span class="pre">YYYY-MM</span></code> or <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code> matching the <code class="docutils literal notranslate"><span class="pre">frequency</span></code> parameter. If so, ADCA will forecast every well up until (but not including) that period. For instance, to forecast until the year 2031, use <code class="docutils literal notranslate"><span class="pre">2031-01</span></code> and the last period in the forecast will be <code class="docutils literal notranslate"><span class="pre">2030-12</span></code>.</p></li>
+<li><p><strong>Hyperparameters</strong>: Set fixed hyperparameters or ranges for tuning. The parameter <code class="docutils literal notranslate"><span class="pre">half_life</span></code> controls the exponentially decaying weights of data back in time. If <code class="docutils literal notranslate"><span class="pre">half_life=365</span></code> days, then data that is one year old is weighted to 0.5, data two years old is weighted as 0.25, data three years old is weighted as 0.125, etc. The parameter <code class="docutils literal notranslate"><span class="pre">prior_strength</span></code> controls how much each curve is pulled towards the grand mean (the prior belief) of all curves in the group of wells. This has a regularizing effect on the individual well predictions. It is often barely noticeable, but matters if some wells have very little data - then their predictions will be drawn in towards that we observe on the other wells.</p></li>
+</ul>
+<p>After saving the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file, run it with the <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span></code> command from the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adca</span> <span class="n">run</span> <span class="n">my_yaml_file</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>Users can create their own <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> configuration files.
+See the files included in <a class="reference external" href="https://github.com/equinor/decline-curve-analysis">the repository</a> for real-world examples of <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> config files.
+Alternatively, use the <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">init</span></code> command to create a dummy <code class="docutils literal notranslate"><span class="pre">.yaml</span> <span class="pre">config</span></code> file.</p>
+</section>
+<section id="using-local-csv-files-as-input">
+<h2>Using local .csv files as input<a class="headerlink" href="#using-local-csv-files-as-input" title="Link to this heading"></a></h2>
+<p>To run <code class="docutils literal notranslate"><span class="pre">adca</span></code> on a local .csv file, change the data source settings <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">table</span></code>.
+Here is an example of what the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> can look like:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">group</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Example_Group"</span>
+
+<span class="w">  </span><span class="c1"># Data source settings</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"file"</span>
+<span class="w">    </span><span class="nt">table</span><span class="p">:</span><span class="w"> </span><span class="s">"local_production_file_monthly.csv"</span>
+<span class="w">    </span><span class="nt">phases</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"oil"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Ignored when reading .csv, 'production' is used.</span>
+<span class="w">    </span><span class="nt">frequency</span><span class="p">:</span><span class="w"> </span><span class="s">"monthly"</span>
+<span class="w">    </span><span class="nt">period_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">null</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">null</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>The file format must be a <code class="docutils literal notranslate"><span class="pre">.csv</span></code>, with comma (<code class="docutils literal notranslate"><span class="pre">,</span></code>) as the separator.
+The following four columns must exist in the file: <code class="docutils literal notranslate"><span class="pre">['well_id',</span> <span class="pre">'time',</span> <span class="pre">'production',</span> <span class="pre">'time_on']</span></code>.
+The column <code class="docutils literal notranslate"><span class="pre">well_id</span></code> is an arbitrary string, <code class="docutils literal notranslate"><span class="pre">time</span></code> must have format <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code> or <code class="docutils literal notranslate"><span class="pre">YYYY-MM</span></code>, <code class="docutils literal notranslate"><span class="pre">production</span></code> is a number and <code class="docutils literal notranslate"><span class="pre">time_on</span></code> is a number between zero and one, representing the fraction within each time period that the well was on.
+Below is an example of the format.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>well_id,time,production,time_on
+well_id_1,2019-11,1972.74,0.959
+well_id_1,2019-12,2325.99,0.996
+well_id_1,2020-01,2324.05,0.962
+...
+</pre></div>
+</div>
+<p>The production units in the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> must correspond to the frequency (<code class="docutils literal notranslate"><span class="pre">monthly</span></code> or <code class="docutils literal notranslate"><span class="pre">daily</span></code>).
+For instance, if the frequency is monthly, then the <code class="docutils literal notranslate"><span class="pre">production</span></code> column should contain units of total production per month (e.g. bbl/month units).
+Avoid mixing e.g. monthly frequency of data with units that are in bbl/day.</p>
+</section>
+<section id="error-metrics-and-diagnostics">
+<h2>Error metrics and diagnostics<a class="headerlink" href="#error-metrics-and-diagnostics" title="Link to this heading"></a></h2>
+<p>In the ADCA output log there are four error metrics.
+Before we explain them, keep in mind that <strong>examining the plots is just as important</strong>.
+Decline Curve Analysis is not a high dimensional problem that is impossible to visualize - you can assess the curve fit by eye by examining the output plots, and you should have a look at the plots.
+Examining plots can reveal nuanced issues that simple error metrics tend to miss.
+To see all possible plots, use the argument <code class="docutils literal notranslate"><span class="pre">--plot-verbosity</span></code> with a high number, like <code class="docutils literal notranslate"><span class="pre">adca</span> <span class="pre">run</span> <span class="pre">config_file.yaml</span> <span class="pre">--plot-verbosity</span> <span class="pre">9</span></code>.</p>
+<p>The four error metrics that are evaluated on the test set and printed in the output log are:</p>
+<ul class="simple">
+<li><p><strong>Negative log-likelihood</strong>. The likelihood is a statistical quantity that describes the overall model fit. It is defined as the probability of the data given the model parameters. Minimizing the negative log-likelihood means choosing the parameters that most likely explain the data. The lower the negative log-likelihood is, the better the overall fit. This is the loss function that the optimizer tries to minimize. One drawback of the negative log-likelihood is that it’s hard to interpret. It’s given by the equation <span class="math notranslate nohighlight">\(- \log P(\text{data} \mid \text{parameters})\)</span>.</p></li>
+<li><p><strong>RMSE in logspace</strong>. The Root Mean Square Error, evaluated in log-space. The equation is roughly <span class="math notranslate nohighlight">\(\sum_i \left( \log (y_i) - \log \left( f(t_i; \text{parameters}) \right) \right)^2\)</span>, where <span class="math notranslate nohighlight">\(y_i\)</span> is the observed production rate and <span class="math notranslate nohighlight">\(f(t_i; \text{parameters})\)</span> is the predicted production rate. The sum goes over every data point <span class="math notranslate nohighlight">\(i\)</span> (period) in every well. A lower number is better.</p></li>
+<li><p><strong>Relative error (expected)</strong>. The relative error compares the sum total of all actual production for all wells in the test with the sum total of all predicted production in the test set. The equation is roughly <span class="math notranslate nohighlight">\((\text{sum_forecast} - \text{sum_actual}) / \text{sum_actual}\)</span>. This metric is quite easy to reason about: a number like 4% means ADCA overestimated total production in the test set by 4% relative to what actually happened. Unlike the error metrics above, this metric is blind to individual errors and only considers the aggregate error. For instance: if one well is severely overpredicted and one well is severely underpredicted, the numbers could cancel each other out and lead to a 0% error. This metric uses the expected forecast, given by the column <code class="docutils literal notranslate"><span class="pre">cumulative_production</span></code> in the ADCA output.</p></li>
+<li><p><strong>Relative error (P50)</strong>. Same as above, but uses the median (P50) forecast, given by the column <code class="docutils literal notranslate"><span class="pre">cumulative_production_P50</span></code>.</p></li>
+</ul>
+<p>If <strong>Relative error (expected)</strong> and <strong>Relative error (P50)</strong> consistently differ by a significant amount, you can use the output log to decide which one to use when forecasting.
+It’s also possible to manually set hyperparameters based on some other metric than <strong>Negative log-likelihood</strong>, but in general it should not be necessary.
+Regardless, remember to always evaluate the plots in addition to metrics.</p>
+</section>
+<section id="adca-outputs">
+<h2>ADCA outputs<a class="headerlink" href="#adca-outputs" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">curve_parameters.csv</span></code> contains curve parameters and other information per well. Note that the values of curve parameters depend on scaling of both the horizontal and vertical axes, as well as the start date. For instance, if you run ADCA on daily data but you want to import curve parameters into a system that uses months on the horizontal axis, you need to transform the curve parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forecast.csv</span></code> contains forecast information on the period resolution chosen by the user, i.e. daily or monthly. See the figure below.</p></li>
+</ul>
+<p>In these files, the notation <code class="docutils literal notranslate"><span class="pre">P10</span></code> denotes the 10 percentile, <code class="docutils literal notranslate"><span class="pre">P50</span></code> denotes the 50 percentile (the median) and <code class="docutils literal notranslate"><span class="pre">P90</span></code> denotes the 90 percentile.
+Columns that do not contain the <code class="docutils literal notranslate"><span class="pre">_PXX</span></code> suffix denote the expected value.</p>
+<p><strong>A few notes on uncertainty:</strong></p>
+<ul class="simple">
+<li><p>The P50 (median) is in general not equal to the expected value, since the errors are assumed to be lognormally distributed. The lognormal distribution is non-symmetric with a heavy tail, so its expected value is greater than the median (P50). Sometimes the difference between P50 and the expected value is barely noticeable, other times it is significant.</p></li>
+<li><p>There are three types of uncertainty in statistical models like these: (1) predictive uncertainty, (2) parameter uncertainty and (3) model uncertainty.
+ADCA only models uncertainty of type (1).
+To alleviate (2) the user must make sure there is a reasonable amount of data. That way there is little uncertainty about the parameters.
+To alleviate (3) the user must make sure the decline curve assumption is reasonable. That way there is little uncertainty about whether the DCA curve is an appropriate model.
+The uncertainty that ADCA outputs is typically more narrow than the true observed uncertainty.</p></li>
+<li><p>The P10, P50 and P90 columns for <code class="docutils literal notranslate"><span class="pre">forecasted_production</span></code> should NOT be summed.
+This is because <strong>the P90 of a sum is NOT the sum of P90s</strong>.
+To obtain a proper estimate of P10 and P90 of e.g. five years production, the user should use the <code class="docutils literal notranslate"><span class="pre">cumulative_production</span></code> columns.</p></li>
+</ul>
+<p>(<a class="reference download internal" download="" href="_downloads/03993c92ea5309f2449557b083644374/plot_dataframe_columns.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="_downloads/1126975fd2d8b7965651121f883fef45/plot_dataframe_columns.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="_downloads/709aabc8adec274a056eb32bdd5cf936/plot_dataframe_columns.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="_downloads/c0bc257d12f2b26fe4aee8364f824c74/plot_dataframe_columns.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default" id="id1">
+<img alt="_images/plot_dataframe_columns.png" class="plot-directive" src="_images/plot_dataframe_columns.png" />
+<figcaption>
+<p><span class="caption-text">This figure shows how to interpret the ADCA output columns in the file <code class="docutils literal notranslate"><span class="pre">forecast.csv</span></code>.
+Production rates columns contain uncertainty within each period.
+They must not be summed, since the P90 of a sum is NOT the sum of P90s.
+The cumulative production columns contain properly summed uncertainties.
+For instance, the column <code class="docutils literal notranslate"><span class="pre">cumulative_production_P90</span></code> is a proper calculation of the P90 of the sum.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Link to this heading"></a></h2>
+<p>There is only one reasonable way to validate any forecasting method: go back in time and compare against an unknown future that the model has never seen.
+Suppose that we want to validate the performance of ADCA on the year 2024, i.e., a forecasting horizon of one year.</p>
+<p><strong>Validating ADCA against observed production.</strong></p>
+<ol class="arabic simple">
+<li><p>First set <code class="docutils literal notranslate"><span class="pre">period_range:</span> <span class="pre">[null,</span> <span class="pre">&quot;2024-01&quot;]</span></code> at the top of the config file. This excludes any data from 2024 and onward.</p></li>
+<li><p>Determine roughly average age of the wells and <code class="docutils literal notranslate"><span class="pre">split</span></code> accordingly. Let’s assume that wells have been producing for 5 years on average. We want roughly 1 year in the test set, so we set <code class="docutils literal notranslate"><span class="pre">split:</span> <span class="pre">0.8</span></code> in the <code class="docutils literal notranslate"><span class="pre">curve_fitting</span></code> section of the config file. This means 4 years will go into the training set and 1 year will go into the test set when ADCA determines hyperparameters.</p></li>
+<li><p>Run ADCA with reasonable ranges on hyperparameters. Make note of the optimal hyperparameters that ADCA finds.</p></li>
+<li><p>Open the config file. Copy the optimal hyperparameters as fixed values into the config file, removing the ranges you used previously. Then set <code class="docutils literal notranslate"><span class="pre">period_range:</span> <span class="pre">[null,</span> <span class="pre">&quot;2025-01&quot;]</span></code> to include data up until 2025, which is the end of the validation set. Set <code class="docutils literal notranslate"><span class="pre">split:</span> <span class="pre">&quot;2024-01&quot;</span></code> so that when we run ADCA again the test set will be all of 2024.</p></li>
+<li><p>Run ADCA again. This time it will not perform any hyperparameter tuning, since we fixed the values. The test set ADCA uses is now our validation set: all of 2024. Read off the summary statistics that you’re interested in and inspect the plots.</p></li>
+</ol>
+<p><strong>Validating ADCA against other forecasting methods.</strong></p>
+<p>Same procedure as above, but with some important caveats.</p>
+<ul class="simple">
+<li><p>Both forecasting methods should use the same training data and the same validation data. ADCA should be tuned to account for the forecasting horizon with an appropriate <code class="docutils literal notranslate"><span class="pre">split</span></code>.  Both forecasting methods should deal with <code class="docutils literal notranslate"><span class="pre">time_on</span></code> in the same way.</p></li>
+<li><p>Decide on preprocessing. Choosing <code class="docutils literal notranslate"><span class="pre">calendar_time</span></code> or <code class="docutils literal notranslate"><span class="pre">producing_time</span></code> has implications for what exactly you are forecasting (see full description above). This also applies if you are comparing observed production against forecasted production outside of ADCA: you should likely choose <code class="docutils literal notranslate"><span class="pre">calendar_time</span></code> because the question you want to answer is “What would my wells produce in a month, given uptime as it has been historically?” and not “What would my wells produce if uptime was always 100%”? This matters quite a bit if <code class="docutils literal notranslate"><span class="pre">time_on</span></code> is not close to <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dca.html" class="btn btn-neutral float-left" title="The DCA package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adca_tutorial.html" class="btn btn-neutral float-right" title="ADCA tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

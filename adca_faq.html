@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADCA FAQ &mdash; AutoDCA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="ADCA tutorial" href="adca_tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoDCA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dca.html">The DCA package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adca.html">The ADCA package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adca_tutorial.html">ADCA tutorial</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ADCA FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_documentation.html">Developer documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoDCA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">ADCA FAQ</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/adca_faq.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adca-faq">
+<h1>ADCA FAQ<a class="headerlink" href="#adca-faq" title="Link to this heading"></a></h1>
+<p>This page contains frequently asked questions (FAQ) for ADCA.
+Many of the questions can be answered by providing short snippets of code for pre- or postprocessing of adca inputs/outputs.</p>
+<p><strong>Why do the fitted curves look bad?</strong></p>
+<p>The search range for the halflife hyperparameter might be set to silly values, like <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">36]</span></code> for daily data.
+The search values are number of datapoints.
+It depends on the data, but <code class="docutils literal notranslate"><span class="pre">[90,</span> <span class="pre">1000]</span></code> would make more sense with daily data and <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">36]</span></code> can be fine for monthly data.
+In general you should carefully review the config file, and potentially set hyperparameters manually instead of tuning them.</p>
+<p><strong>How many data points do I need to use ADCA?</strong></p>
+<p>This is a good question, but unfortunately it’s hard to give a definite answer.
+It’s akin to asking “how many respondents do I need to include in a survey to get good results?”.
+More is always better, and it depends on the desired accuracy.</p>
+<p>Our best tip is to examine the output plots and use common sense.
+With little data (a few months) you cannot expect great results, but ADCA might still be worthwhile.
+Once you have a year or so you can expect good results in most cases.
+The well should be on a steady, smooth decline.</p>
+<p><strong>What should I set the value of split to?</strong></p>
+<p>If you are doing short term forecasting then choose 0.8 to 0.9.
+If you are doing longer-term forecasting then choose 0.5 to 0.8.
+In many situations manually setting <code class="docutils literal notranslate"><span class="pre">half_life</span></code> equal to roughly the forecasting horizon works very well and is an alternative to hyperparameter tuning.
+For instance, if you want to predict 2 years into the future and you have monthly data, then setting <code class="docutils literal notranslate"><span class="pre">half_life=24</span></code> is often a good choice.</p>
+<p>Long answer: Suppose you want to forecast 4 years.</p>
+<ul class="simple">
+<li><p>If your average well has around 12 years of history, then a split of 0.66 is good because it puts 33% (8 years) in the test set</p></li>
+<li><p>If your average well has around 8 years of history, then a split of 0.5 is good because it puts 50% (4 years) in the test set</p></li>
+<li><p>If your average well has around 4 years of history, then a very low split like 0.1 or 0.2 would put the test set close to 4 years.
+However, this leaves almost nothing in the training set.
+Most likely in a situation like this, where you want to predict e.g. 4 years but you also only have around 4 years of history, a good approach is to set half-life equal to a pretty large number, e.g. 12 * 4 months or 12 * 8 months or 12 * 12 months.
+You could even set it to 9999 or <code class="docutils literal notranslate"><span class="pre">null</span></code> (infinity).
+You do not have enough data to make a meaningful train/test split and learn the optimal half life.</p></li>
+</ul>
+<p>Using a split to infer hyperparameters works pretty well if you have a good long history and you have many wells.
+If you have few wells and/or little history your best bet for long-term predictions is to manually set a large half life and segment the wells if you have early ramp-up that will interfere with the fitting.</p>
+<p><strong>I want to use monthly frequency, but my production data has units bbl/day. How can I convert it?</strong></p>
+<p>This is best done before invoking ADCA.
+A Python snippet like the following should do the trick:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"production_data_daily.csv"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">production</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span><span class="n">df</span><span class="o">.</span><span class="n">production</span> <span class="o">*</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days_in_month</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"production_data_monthly.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Can you add &lt;FEATURE/CALCULATION&gt; to the outputs?</strong></p>
+<p>It never hurts to ask, and <em>new outputs</em> can sometimes be added.
+Derived information, that can be computed using existing outputs, will likely not be added.
+Adding derived information tends to bloat software.</p>
+<p>For instance, a user commented “it would be nice if in the data_report file we could also have the AVG decline.”
+Instead of ADCA attempting to accommodate needs like this, it’s better if users compute it themselves using Excel, or with a short Python snippet like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s2">"C:\Appl\...\forecast.csv"</span><span class="p">)</span>
+<span class="n">df_result</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">"well_id"</span><span class="p">,</span> <span class="s2">"forecasted_production"</span><span class="p">]]</span>
+          <span class="c1"># Compute difference along column</span>
+          <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">forecast_diff</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span><span class="n">df</span><span class="o">.</span><span class="n">forecasted_production</span><span class="o">.</span><span class="n">diff</span><span class="p">())</span>
+          <span class="c1"># For every well ID, compute mean over differences (and count)</span>
+          <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"well_id"</span><span class="p">)</span><span class="o">.</span><span class="n">forecast_diff</span>
+          <span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">count</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>How can I view forecasts month by month?</strong></p>
+<p>Engineers sometimes want to see forecasted values in a more readable format.
+For instance, one row per well and one column per month.
+A Python snippet like the following might be useful:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">PATH</span> <span class="o">=</span> <span class="s2">"forecast.csv"</span>
+
+<span class="c1"># Both are inclusive</span>
+<span class="n">START</span> <span class="o">=</span> <span class="s2">"2025-09"</span>
+<span class="n">END</span> <span class="o">=</span> <span class="s2">"2025-12"</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">PATH</span><span class="p">)</span>
+      <span class="c1"># Pick columns</span>
+      <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">"well_id"</span><span class="p">,</span> <span class="s2">"time"</span><span class="p">,</span> <span class="s2">"forecasted_production"</span><span class="p">]]</span>
+      <span class="c1"># Drop missing forecasted production (history)</span>
+      <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">"any"</span><span class="p">)</span>
+      <span class="c1"># Convert daily to monthly</span>
+      <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">"M"</span><span class="p">))</span>
+      <span class="c1"># Filter</span>
+      <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:(</span><span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">START</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">END</span><span class="p">)]</span>
+      <span class="c1"># Sum up per well and per month</span>
+      <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"well_id"</span><span class="p">,</span> <span class="s2">"time"</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+      <span class="c1"># Pivot into wide format with wells along rows and months on cols</span>
+      <span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">'well_id'</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">'time'</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">'forecasted_production'</span><span class="p">)</span>
+      <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"wide_data.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>How can I sum forecasts?</strong></p>
+<p>Every well should have history that goes up to the same period.
+If so, you can use something like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"forecast.csv"</span>
+
+<span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+  <span class="c1"># For each time period, SUM all forecasted_production</span>
+ <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">forecasted_production</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+ <span class="c1"># Only keep future periods, where we have a forecast</span>
+ <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">ser</span><span class="p">:</span><span class="n">ser</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+ <span class="c1"># Convert to dataframe, save file</span>
+ <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+ <span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"summed.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If you want to sum cumulatives, you can use something like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"forecast.csv"</span>
+
+<span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+  <span class="c1"># For each time period, SUM all cumulative_production (historical + forecast)</span>
+ <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">cumulative_production</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+ <span class="c1"># If you want, filter out periods that are in the future</span>
+ <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">ser</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ser</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="s2">"2020-01"</span><span class="p">]</span>
+
+ <span class="c1"># Convert to dataframe, save file</span>
+ <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+ <span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"summed.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>How can I get a list of all well IDs for a field?</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pdm_datareader</span><span class="w"> </span><span class="kn">import</span> <span class="n">query</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">SELECT DISTINCT</span>
+<span class="s2">  WB_UWBI as well_id</span>
+<span class="s2">FROM PDMVW.WB_PROD_DAY</span>
+<span class="s2">  WHERE GOV_FIELD_NAME = 'XXX'</span>
+<span class="s2">"""</span>
+
+<span class="c1"># Download data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+
+<span class="c1"># Print every well id in .yaml syntax</span>
+<span class="k">for</span> <span class="n">well_id</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"well_id"</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'    "</span><span class="si">{</span><span class="n">well_id</span><span class="si">}</span><span class="s1">":'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>How can I fit on downhole pressure?</strong></p>
+<p>Here is an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pdm_datareader</span><span class="w"> </span><span class="kn">import</span> <span class="n">query</span>
+
+<span class="c1"># YOUR WELLS GO HERE</span>
+<span class="n">WELL_IDS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"NO XXX/YYY A"</span><span class="p">,</span> <span class="s2">"NO XXX/YYY B"</span><span class="p">]</span>
+
+<span class="c1"># Create SQL query</span>
+<span class="n">where</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"IN </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">WELL_IDS</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">WELL_IDS</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"= </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">WELL_IDS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">SELECT</span>
+<span class="s2">  wb_uwbi as well_id,</span>
+<span class="s2">  prod_day,</span>
+<span class="s2">  dh_press_barg as production,</span>
+<span class="s2">  on_stream_hrs</span>
+<span class="s2">FROM PDMVW.WB_PROD_DAY</span>
+<span class="s2">  WHERE wb_uwbi </span><span class="si">{</span><span class="n">where</span><span class="si">}</span>
+<span class="s2">"""</span>
+
+<span class="c1"># Download data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+
+<span class="c1"># Clean data</span>
+<span class="c1"># TODO: better logic</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="n">time</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">"prod_day"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">"D"</span><span class="p">),</span>
+        <span class="n">production</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">"production"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+        <span class="n">time_on</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">"on_stream_hrs"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">24.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">24.0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">"well_id"</span><span class="p">,</span> <span class="s2">"time"</span><span class="p">,</span> <span class="s2">"production"</span><span class="p">,</span> <span class="s2">"time_on"</span><span class="p">]]</span>
+    <span class="p">)</span>
+
+
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"pressure_data.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Saved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows to file."</span><span class="p">)</span>
+
+<span class="c1"># Print every well id in .yaml syntax</span>
+<span class="k">for</span> <span class="n">well_id</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">WELL_IDS</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'    "</span><span class="si">{</span><span class="n">well_id</span><span class="si">}</span><span class="s1">":'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adca_tutorial.html" class="btn btn-neutral float-left" title="ADCA tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 - 2025, DSA, Equinor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
