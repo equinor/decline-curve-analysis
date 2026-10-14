@@ -57,7 +57,14 @@ Users should apply DCA within the appropriate context and adhere to the followin
 Uncertainties
 -------------
 
-We do not provide any low/high case or uncertainty.
+Uncertainty is captured by fitting an autocorrelated statistical model and using Monte-Carlo simulation to forecast with errors. 
+Details can be found in :doc:`dca_report`
+
+Beware: although this approach is more statistically rigorous than any other DCA tool we know of, it should still be interpreted with caution.
+Modeling uncertainty is hard. Future well performance is subject to uncertainty not necessarily captured by the DCA model.
+
+Note also that the provided low/high cases are pointwise estimates. The cumulative estimates should be used for uncertainty in total production.
+
 
 Guidelines
 ----------
