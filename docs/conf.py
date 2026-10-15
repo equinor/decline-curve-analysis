@@ -20,6 +20,7 @@ nitpick_ignore = [
     ("py:class", "callable"),
     ("py:class", "optional"),
     ("py:class", "None"),
+    ("py:class", "None."),
 ]
 nitpicky = False
 
@@ -52,10 +53,6 @@ sphinx_gallery_conf = {
     "reset_modules": ("matplotlib",),
     "plot_gallery": "True",
     "run_stale_examples": True,
-    "reference_url": {
-        # The module you locally document uses None
-        "dca": None,
-    },
 }
 
 
