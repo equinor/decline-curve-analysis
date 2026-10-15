@@ -333,10 +333,10 @@ class AR1Model:
         where:
         
         - :math:`y_i = \frac{p_i}{\tau_i} = \text{production per time}`
-        - :math:`\tau_i = \text{time_on}`
+        - :math:`\tau_i = \text{time\_on}`
         - GN is the Generalized Normal with p-norm given by :math:`\beta`
         
-        To get simulated production, multiply by :math:`\text{time_on}`.
+        To get simulated production, multiply by :math:`\text{time\_on}`.
         
         The returned numpy array has shape (simulations, len(x)).
         """
