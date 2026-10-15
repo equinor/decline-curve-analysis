@@ -369,7 +369,7 @@ Or, if the production rate is <span class="math notranslate nohighlight">\(10\)<
 This leads us to fit on the log scale.
 The full model becomes:</p>
 <div class="math notranslate nohighlight">
-\[\log \left( y_i \right) &amp;=  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i\]</div>
+\[\log \left( y_i \right) =  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i\]</div>
 <p>In the equation above, we defined the average production rate as <span class="math notranslate nohighlight">\(y_i = p_i / \tau_i\)</span>.
 Going back to the original scale by exponentiating both sides of the equation above, the model becomes</p>
 <div class="math notranslate nohighlight">
@@ -396,7 +396,7 @@ Well production data has <span class="math notranslate nohighlight">\(y_i\)</spa
 From a forecasting perspective this is unfortunate, since the most recent history has low production values and matters the most for forecasting (the recent past is more important than the distant past).</p>
 <p>From a statistical perspective, the model</p>
 <div class="math notranslate nohighlight">
-\[\frac{p_i}{\tau_i} &amp;= y_i = f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i\]</div>
+\[\frac{p_i}{\tau_i} = y_i = f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i\]</div>
 <p>is nonsensical, since:</p>
 <ol class="arabic simple">
 <li><p>Errors <span class="math notranslate nohighlight">\(\epsilon_i\)</span> are independent of the <span class="math notranslate nohighlight">\(y_i\)</span> values, but this does not reflect real data. If production is on the order of a million units, then we expect completely different errors compared to when the production is on the order of a thousand units.</p></li>

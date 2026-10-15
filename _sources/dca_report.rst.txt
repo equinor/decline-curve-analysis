@@ -236,7 +236,7 @@ This leads us to fit on the log scale.
 The full model becomes:
 
 .. math::
-   \log \left( y_i \right) &=  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i
+   \log \left( y_i \right) =  \log\left( f\left( t_i ; \boldsymbol{\theta} \right) \right) + \epsilon_i
 
 In the equation above, we defined the average production rate as :math:`y_i = p_i / \tau_i`.
 Going back to the original scale by exponentiating both sides of the equation above, the model becomes
@@ -271,7 +271,7 @@ From a forecasting perspective this is unfortunate, since the most recent histor
 From a statistical perspective, the model 
 
 .. math::  
-   \frac{p_i}{\tau_i} &= y_i = f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i
+   \frac{p_i}{\tau_i} = y_i = f\left( t_i ; \boldsymbol{\theta} \right) + \epsilon_i
 
 is nonsensical, since:
 
