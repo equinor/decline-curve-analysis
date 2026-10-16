@@ -4,7 +4,7 @@ The DCA package
 ===============
 
 The ``dca`` package contains core mathematical routines for decline curve analysis.
-This part of the code is meant to be used by developers and tech-savy engineers who want to build their own DCA on top of our building blocks.
+This part of the code is meant to be used by developers and tech-savvy engineers who want to build their own DCA on top of our building blocks.
 The best way to get started might be to look at the example gallery.
 
 DCA and the improved loss function

@@ -6,7 +6,7 @@ Developer documentation
 Two Python packages are provided:
 
 * ``dca``: core mathematical routines (decline curve functions such as :py:class:`Arps`, loss functions such as :py:class:`CurveLoss`, time series pre-processing, etc.)
-* ``adca``: automatic DCA system (data loaders, config file readers, plotting, logging, output handling, pre-preprocessing, hyperparameter tuning, etc.)
+* ``adca``: automatic DCA system (data loaders, config file readers, plotting, logging, output handling, pre-processing, hyperparameter tuning, etc.)
 
 .. toctree::
    :maxdepth: 1

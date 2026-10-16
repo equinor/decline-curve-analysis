@@ -15,7 +15,7 @@ import pandas as pd
 from dca.adca.adca import process_file
 from dca.adca.cmd_init import init_yaml_and_csv
 
-URLS = """  - Documentation:        https://dsadocs.equinor.com/docs/decline-curve-analysis/
+URLS = """  - Documentation:        https://equinor.github.io/decline-curve-analysis/
   - Public issue tracker: https://github.com/equinor/decline-curve-analysis/issues
   - Help (Equinor):       Contact Knut Utne Hollund (kuho)."""
 

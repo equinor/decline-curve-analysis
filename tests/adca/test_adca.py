@@ -81,8 +81,12 @@ def partial_product(*iterables):
 
 @pytest.mark.parametrize(
     "split, preprocessing, forecast_periods",
-    partial_product(
-        ["0.8", "-6", "2010-01"], ["calendar_time", "producing_time"], [120, "2031-01"]
+    list(
+        partial_product(
+            ["0.8", "-6", "2010-01"],
+            ["calendar_time", "producing_time"],
+            [120, "2031-01"],
+        )
     ),
 )
 def test_CLI(tmp_path, split, preprocessing, forecast_periods):

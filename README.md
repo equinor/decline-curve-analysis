@@ -8,7 +8,7 @@ Contributions will only be accepted if they align with our internal goals, so pl
 
 ## Purpose
 
-[dca-doc]: https://dsadocs.equinor.com/docs/decline-curve-analysis/
+[dca-doc]: https://equinor.github.io/decline-curve-analysis/
 [github-actions-file]: https://github.com/equinor/decline-curve-analysis/blob/main/.github/workflows/DCA_package.yml
 [adca-deployment]: https://github.com/equinor/adca-deployment/
 

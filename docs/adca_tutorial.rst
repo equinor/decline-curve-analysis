@@ -3,7 +3,7 @@ ADCA tutorial
 
 This tutorial assumes that you have installed ADCA and that your Python virtual environment is activated.
 See :doc:`/installation` for more information about how to install ADCA.
-Read :doc:`/adca` before starting this turial, or alongside it.
+Read :doc:`/adca` before starting this tutorial, or alongside it.
 
 
 Creating a demo dataset
@@ -103,7 +103,7 @@ There is no configuration that is universally the best for all forecasting scena
 
 .. note::
    Need help setting up a good configuration?
-   If you still have questions after reading the documentation, do not hestitate to contact us!
+   If you still have questions after reading the documentation, do not hesitate to contact us!
 
 
 - The first step to building a good configuration is to decide on a few things in the configuration file ``demo.yaml``.
@@ -196,7 +196,7 @@ If you examine the plot ``forecast_ramp_up_well_1.png`` in the output folder for
 Hyperparameters
 ---------------
 
-ADCA has a few hyperparamters.
+ADCA has a few hyperparameters.
 These can either be set as fixed values, or as brackets, in which case ADCA will search for the optimal parameters within the range.
 The optimal hyperparameters are those that lead to the best out-of-sample predictions on the test set.
 

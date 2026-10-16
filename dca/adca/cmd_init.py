@@ -15,7 +15,7 @@ from dca.adca.well import Well, WellGroup
 
 INIT_YAML = string.Template(
     """# ${header_message}
-# For more info: https://dsadocs.equinor.com/docs/decline-curve-analysis/index.html
+# For more info: https://equinor.github.io/decline-curve-analysis/index.html
 
 # A group is a collection of wells run together.
 - group:

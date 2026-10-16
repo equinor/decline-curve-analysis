@@ -2149,7 +2149,7 @@ class WellGroup(UserList):
         >>> w1 = Well.generate_random(time_on=np.ones(6), seed=1, id=1, freq='M', **args)
         >>> w2 = Well.generate_random(time_on=np.ones(6), seed=2, id=2, freq='M', **args)
         >>> wg = WellGroup([w1, w2]).fit(half_life=None, prior_strength=1e-8, p=2)
-        >>> wg.forecast_sum_to_df(forecast_periods=2).round(2)
+        >>> wg.forecast_sum_to_df(forecast_periods=2).round({'forecasted_production': 2, 'cumulative_production': 2})
               time  forecasted_production  cumulative_production
         0  2010-01                   3.17                   3.17
         1  2010-02                   3.29                   6.45
@@ -2165,8 +2165,8 @@ class WellGroup(UserList):
 
         >>> w3 = Well.generate_random(time_on=np.ones(3), seed=2, id=2, freq='M', **args)
         >>> wg = WellGroup([w1, w2, w3]).fit(half_life=None, prior_strength=1e-8, p=2)
-        >>> df = wg.forecast_sum_to_df(forecast_periods=2, q=[0.1, 0.9]).round(6)
-        >>> df[['forecasted_production_P10', 'forecasted_production_P90']]
+        >>> df = wg.forecast_sum_to_df(forecast_periods=2, q=[0.1, 0.9])
+        >>> df[['forecasted_production_P10', 'forecasted_production_P90']].round(6)
            forecasted_production_P10  forecasted_production_P90
         0                   4.562110                   4.562110
         1                   3.845740                   3.845740

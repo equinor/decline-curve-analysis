@@ -130,11 +130,15 @@ If you are a developer
 ----------------------
 
 **If you are a developer**, go to the `repository <https://github.com/equinor/decline-curve-analysis>`_.
-To install the package in editable mode, first set up an local isolated Python environment, then run::
+To install the package in editable mode, first set up a local isolated Python environment, then run::
    
   git clone https://github.com/equinor/decline-curve-analysis.git
   cd decline-curve-analysis
-  pip install -e ".[dev]"
+  pip install -e . --group dev
+
+To also install the dependencies needed to build the documentation, run::
+
+  pip install -e . --group dev --group docs
 
 **Versions.**
 See the GH actions file and the ``pyproject.toml`` file in the `repository <https://github.com/equinor/decline-curve-analysis>`_ for information about Python and package versions.
@@ -158,4 +162,4 @@ There are two sources of technical documentation:
 
 * These documentation pages.
 * For all the details, reading the source code is recommended. It is extensively documented.
-* Questions? Do not hestitate to contact us!
+* Questions? Do not hesitate to contact us!

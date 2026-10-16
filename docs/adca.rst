@@ -67,7 +67,7 @@ Below are the main configuration options available in the ``.yaml`` files for th
 - **Group**: Defines a collection of wells to be run together, with a group name. This allows one asset, e.g. Troll, to have several groups in a file ``troll.yaml``, for instance ``TrollGasShortTermPredictions`` and ``TrollGasLongTermPredictions``.
 - **Source**: Data source details including the database table and phases (e.g., oil, gas) to consider. Typically the Production Data Mart (PDM). 
 - **Wells**: Lists the wells and their production segments for analysis. Segmenting wells is one of the most important things a user can do to improve performance of ADCA. Ramp-up periods should be removed. Any earlier production history segments where a well behaved differently should be removed. There is a balance between having data (more data is generally better) and removing low-quality data not relevant for future prediction (data from a different regime can misinform the DCA model).
-- **Preprocessing**: Specify how the production data should be preprocessed (e.g., using ``producing_time`` or ``calendar_time``). What you choose depends on what you want to predict. Calendar time predicts production if the time on in the future is roughly what it has been in the past (e.g. 80% uptime). Producing time predictions future production if the well is always on (i.e. 100% uptime). The difference can be illustrated by a simple example: if ``production=[100, 100, 100]`` and ``time_on=[0.8, 0.8, 0.8]`` then ``producing_time`` will predict roughly ``100 / 0.8 = 125`` in the next period, whereas ``calendar_time`` will predict roughly ``100`` in the next period.
+- **Preprocessing**: Specify how the production data should be preprocessed (e.g., using ``producing_time`` or ``calendar_time``). What you choose depends on what you want to predict. Calendar time predicts production if the time on in the future is roughly what it has been in the past (e.g. 80% uptime). Producing time predicts future production if the well is always on (i.e. 100% uptime). The difference can be illustrated by a simple example: if ``production=[100, 100, 100]`` and ``time_on=[0.8, 0.8, 0.8]`` then ``producing_time`` will predict roughly ``100 / 0.8 = 125`` in the next period, whereas ``calendar_time`` will predict roughly ``100`` in the next period.
 - **Postprocessing**: Defines any postprocessing steps.
 - **Curve Fitting**: Choose the type of decline curve model and specify how to split the time series for error reporting and hyperparameter tuning. The split should roughly match the purpose of the study. An engineer that is interested in short-term forecasting will choose 0.8 or 0.9. An engineer interested in long-term forecasting will choose 0.2 or 0.5. Three formats are supported: (1) a number like ``0.8``, (2) a period like ``YYYY-MM`` or ``YYYY-MM-DD`` that matches ``frequency`` or (3) an integer corresponding to Python slice syntax. The negative integer like ``-12`` means "keep the last 12 months in the test set and the rest in the training set" and a positive integer like ``36`` means "keep the first 36 months in the training set and the rest in the test set". 
 - **Forecast periods**: The parameter ``forecast_periods`` denotes how many periods to forecast. For instance, with monthly frequency and ``forecast_periods=12`` ADCA will forecast each well one year into the future, counting from the most recent observed period (not from today's date). Alternatively, you may provide a string in the format ``YYYY-MM`` or ``YYYY-MM-DD`` matching the ``frequency`` parameter. If so, ADCA will forecast every well up until (but not including) that period. For instance, to forecast until the year 2031, use ``2031-01`` and the last period in the forecast will be ``2030-12``.
@@ -125,7 +125,7 @@ Error metrics and diagnostics
 In the ADCA output log there are four error metrics.
 Before we explain them, keep in mind that **examining the plots is just as important**.
 Decline Curve Analysis is not a high dimensional problem that is impossible to visualize - you can assess the curve fit by eye by examining the output plots, and you should have a look at the plots.
-Examining plots can reveal neuanced issues that simple error metrics tend to miss.
+Examining plots can reveal nuanced issues that simple error metrics tend to miss.
 To see all possible plots, use the argument ``--plot-verbosity`` with a high number, like ``adca run config_file.yaml --plot-verbosity 9``.
 
 The four error metrics that are evaluated on the test set and printed in the output log are:
@@ -166,9 +166,9 @@ Columns that do not contain the ``_PXX`` suffix denote the expected value.
    :show-source-link: True
    
    This figure shows how to interpret the ADCA output columns in the file ``forecast.csv``.
-   Production rates columns contains uncertainty within each period.
+   Production rates columns contain uncertainty within each period.
    They must not be summed, since the P90 of a sum is NOT the sum of P90s.
-   The cumulative production columns contains properly summed uncertainties.
+   The cumulative production columns contain properly summed uncertainties.
    For instance, the column ``cumulative_production_P90`` is a proper calculation of the P90 of the sum.
    
    
