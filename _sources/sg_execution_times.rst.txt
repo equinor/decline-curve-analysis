@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:07.294** total execution time for 11 files **from all galleries**:
+**00:07.235** total execution time for 11 files **from all galleries**:
 
 .. container::
 
@@ -33,35 +33,35 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_gallery_plot_well_plotting.py` (``../examples/plot_well_plotting.py``)
-     - 00:01.852
+     - 00:01.768
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_prior_effect.py` (``../examples/plot_prior_effect.py``)
-     - 00:01.502
+     - 00:01.541
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_models_with_increasing_complexity.py` (``../examples/plot_models_with_increasing_complexity.py``)
-     - 00:01.100
+     - 00:01.204
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_uncertainty.py` (``../examples/plot_uncertainty.py``)
-     - 00:00.624
-     - 0.0
-   * - :ref:`sphx_glr_examples_gallery_plot_arps.py` (``../examples/plot_arps.py``)
-     - 00:00.583
+     - 00:00.560
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_future_simulations.py` (``../examples/plot_future_simulations.py``)
-     - 00:00.476
+     - 00:00.501
+     - 0.0
+   * - :ref:`sphx_glr_examples_gallery_plot_arps.py` (``../examples/plot_arps.py``)
+     - 00:00.489
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_simulation_game.py` (``../examples/plot_simulation_game.py``)
-     - 00:00.410
+     - 00:00.454
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_data_cleaning.py` (``../examples/plot_data_cleaning.py``)
-     - 00:00.314
+     - 00:00.319
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_arps_methods.py` (``../examples/plot_arps_methods.py``)
-     - 00:00.176
+     - 00:00.164
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_loss_function_params.py` (``../examples/plot_loss_function_params.py``)
-     - 00:00.150
+     - 00:00.133
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_arps_fit.py` (``../examples/plot_arps_fit.py``)
-     - 00:00.108
+     - 00:00.103
      - 0.0
