@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:07.366** total execution time for 11 files **from examples_gallery**:
+**00:07.376** total execution time for 11 files **from examples_gallery**:
 
 .. container::
 
@@ -33,35 +33,35 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_gallery_plot_well_plotting.py` (``plot_well_plotting.py``)
-     - 00:01.777
+     - 00:01.794
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_prior_effect.py` (``plot_prior_effect.py``)
-     - 00:01.564
+     - 00:01.530
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_models_with_increasing_complexity.py` (``plot_models_with_increasing_complexity.py``)
-     - 00:01.227
+     - 00:01.195
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_arps.py` (``plot_arps.py``)
-     - 00:00.571
+     - 00:00.651
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_uncertainty.py` (``plot_uncertainty.py``)
      - 00:00.560
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_future_simulations.py` (``plot_future_simulations.py``)
-     - 00:00.508
+     - 00:00.498
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_simulation_game.py` (``plot_simulation_game.py``)
-     - 00:00.447
+     - 00:00.444
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_data_cleaning.py` (``plot_data_cleaning.py``)
-     - 00:00.312
+     - 00:00.307
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_arps_methods.py` (``plot_arps_methods.py``)
-     - 00:00.166
+     - 00:00.164
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_loss_function_params.py` (``plot_loss_function_params.py``)
      - 00:00.133
      - 0.0
    * - :ref:`sphx_glr_examples_gallery_plot_arps_fit.py` (``plot_arps_fit.py``)
-     - 00:00.102
+     - 00:00.100
      - 0.0
