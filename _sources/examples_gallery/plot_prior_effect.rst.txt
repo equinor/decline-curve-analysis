@@ -35,8 +35,19 @@ the prior lessens.
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /home/runner/work/decline-curve-analysis/decline-curve-analysis/examples/plot_prior_effect.py:31: Pandas4Warning: Passing integer data to PeriodArray/PeriodIndex is deprecated and will change behavior in a future version, when integers will be treated as period ordinals instead of calendar years. To get the future behavior now, use PeriodIndex.from_ordinals(data, freq=...). To retain the current behavior, pass strings, e.g. data.astype(str).
+      time = pd.PeriodIndex(series.index, freq="Y")
 
 
+
+
+
+
+|
 
 .. code-block:: Python
 
@@ -144,7 +155,7 @@ the prior lessens.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.530 seconds)
+   **Total running time of the script:** (0 minutes 1.708 seconds)
 
 
 .. _sphx_glr_download_examples_gallery_plot_prior_effect.py:

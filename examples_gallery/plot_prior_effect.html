@@ -109,7 +109,14 @@ to download the full example code.</p>
 <span id="sphx-glr-examples-gallery-plot-prior-effect-py"></span><h1>Effect of prior<a class="headerlink" href="#effect-of-prior" title="Link to this heading"></a></h1>
 <p>We show how the prior works. As more and more data is seen, the effect of
 the prior lessens.</p>
-<img src="../_images/sphx_glr_plot_prior_effect_001.png" srcset="../_images/sphx_glr_plot_prior_effect_001.png" alt="Effect of prior as more data is seen, 1 data points, 15 data points, 35 data points, 45 data points" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span><span class="w">
+<img src="../_images/sphx_glr_plot_prior_effect_001.png" srcset="../_images/sphx_glr_plot_prior_effect_001.png" alt="Effect of prior as more data is seen, 1 data points, 15 data points, 35 data points, 45 data points" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/decline-curve-analysis/decline-curve-analysis/examples/plot_prior_effect.py:31: Pandas4Warning: Passing integer data to PeriodArray/PeriodIndex is deprecated and will change behavior in a future version, when integers will be treated as period ordinals instead of calendar years. To get the future behavior now, use PeriodIndex.from_ordinals(data, freq=...). To retain the current behavior, pass strings, e.g. data.astype(str).
+  time = pd.PeriodIndex(series.index, freq="Y")
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span><span class="w">
 </span><span class="w">
 </span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span><span class="nn">.</span><span class="nn">pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span><span class="w">
 </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="w">
@@ -209,7 +216,7 @@ the prior lessens.</p>
 </span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="p">)</span><span class="w">
 </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="p">)</span><span class="w">
 </span></pre></div></div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.530 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.708 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-gallery-plot-prior-effect-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/73df2802b7b89b299e53b703f3a37ba6/plot_prior_effect.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_prior_effect.ipynb</span></code></a></p>
